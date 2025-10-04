@@ -1,0 +1,51 @@
+{
+  "extends": ["config:base"],
+  "schedule": ["before 4am on monday"],
+  "timezone": "UTC",
+  "prConcurrentLimit": 5,
+  "prHourlyLimit": 2,
+  "labels": ["dependencies"],
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "automerge": true,
+      "automergeType": "pr",
+      "requiredStatusChecks": null
+    },
+    {
+      "matchUpdateTypes": ["major"],
+      "labels": ["dependencies", "major-update"],
+      "automerge": false
+    },
+    {
+      "matchPackageNames": ["typescript", "@types/node"],
+      "groupName": "TypeScript",
+      "automerge": false
+    },
+    {
+      "matchPackageNames": [
+        "react",
+        "react-dom",
+        "@types/react",
+        "@types/react-dom"
+      ],
+      "groupName": "React",
+      "automerge": false
+    },
+    {
+      "matchPackageNames": ["next"],
+      "groupName": "Next.js",
+      "automerge": false
+    },
+    {
+      "matchPackageNames": ["@supabase/supabase-js"],
+      "groupName": "Supabase",
+      "automerge": false
+    },
+    {
+      "matchPackageNames": ["stripe"],
+      "groupName": "Stripe",
+      "automerge": false
+    }
+  ]
+}

@@ -1,0 +1,422 @@
+# Kleaners - Professional Cleaning Services Platform
+# Cursor AI Rules for Development
+
+## Project Overview
+This is a full-stack Next.js 15 application for a professional cleaning services marketplace in Frankfurt, Germany. The platform connects customers with verified cleaning service providers and includes comprehensive booking, payment, and management systems.
+
+## Technology Stack
+- **Frontend**: Next.js 15.5.3 (App Router), TypeScript 5.3.3, Tailwind CSS 3.3.6
+- **UI Library**: shadcn/ui components with Radix UI primitives
+- **State Management**: Zustand 4.4.7 + TanStack React Query 5.14.2
+- **Forms**: React Hook Form 7.48.2 with Zod 3.22.4 validation
+- **Backend**: Supabase (PostgreSQL, Auth, Storage, Real-time)
+- **Payments**: Stripe 13.11.0 integration
+- **Testing**: Vitest (unit/integration), Playwright (E2E), MSW (API mocking)
+- **Code Quality**: ESLint, Prettier, Husky, Lint-staged, TypeScript strict mode
+
+## Project Structure
+```
+├── app/                    # Next.js App Router pages
+├── components/             # React components
+│   ├── features/          # Feature-specific components
+│   ├── layout/            # Layout components (Header, Footer, etc.)
+│   ├── providers/         # Context providers
+│   └── ui/               # Reusable shadcn/ui components
+├── lib/                   # Utility functions and configurations
+├── types/                 # TypeScript type definitions
+├── hooks/                 # Custom React hooks
+├── services/              # API services and external integrations
+├── schemas/               # Zod validation schemas
+├── tests/                 # Test files
+├── config/                # Configuration files
+├── docs/                  # Documentation
+├── mcp-server/            # Custom MCP server for shadcn/ui
+└── scripts/               # Build and utility scripts
+```
+
+## Code Standards
+
+### TypeScript
+- Use strict TypeScript configuration with `noUncheckedIndexedAccess`, `noImplicitReturns`, `exactOptionalPropertyTypes`
+- Always define explicit types for function parameters and return values
+- Use proper type guards and type assertions when necessary
+- Prefer `interface` over `type` for object shapes
+- Use generic types for reusable components and functions
+- Avoid `any` type - use `unknown` or proper typing instead
+
+### React Components
+- Use functional components with TypeScript
+- Prefer `const` over `let` for component declarations
+- Use proper prop types with interfaces
+- Implement proper error boundaries
+- Use React.memo() for performance optimization when needed
+- Follow the single responsibility principle
+
+### Styling
+- Use Tailwind CSS classes for styling
+- Follow the 8px grid system defined in the design system
+- Use CSS variables for theming (defined in globals.css)
+- Implement responsive design with mobile-first approach
+- Use shadcn/ui components as the foundation
+- Follow WCAG 2.1 AA accessibility guidelines
+
+### State Management
+- Use `useState` for local component state
+- Use `React Query` for server state management
+- Use `Zustand` for global client state
+- Use `URL state` for shareable state (filters, search params)
+- Keep state as close to where it's used as possible
+
+### Forms and Validation
+- Use React Hook Form for all form handling
+- Implement Zod schemas for validation
+- Provide clear error messages and validation feedback
+- Use proper form accessibility patterns
+- Implement form persistence for multi-step forms
+
+## Component Guidelines
+
+### Naming Conventions
+- Use PascalCase for component names
+- Use descriptive, semantic names
+- Prefix with feature name for feature-specific components
+- Use consistent file naming: `ComponentName.tsx`
+
+### Component Structure
+```typescript
+'use client'; // Only if needed
+
+import { ComponentProps } from 'react';
+import { cn } from '@/lib/utils';
+
+interface ComponentNameProps {
+  // Define props with proper types
+  className?: string;
+  children?: React.ReactNode;
+}
+
+export function ComponentName({
+  className,
+  children,
+  ...props
+}: ComponentNameProps) {
+  return (
+    <div className={cn('base-classes', className)} {...props}>
+      {children}
+    </div>
+  );
+}
+```
+
+### shadcn/ui Integration
+- Use the custom MCP server for component management
+- Always check component dependencies before installation
+- Follow shadcn/ui patterns for component composition
+- Customize components through className props and CSS variables
+- Maintain consistency with the design system
+
+## File Organization
+
+### Import Order
+1. React and Next.js imports
+2. Third-party library imports
+3. Internal imports (lib, types, hooks)
+4. Component imports
+5. Relative imports
+
+### Export Patterns
+- Use named exports for components
+- Use default exports for pages
+- Export types and interfaces separately
+- Use barrel exports for related functionality
+
+## API and Data Management
+
+### Supabase Integration
+- Use the generated types from `types/supabase.ts`
+- Implement proper error handling for database operations
+- Use React Query for data fetching and caching
+- Implement optimistic updates where appropriate
+- Handle loading and error states properly
+
+### API Routes
+- Use Next.js API routes for server-side logic
+- Implement proper error handling and status codes
+- Use middleware for authentication and validation
+- Follow RESTful conventions
+- Implement rate limiting and security measures
+
+## Testing Standards
+
+### Unit Tests
+- Write tests for utility functions and custom hooks
+- Test component behavior, not implementation details
+- Use MSW for API mocking
+- Aim for 80% code coverage
+- Test error scenarios and edge cases
+
+### Integration Tests
+- Test component interactions
+- Test form submissions and validation
+- Test navigation and routing
+- Test state management flows
+
+### E2E Tests
+- Test critical user journeys
+- Test payment flows
+- Test authentication flows
+- Test responsive design
+- Test accessibility features
+
+## Performance Guidelines
+
+### Next.js Optimization
+- Use dynamic imports for code splitting
+- Implement proper image optimization
+- Use Next.js caching strategies
+- Optimize bundle size
+- Implement proper SEO meta tags
+
+### React Optimization
+- Use React.memo() for expensive components
+- Implement proper key props for lists
+- Avoid unnecessary re-renders
+- Use useCallback and useMemo appropriately
+- Implement virtual scrolling for large lists
+
+## Security Guidelines
+
+### Authentication
+- Use Supabase Auth for user management
+- Implement proper role-based access control
+- Use JWT tokens securely
+- Implement proper session management
+- Handle authentication errors gracefully
+
+### Data Protection
+- Validate all user inputs
+- Sanitize data before database operations
+- Implement proper CSRF protection
+- Use HTTPS for all communications
+- Follow GDPR compliance requirements
+
+## Accessibility Standards
+
+### WCAG 2.1 AA Compliance
+- Provide proper ARIA labels and roles
+- Ensure keyboard navigation works
+- Maintain proper color contrast ratios
+- Provide alternative text for images
+- Implement focus management
+- Use semantic HTML elements
+
+### Screen Reader Support
+- Provide descriptive labels
+- Use proper heading hierarchy
+- Implement skip links
+- Provide status announcements
+- Test with screen readers
+
+## Error Handling
+
+### Client-Side Errors
+- Use error boundaries for component errors
+- Implement proper error logging
+- Provide user-friendly error messages
+- Implement retry mechanisms
+- Handle network errors gracefully
+
+### Server-Side Errors
+- Use proper HTTP status codes
+- Implement comprehensive error logging
+- Provide detailed error information for debugging
+- Implement proper error monitoring
+- Handle database errors appropriately
+
+## Code Quality
+
+### Linting and Formatting
+- Follow ESLint rules strictly
+- Use Prettier for code formatting
+- Fix all linting errors before committing
+- Use TypeScript strict mode
+- Implement proper import sorting
+
+### Git Workflow
+- Use conventional commit messages
+- Create feature branches for new features
+- Implement proper code review process
+- Use meaningful commit messages
+- Keep commits atomic and focused
+
+## MCP Server Usage
+
+### shadcn/ui Component Management
+- Use the custom MCP server for component operations
+- Check component dependencies before installation
+- Use proper component naming conventions
+- Follow shadcn/ui best practices
+- Maintain component consistency
+
+### Available MCP Tools
+- `list_components` - Browse available components
+- `add_component` - Install components
+- `remove_component` - Uninstall components
+- `get_component_info` - Get component details
+- `list_installed_components` - Check installed components
+- `update_components` - Update all components
+- `init_shadcn` - Initialize shadcn/ui
+
+## Development Workflow
+
+### Before Starting
+1. Check the project structure and naming conventions
+2. Review existing similar components
+3. Check for any related issues or PRs
+4. Understand the design system and component library
+
+### During Development
+1. Follow TypeScript strict mode
+2. Implement proper error handling
+3. Write tests for new functionality
+4. Follow accessibility guidelines
+5. Use the MCP server for component management
+
+### Before Committing
+1. Run linting and fix all errors
+2. Run tests and ensure they pass
+3. Check for TypeScript errors
+4. Verify accessibility compliance
+5. Test responsive design
+6. Update documentation if needed
+
+## Common Patterns
+
+### Form Handling
+```typescript
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+
+const schema = z.object({
+  // Define schema
+});
+
+export function FormComponent() {
+  const form = useForm({
+    resolver: zodResolver(schema),
+  });
+
+  const onSubmit = (data: z.infer<typeof schema>) => {
+    // Handle submission
+  };
+
+  return (
+    <form onSubmit={form.handleSubmit(onSubmit)}>
+      {/* Form fields */}
+    </form>
+  );
+}
+```
+
+### API Integration
+```typescript
+import { useQuery } from '@tanstack/react-query';
+import { supabase } from '@/lib/supabase';
+
+export function useData() {
+  return useQuery({
+    queryKey: ['data'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('table')
+        .select('*');
+
+      if (error) throw error;
+      return data;
+    },
+  });
+}
+```
+
+### Component Composition
+```typescript
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+
+export function FeatureCard({ title, children, ...props }) {
+  return (
+    <Card {...props}>
+      <CardHeader>
+        <CardTitle>{title}</CardTitle>
+      </CardHeader>
+      <CardContent>
+        {children}
+      </CardContent>
+    </Card>
+  );
+}
+```
+
+## AI Assistant Guidelines
+
+### When Working with Components
+- Always check if shadcn/ui components are available first
+- Use the MCP server to manage components
+- Follow the established component patterns
+- Maintain consistency with the design system
+- Consider accessibility and responsive design
+
+### When Working with Forms
+- Use React Hook Form with Zod validation
+- Implement proper error handling
+- Follow form accessibility guidelines
+- Consider form persistence for multi-step forms
+- Use proper input types and validation
+
+### When Working with API
+- Use React Query for data fetching
+- Implement proper error handling
+- Consider loading states and optimistic updates
+- Follow Supabase patterns and types
+- Implement proper caching strategies
+
+### When Working with Styling
+- Use Tailwind CSS classes
+- Follow the 8px grid system
+- Use CSS variables for theming
+- Implement responsive design
+- Consider dark mode support
+
+### Code Generation
+- Always include proper TypeScript types
+- Follow the established patterns and conventions
+- Include proper error handling
+- Consider accessibility requirements
+- Write tests for new functionality
+- Use the MCP server for component management
+
+## Project-Specific Notes
+
+### Business Logic
+- This is a cleaning services marketplace
+- Users can be customers or service providers
+- Implement role-based access control
+- Handle booking, payment, and communication flows
+- Support multiple service types and locations
+
+### Design System
+- Use the defined color palette and typography
+- Follow the 8px grid system
+- Implement proper spacing and layout
+- Use consistent component patterns
+- Maintain visual hierarchy
+
+### Performance Considerations
+- Optimize for mobile devices
+- Implement proper image optimization
+- Use code splitting for large components
+- Implement proper caching strategies
+- Monitor bundle size and performance
+
+Remember: Always prioritize user experience, accessibility, and code quality. When in doubt, follow the established patterns and conventions in the codebase.

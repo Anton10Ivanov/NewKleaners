@@ -1,0 +1,33 @@
+{
+  "name": "shadcn-mcp-server",
+  "version": "1.0.0",
+  "description": "Custom MCP server for shadcn/ui component management",
+  "type": "module",
+  "main": "shadcn-mcp-server.js",
+  "bin": {
+    "shadcn-mcp-server": "./shadcn-mcp-server.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node shadcn-mcp-server.js",
+    "dev": "tsx shadcn-mcp-server.ts"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.19.1",
+    "@modelcontextprotocol/server-filesystem": "^2025.8.21"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "shadcn",
+    "ui",
+    "components"
+  ],
+  "author": "Kleaners Team",
+  "license": "MIT"
+}

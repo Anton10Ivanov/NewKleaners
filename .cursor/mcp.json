@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "shadcn": {
+      "command": "node",
+      "args": ["./mcp-server/shadcn-mcp-server.js"],
+      "env": {
+        "NODE_ENV": "production"
+      }
+    },
+    "shadcn-dev": {
+      "command": "npx",
+      "args": ["tsx", "./mcp-server/shadcn-mcp-server.ts"],
+      "env": {
+        "NODE_ENV": "development"
+      }
+    }
+  }
+}
