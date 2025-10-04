@@ -118,16 +118,16 @@ export const EstimateStep: React.FC<EstimateStepProps> = ({
   // Calculate base price based on property details
   const calculateBasePrice = () => {
     let basePrice = 0;
-    const sqft = propertyData.squareFootage || 1000;
+    const sqm = propertyData.squareFootage || 100; // Convert to square meters (assuming 100 sqm default)
     const floors = propertyData.floors || 1;
 
-    // Base price per square foot
+    // Base price per square meter (converted from USD to EUR)
     if (serviceType === ServiceType.HOME_CLEANING) {
-      basePrice = sqft * 0.15; // $0.15 per sqft
+      basePrice = sqm * 1.5; // €1.5 per sqm
     } else if (serviceType === ServiceType.OFFICE_CLEANING) {
-      basePrice = sqft * 0.12; // $0.12 per sqft
+      basePrice = sqm * 1.2; // €1.2 per sqm
     } else if (serviceType === ServiceType.DEEP_CLEANING) {
-      basePrice = sqft * 0.25; // $0.25 per sqft
+      basePrice = sqm * 2.5; // €2.5 per sqm
     }
 
     // Floor multiplier
@@ -192,7 +192,7 @@ export const EstimateStep: React.FC<EstimateStepProps> = ({
         isSelected: true,
       })),
       totalPrice: Math.round(total),
-      currency: 'USD',
+      currency: 'EUR',
       validUntil: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), // 7 days
       breakdown: {
         baseService: Math.round(basePrice),
@@ -299,7 +299,7 @@ export const EstimateStep: React.FC<EstimateStepProps> = ({
                           <h4 className="font-medium">{addOn.name}</h4>
                           <div className="flex items-center space-x-2">
                             <span className="text-sm text-gray-500">{addOn.icon}</span>
-                            <span className="font-semibold text-primary">+${addOn.price}</span>
+                            <span className="font-semibold text-primary">+€{addOn.price}</span>
                           </div>
                         </div>
                         <p className="text-sm text-gray-600 mb-2">{addOn.description}</p>
@@ -348,7 +348,7 @@ export const EstimateStep: React.FC<EstimateStepProps> = ({
                         <div className="flex items-center justify-between mb-1">
                           <h4 className="font-medium">{discount.name}</h4>
                           <span className="font-semibold text-green-600">
-                            {discount.type === 'percentage' ? `${discount.value}%` : `$${discount.value}`} off
+                            {discount.type === 'percentage' ? `${discount.value}%` : `€${discount.value}`} off
                           </span>
                         </div>
                         <p className="text-sm text-gray-600">{discount.description}</p>
@@ -379,7 +379,7 @@ export const EstimateStep: React.FC<EstimateStepProps> = ({
                   {/* Base Service */}
                   <div className="flex justify-between text-sm">
                     <span>Base Service</span>
-                    <span>${estimate.breakdown.baseService}</span>
+                    <span>€{estimate.breakdown.baseService}</span>
                   </div>
 
                   {/* Add-ons */}
@@ -389,7 +389,7 @@ export const EstimateStep: React.FC<EstimateStepProps> = ({
                       {estimate.addOns.map((addOn) => (
                         <div key={addOn.id} className="flex justify-between text-sm text-gray-600 ml-2">
                           <span>{addOn.name}</span>
-                          <span>+${addOn.price}</span>
+                          <span>+€{addOn.price}</span>
                         </div>
                       ))}
                     </div>
@@ -399,7 +399,7 @@ export const EstimateStep: React.FC<EstimateStepProps> = ({
                   {estimate.breakdown.frequencyMultiplier < 1 && (
                     <div className="flex justify-between text-sm text-green-600">
                       <span>Frequency Discount</span>
-                      <span>-${Math.round(estimate.breakdown.baseService * (1 - estimate.breakdown.frequencyMultiplier))}</span>
+                      <span>-€{Math.round(estimate.breakdown.baseService * (1 - estimate.breakdown.frequencyMultiplier))}</span>
                     </div>
                   )}
 
@@ -410,7 +410,7 @@ export const EstimateStep: React.FC<EstimateStepProps> = ({
                       {estimate.discounts.map((discount) => (
                         <div key={discount.id} className="flex justify-between text-sm text-green-600 ml-2">
                           <span>{discount.name}</span>
-                          <span>-${discount.type === 'percentage' ? Math.round(estimate.breakdown.baseService * discount.value / 100) : discount.value}</span>
+                          <span>-€{discount.type === 'percentage' ? Math.round(estimate.breakdown.baseService * discount.value / 100) : discount.value}</span>
                         </div>
                       ))}
                     </div>
@@ -421,13 +421,13 @@ export const EstimateStep: React.FC<EstimateStepProps> = ({
                   {/* Subtotal */}
                   <div className="flex justify-between text-sm">
                     <span>Subtotal</span>
-                    <span>${estimate.totalPrice}</span>
+                    <span>€{estimate.totalPrice}</span>
                   </div>
 
                   {/* Tax */}
                   <div className="flex justify-between text-sm">
                     <span>Tax (8%)</span>
-                    <span>${estimate.breakdown.taxes}</span>
+                    <span>€{estimate.breakdown.taxes}</span>
                   </div>
 
                   <Separator />
@@ -435,7 +435,7 @@ export const EstimateStep: React.FC<EstimateStepProps> = ({
                   {/* Total */}
                   <div className="flex justify-between text-lg font-bold">
                     <span>Total</span>
-                    <span className="text-primary">${estimate.breakdown.total}</span>
+                    <span className="text-primary">€{estimate.breakdown.total}</span>
                   </div>
 
                   {/* Duration */}

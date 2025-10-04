@@ -5,7 +5,6 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, Clock, Repeat, Star, Zap } from 'lucide-react';
 
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
@@ -25,47 +24,47 @@ interface FrequencySelectionStepProps {
 const frequencies = [
   {
     type: CleaningFrequency.ONE_TIME,
-    title: 'One-Time Cleaning',
+    title: 'One-Time',
     description: 'Perfect for special occasions or when you need a deep clean',
     icon: Star,
     features: ['Deep cleaning', 'Flexible scheduling', 'No commitment'],
-    price: 'From $120',
+    price: 'From €120',
     color: 'bg-blue-500',
     popular: true,
   },
   {
     type: CleaningFrequency.WEEKLY,
-    title: 'Weekly Cleaning',
+    title: 'Weekly',
     description: 'Regular maintenance to keep your space consistently clean',
     icon: Repeat,
     features: ['Consistent cleaning', 'Best value', 'Priority scheduling'],
-    price: 'From $80/week',
+    price: 'From €80/week',
     color: 'bg-green-500',
     popular: true,
   },
   {
     type: CleaningFrequency.BI_WEEKLY,
-    title: 'Bi-Weekly Cleaning',
+    title: 'Bi-Weekly',
     description: 'Every other week cleaning for moderate maintenance',
     icon: Calendar,
     features: ['Balanced schedule', 'Cost effective', 'Regular maintenance'],
-    price: 'From $100/visit',
+    price: 'From €100/visit',
     color: 'bg-purple-500',
     popular: false,
   },
   {
     type: CleaningFrequency.MONTHLY,
-    title: 'Monthly Cleaning',
+    title: 'Monthly',
     description: 'Monthly deep cleaning for light maintenance',
     icon: Clock,
     features: ['Monthly deep clean', 'Flexible timing', 'Budget friendly'],
-    price: 'From $150/visit',
+    price: 'From €150/visit',
     color: 'bg-orange-500',
     popular: false,
   },
   {
     type: CleaningFrequency.CUSTOM,
-    title: 'Custom Schedule',
+    title: 'Custom',
     description: 'Create a personalized cleaning schedule that fits your needs',
     icon: Zap,
     features: ['Fully customizable', 'Flexible timing', 'Tailored service'],
@@ -86,6 +85,10 @@ export const FrequencySelectionStep: React.FC<FrequencySelectionStepProps> = ({
 
   const handleFrequencySelect = (frequency: CleaningFrequency) => {
     setSelectedFrequency(frequency);
+    // Auto-transition after a short delay
+    setTimeout(() => {
+      onNext(frequency);
+    }, 500);
   };
 
   const handleContinue = () => {
@@ -173,33 +176,22 @@ export const FrequencySelectionStep: React.FC<FrequencySelectionStepProps> = ({
                   aria-pressed={isSelected}
                   aria-label={`Select ${frequency.title} frequency`}
                 >
-                  {frequency.popular && (
-                    <Badge
-                      className="absolute -top-2 -right-2 bg-[#ffa000] text-white text-xs font-medium"
-                      variant="default"
-                    >
-                      Popular
-                    </Badge>
-                  )}
-
-                  <CardHeader className="pb-4 p-4 sm:p-6">
-                    <div className="flex items-start space-x-3 sm:space-x-4">
-                      <div className={`w-12 h-12 ${frequency.color} rounded-full flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300`}>
+                  <CardHeader className="pb-4 p-4 sm:p-6 text-center">
+                    <div className="flex flex-col items-center space-y-3">
+                      <div className={`w-12 h-12 ${frequency.color} rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
                         <IconComponent className="w-6 h-6 text-white" />
                       </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center justify-between mb-1">
-                          <CardTitle className="text-base sm:text-lg text-[#001b2e] font-semibold truncate">{frequency.title}</CardTitle>
-                          <span className="text-xs sm:text-sm font-bold text-[#ffa000] ml-2">{frequency.price}</span>
-                        </div>
-                        <CardDescription className="text-xs sm:text-sm text-[#001b2e]/70 leading-relaxed">
+                      <div className="text-center">
+                        <CardTitle className="text-base sm:text-lg text-[#001b2e] font-semibold mb-1">{frequency.title}</CardTitle>
+                        <CardDescription className="text-xs sm:text-sm text-[#001b2e]/70 leading-relaxed mb-2">
                           {frequency.description}
                         </CardDescription>
+                        <span className="text-xs sm:text-sm font-bold text-[#ffa000]">{frequency.price}</span>
                       </div>
                       <RadioGroupItem
                         value={frequency.type}
                         id={frequency.type}
-                        className="mt-1 flex-shrink-0"
+                        className="mt-2"
                         style={{
                           accentColor: '#ffa000',
                         }}
@@ -207,10 +199,10 @@ export const FrequencySelectionStep: React.FC<FrequencySelectionStepProps> = ({
                     </div>
                   </CardHeader>
 
-                  <CardContent className="pt-0 p-4 sm:p-6">
+                  <CardContent className="pt-0 p-4 sm:p-6 text-center">
                     <ul className="space-y-2">
                       {frequency.features.map((feature, featureIndex) => (
-                        <li key={featureIndex} className="flex items-center text-xs sm:text-sm text-[#001b2e]/70">
+                        <li key={featureIndex} className="flex items-center justify-center text-xs sm:text-sm text-[#001b2e]/70">
                           <div className="w-1.5 h-1.5 bg-[#ffa000] rounded-full mr-3 flex-shrink-0" />
                           {feature}
                         </li>

@@ -29,7 +29,7 @@ const packages = [
     type: RegularityPackage.BASIC,
     title: 'Basic Package',
     description: 'Essential cleaning services for regular maintenance',
-    price: 'Starting at $80/visit',
+    price: 'Starting at €80/visit',
     icon: Shield,
     color: 'bg-blue-500',
     features: [
@@ -52,7 +52,7 @@ const packages = [
     type: RegularityPackage.STANDARD,
     title: 'Standard Package',
     description: 'Comprehensive cleaning with additional services',
-    price: 'Starting at $120/visit',
+    price: 'Starting at €120/visit',
     icon: Star,
     color: 'bg-green-500',
     features: [
@@ -77,7 +77,7 @@ const packages = [
     type: RegularityPackage.PREMIUM,
     title: 'Premium Package',
     description: 'Complete deep cleaning with luxury services',
-    price: 'Starting at $180/visit',
+    price: 'Starting at €180/visit',
     icon: Crown,
     color: 'bg-purple-500',
     features: [

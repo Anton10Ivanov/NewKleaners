@@ -1,25 +1,25 @@
 'use client';
 
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
+
 import { AnimatePresence, motion } from 'framer-motion';
 import { AlertCircle, ArrowLeft, CheckCircle, Loader2 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { useAuth } from '@/components/providers/AuthProvider';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
 import {
   BookingStep,
   CleaningFrequency,
-  RegularityPackage,
-  ServiceType,
   type BookingFlowState,
   type BookingSchedule,
   type Estimate,
   type OfficeDetails,
   type PropertyDetails,
+  type RegularityPackage,
+  type ServiceType,
 } from '@/types/bookingFlow';
 import { EstimateStep } from './components/booking/steps/EstimateStep';
 import { FrequencySelectionStep } from './components/booking/steps/FrequencySelectionStep';
@@ -137,12 +137,6 @@ export const MainBookingFlow: React.FC<MainBookingFlowProps> = ({
     });
   }, []);
 
-  // Error handling function
-  const setError = useCallback((field: string, message: string) => {
-    updateBookingState({
-      errors: { ...bookingState.errors, [field]: message },
-    });
-  }, [bookingState.errors, updateBookingState]);
 
   // Clear error function
   const clearError = useCallback((field: string) => {
@@ -297,7 +291,11 @@ export const MainBookingFlow: React.FC<MainBookingFlowProps> = ({
         );
 
       case BookingStep.ESTIMATE:
-        if (!bookingState.propertyDetails || !bookingState.serviceType || !bookingState.cleaningFrequency) {
+        if (
+          !bookingState.propertyDetails ||
+          !bookingState.serviceType ||
+          !bookingState.cleaningFrequency
+        ) {
           return <div>Required data not available</div>;
         }
         return (
@@ -325,7 +323,11 @@ export const MainBookingFlow: React.FC<MainBookingFlowProps> = ({
         );
 
       case BookingStep.SCHEDULING:
-        if (!bookingState.estimate || !bookingState.serviceType || !bookingState.cleaningFrequency) {
+        if (
+          !bookingState.estimate ||
+          !bookingState.serviceType ||
+          !bookingState.cleaningFrequency
+        ) {
           return <div>Required data not available</div>;
         }
         return (
@@ -369,14 +371,6 @@ export const MainBookingFlow: React.FC<MainBookingFlowProps> = ({
     }
   };
 
-  // Calculate progress percentage
-  const progressPercentage = useMemo(() => {
-    const visibleSteps = steps.filter(step =>
-      preselectedService ? step.id !== BookingStep.SERVICE_SELECTION : true,
-    );
-    const currentStepIndex = visibleSteps.findIndex(step => step.id === bookingState.currentStep);
-    return ((currentStepIndex + 1) / visibleSteps.length) * 100;
-  }, [steps, bookingState.currentStep, preselectedService]);
 
   // Get visible steps for display
   const visibleSteps = useMemo(() =>
@@ -424,17 +418,6 @@ export const MainBookingFlow: React.FC<MainBookingFlowProps> = ({
             </p>
           </div>
 
-          {/* Progress Bar */}
-          <div className="w-full max-w-2xl mx-auto mb-6 sm:mb-8">
-            <div className="flex justify-between text-xs sm:text-sm text-[#001b2e]/60 mb-2">
-              <span className="font-medium">Progress</span>
-              <span className="font-semibold">{Math.round(progressPercentage)}%</span>
-            </div>
-            <Progress
-              value={progressPercentage}
-              className="h-2 bg-[#001b2e]/10 [&>div]:bg-gradient-to-r [&>div]:from-[#ffa000] [&>div]:to-[#ffa000]/80"
-            />
-          </div>
 
           {/* Step Indicators */}
           <div className="flex items-center justify-center overflow-x-auto pb-2">
@@ -442,7 +425,7 @@ export const MainBookingFlow: React.FC<MainBookingFlowProps> = ({
               {visibleSteps.map((step, index) => (
                 <div key={step.id} className="flex items-center">
                   <motion.div
-                    className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center text-xs sm:text-sm font-bold transition-all duration-300 ${
+                    className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300 ${
                       bookingState.currentStep >= step.id
                         ? 'bg-gradient-to-r from-[#ffa000] to-[#ffa000]/90 text-white shadow-lg'
                         : 'bg-[#001b2e]/10 text-[#001b2e]/60'
@@ -454,21 +437,21 @@ export const MainBookingFlow: React.FC<MainBookingFlowProps> = ({
                     transition={{ duration: 0.3 }}
                   >
                     {bookingState.currentStep > step.id ? (
-                      <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6" />
+                      <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5" />
                     ) : (
                       index + 1
                     )}
                   </motion.div>
                   {index < visibleSteps.length - 1 && (
                     <motion.div
-                      className={`w-12 sm:w-20 h-1 mx-2 sm:mx-3 rounded-full transition-all duration-500 ${
+                      className={`w-8 sm:w-12 h-0.5 mx-2 rounded-full transition-all duration-500 ${
                         bookingState.currentStep > step.id
                           ? 'bg-gradient-to-r from-[#ffa000] to-[#ffa000]/80'
                           : 'bg-[#001b2e]/20'
                       }`}
                       initial={{ width: 0 }}
                       animate={{
-                        width: window.innerWidth < 640 ? '48px' : '80px',
+                        width: window.innerWidth < 640 ? '32px' : '48px',
                         opacity: bookingState.currentStep > step.id ? 1 : 0.3,
                       }}
                       transition={{ duration: 0.5, delay: 0.2 }}
