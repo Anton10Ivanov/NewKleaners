@@ -1,0 +1,83 @@
+---
+alwaysApply: true
+---
+
+## Design System Rules
+- Use shadcn/ui components as foundation - prefer composition over custom styling
+- Use CSS variables for theming: `bg-primary text-primary-foreground`
+- Never hardcode colors - use design tokens from brand palette
+- Use `UnifiedContainer` for all layouts with appropriate sizing
+- Follow 8px grid system for spacing consistency
+
+## Brand Color Rules
+- **Orange Peel (#ffa000)**: CTA buttons, primary interactive elements, focus states
+- **Oxford Blue (#001b2e)**: Navigation, footer, primary text, headers
+- **Seasalt (#f7f7f7)**: Main background, card backgrounds
+- **Dark Spring Green (#177245)**: Success messages, positive feedback
+- **Blue Green (#0d98ba)**: Information messages, help text
+- Use CSS variables: `hsl(var(--primary))` instead of hardcoded colors
+
+## Typography Rules
+- Use Inter font family as primary
+- Follow semantic hierarchy: heading-1 through heading-6
+- Use responsive typography with clamp() for fluid scaling
+- Maintain proper line heights and letter spacing
+
+## Component Architecture Rules
+- Use CVA (Class Variance Authority) for component variants
+- Use `React.forwardRef` for components that accept refs
+- Include displayName for all components
+- Keep components under 50 lines when possible
+- Use proper TypeScript interfaces with VariantProps
+
+## Layout & Spacing Rules
+- Mobile-first approach with breakpoints: sm (640px), md (768px), lg (1024px), xl (1280px)
+- Touch targets minimum 44px × 44px
+- Use responsive classes: `p-4 md:p-6 lg:p-8`
+- Follow 8px grid system: 4px, 8px, 16px, 24px, 32px, 48px, 64px, 96px
+
+## Animation Rules
+- Use 60fps animations with transform and opacity only
+- Respect `prefers-reduced-motion` setting
+- Standard durations: fast (150ms), normal (300ms), slow (500ms)
+- Entrance: fade in with slight upward movement
+- Hover: subtle scale (1.02) with smooth transition
+- Use Framer Motion for complex animations
+
+## Performance Rules
+- Use Next.js Image component for all images with proper sizing
+- Use lazy loading for heavy components with Suspense
+- Use React.memo for components with stable props
+- Import only what you need from libraries
+- Optimize bundle size with tree shaking
+
+## Accessibility Rules
+- WCAG 2.1 AA compliance is mandatory
+- Use semantic HTML elements
+- Include proper ARIA labels and roles
+- Ensure keyboard navigation works
+- Color contrast: 4.5:1 for normal text, 3:1 for large text
+- Provide descriptive alt text for images
+- Associate form labels with inputs
+
+## shadcn/ui Component Rules
+- Import from `@/components/ui/` directory
+- Use proper component composition patterns
+- Leverage built-in variants: default, secondary, outline, ghost, destructive
+- Use appropriate sizes: sm, default, lg, icon
+- Compose components properly with Card, CardHeader, CardContent, etc.
+
+## Container System Rules
+- Use `UnifiedContainer` for all layouts
+- Size options: sm (672px), md (896px), lg (1152px), xl (1280px), 2xl (1400px), full
+- Padding options: sm, md, lg, xl, or boolean for responsive
+- Use `breakout` prop for hero sections
+- Use `center` prop for centered content
+
+## Code Quality Rules
+- Single responsibility principle for components
+- Proper error handling with try-catch
+- Loading states for async operations
+- No console.log in production code
+- Use proper TypeScript types - never `any`
+- Follow established import organization patterns

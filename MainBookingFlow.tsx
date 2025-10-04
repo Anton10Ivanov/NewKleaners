@@ -1,38 +1,26 @@
 'use client';
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-
-import { useRouter } from 'next/navigation';
-
 import { AnimatePresence, motion } from 'framer-motion';
-
-// Import types
-
-// Import UI components
 import { AlertCircle, ArrowLeft, CheckCircle, Loader2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { useAuth } from '@/components/providers/AuthProvider';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
-
-// Import custom hooks
 import {
   BookingStep,
   CleaningFrequency,
-} from '@/types/bookingFlow';
-import type {
-  BookingFlowState,
-  BookingSchedule,
-  Estimate,
-  OfficeDetails,
-  PropertyDetails,
   RegularityPackage,
   ServiceType,
+  type BookingFlowState,
+  type BookingSchedule,
+  type Estimate,
+  type OfficeDetails,
+  type PropertyDetails,
 } from '@/types/bookingFlow';
-
-// Import step components
 import { EstimateStep } from './components/booking/steps/EstimateStep';
 import { FrequencySelectionStep } from './components/booking/steps/FrequencySelectionStep';
 import { PackageSelectionStep } from './components/booking/steps/PackageSelectionStep';
@@ -57,7 +45,9 @@ export const MainBookingFlow: React.FC<MainBookingFlowProps> = ({
 
   // Initialize booking state with proper typing
   const [bookingState, setBookingState] = useState<BookingFlowState>({
-    currentStep: preselectedService ? BookingStep.FREQUENCY_SELECTION : BookingStep.SERVICE_SELECTION,
+    currentStep: preselectedService
+      ? BookingStep.FREQUENCY_SELECTION
+      : BookingStep.SERVICE_SELECTION,
     serviceType: preselectedService || null,
     cleaningFrequency: null,
     propertyDetails: null,
@@ -110,7 +100,8 @@ export const MainBookingFlow: React.FC<MainBookingFlowProps> = ({
       description: 'Select your package (if regular)',
       isRequired: false,
       canSkip: true,
-      condition: (state: BookingFlowState) => state.cleaningFrequency !== CleaningFrequency.ONE_TIME,
+      condition: (state: BookingFlowState) =>
+        state.cleaningFrequency !== CleaningFrequency.ONE_TIME,
     },
     {
       id: BookingStep.SCHEDULING,
@@ -127,16 +118,6 @@ export const MainBookingFlow: React.FC<MainBookingFlowProps> = ({
       canSkip: false,
     },
   ], []);
-
-  // Handle preselected service from URL
-  useEffect(() => {
-    if (preselectedService && bookingState.serviceType === null) {
-      updateBookingState({
-        serviceType: preselectedService,
-        currentStep: BookingStep.FREQUENCY_SELECTION,
-      });
-    }
-  }, [preselectedService]);
 
   // Enhanced state update function with validation and error handling
   const updateBookingState = useCallback((updates: Partial<BookingFlowState>) => {
@@ -169,6 +150,16 @@ export const MainBookingFlow: React.FC<MainBookingFlowProps> = ({
     delete newErrors[field];
     updateBookingState({ errors: newErrors });
   }, [bookingState.errors, updateBookingState]);
+
+  // Handle preselected service from URL
+  useEffect(() => {
+    if (preselectedService && bookingState.serviceType === null) {
+      updateBookingState({
+        serviceType: preselectedService,
+        currentStep: BookingStep.FREQUENCY_SELECTION,
+      });
+    }
+  }, [preselectedService, updateBookingState, bookingState.serviceType]);
 
   // Step navigation handlers with proper validation
   const handleServiceSelect = useCallback((selectedServiceType: ServiceType) => {
@@ -260,7 +251,9 @@ export const MainBookingFlow: React.FC<MainBookingFlowProps> = ({
   // Render current step component with proper error handling
   const renderCurrentStep = () => {
     const commonProps = {
-      onNext: () => {},
+      onNext: () => {
+        // Step-specific next logic will be handled by individual step components
+      },
       onBack: goToPreviousStep,
       onSkip: skipStep,
       errors: bookingState.errors,
@@ -278,55 +271,70 @@ export const MainBookingFlow: React.FC<MainBookingFlowProps> = ({
         );
 
       case BookingStep.FREQUENCY_SELECTION:
+        if (!bookingState.serviceType) {
+          return <div>Service type not selected</div>;
+        }
         return (
           <FrequencySelectionStep
             {...commonProps}
             onNext={handleFrequencySelect}
-            serviceType={bookingState.serviceType!}
+            serviceType={bookingState.serviceType}
           />
         );
 
       case BookingStep.PROPERTY_DETAILS:
+        if (!bookingState.serviceType) {
+          return <div>Service type not selected</div>;
+        }
         return (
           <PropertyDetailsStep
             {...commonProps}
             onNext={handlePropertyDetailsNext}
-            serviceType={bookingState.serviceType!}
+            serviceType={bookingState.serviceType}
             isRegularCleaning={bookingState.cleaningFrequency !== CleaningFrequency.ONE_TIME}
             data={bookingState.propertyDetails}
           />
         );
 
       case BookingStep.ESTIMATE:
+        if (!bookingState.propertyDetails || !bookingState.serviceType || !bookingState.cleaningFrequency) {
+          return <div>Required data not available</div>;
+        }
         return (
           <EstimateStep
             {...commonProps}
             onNext={handleEstimateNext}
-            propertyData={bookingState.propertyDetails!}
-            serviceType={bookingState.serviceType!}
-            frequency={bookingState.cleaningFrequency!}
+            propertyData={bookingState.propertyDetails}
+            serviceType={bookingState.serviceType}
+            frequency={bookingState.cleaningFrequency}
             data={bookingState.estimate}
           />
         );
 
       case BookingStep.PACKAGE_SELECTION:
+        if (!bookingState.cleaningFrequency) {
+          return <div>Cleaning frequency not selected</div>;
+        }
         return (
           <PackageSelectionStep
             {...commonProps}
             onNext={handlePackageSelect}
-            frequency={bookingState.cleaningFrequency!}
+            frequency={bookingState.cleaningFrequency}
             selectedPackage={bookingState.selectedPackage}
           />
         );
 
       case BookingStep.SCHEDULING:
+        if (!bookingState.estimate || !bookingState.serviceType || !bookingState.cleaningFrequency) {
+          return <div>Required data not available</div>;
+        }
         return (
           <SchedulingStep
             {...commonProps}
             onNext={handleScheduleSelect}
-            estimate={bookingState.estimate!}
-            serviceType={bookingState.serviceType!}
-            frequency={bookingState.cleaningFrequency!}
+            estimate={bookingState.estimate}
+            serviceType={bookingState.serviceType}
+            frequency={bookingState.cleaningFrequency}
             data={bookingState.schedule}
           />
         );
@@ -335,8 +343,8 @@ export const MainBookingFlow: React.FC<MainBookingFlowProps> = ({
         return (
           <PaymentStep
             {...commonProps}
-            onNext={onComplete || (() => {})}
-            onCancel={onCancel || (() => {})}
+            onNext={onComplete || (() => undefined)}
+            onCancel={onCancel || (() => undefined)}
             bookingData={bookingState}
           />
         );

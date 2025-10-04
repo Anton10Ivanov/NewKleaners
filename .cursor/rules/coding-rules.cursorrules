@@ -1,0 +1,91 @@
+# Kleaners Coding Rules
+
+## TypeScript Rules
+- Use strict TypeScript interfaces for all components
+- Never use `any` types - use proper TypeScript types
+- Use `type` imports for types only: `import type { User } from '@/types'`
+- Define proper return types for all functions
+- Use interfaces over types for object shapes
+
+## Component Structure Rules
+- Use `React.forwardRef` for components that accept refs
+- Use CVA (Class Variance Authority) for component variants
+- Use `cn()` utility for className merging
+- Include displayName for all components
+- Keep components under 50 lines when possible
+
+## Import Organization Rules
+```typescript
+// 1. React and Next.js
+import React from 'react';
+import { NextPage } from 'next';
+
+// 2. Third-party libraries
+import { motion } from 'framer-motion';
+
+// 3. Internal utilities
+import { cn } from '@/lib/utils';
+
+// 4. UI components
+import { Button } from '@/components/ui/button';
+
+// 5. Types
+import type { User } from '@/types';
+```
+
+## Naming Convention Rules
+- Components: PascalCase (`UserProfile.tsx`)
+- Files: kebab-case (`user-profile.utils.ts`)
+- Variables: camelCase (`userName`, `isLoading`)
+- Constants: UPPER_SNAKE_CASE (`API_BASE_URL`)
+- CSS Classes: kebab-case (`user-profile-card`)
+
+## Design System Rules
+- Use shadcn/ui components as foundation
+- Use CSS variables for theming: `bg-primary text-primary-foreground`
+- Never hardcode colors - use design tokens
+- Use `UnifiedContainer` for all layouts
+- Follow 8px grid system for spacing
+
+## Responsive Design Rules
+- Mobile-first approach with breakpoints: sm (640px), md (768px), lg (1024px), xl (1280px)
+- Touch targets minimum 44px
+- Use responsive classes: `p-4 md:p-6 lg:p-8`
+
+## State Management Rules
+- useState: Component-local UI state only
+- React Query: Server data and caching
+- Zustand: Global application state
+- URL state: Shareable, bookmarkable state
+
+## React Hooks Rules
+- Use proper dependency arrays in useEffect and useCallback
+- Memoize expensive calculations with useMemo
+- Memoize callbacks with useCallback when passing to child components
+- Never call hooks conditionally or in loops
+
+## Performance Rules
+- Use React.memo for components with stable props
+- Use lazy loading for heavy components
+- Use Next.js Image component for images
+- Import only what you need from libraries
+
+## Accessibility Rules
+- Use semantic HTML elements
+- Include proper ARIA labels and roles
+- Ensure keyboard navigation works
+- Provide descriptive alt text for images
+- Associate form labels with inputs
+
+## Error Handling Rules
+- Use try-catch for async operations
+- Implement error boundaries for components
+- Handle loading and error states
+- Provide user-friendly error messages
+
+## Code Quality Rules
+- Single responsibility principle
+- Proper error handling
+- Loading states for async operations
+- Mobile-first responsive design
+- No console.log in production code

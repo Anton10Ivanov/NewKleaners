@@ -18,10 +18,34 @@ const compat = new FlatCompat({
 });
 
 export default [
+  {
+    ignores: [
+      '.next/**/*',
+      'node_modules/**/*',
+      'dist/**/*',
+      'build/**/*',
+      'out/**/*',
+      'coverage/**/*',
+      '.turbo/**/*',
+      'mcp-server/dist/**/*',
+      '**/*.d.ts'
+    ]
+  },
   ...compat.extends('next/core-web-vitals', 'next/typescript'),
   {
     files: ['**/*.{ts,tsx}'],
-    ignores: ['.storybook/**/*', '**/*.stories.*'],
+    ignores: [
+      '.storybook/**/*',
+      '**/*.stories.*',
+      '.next/**/*',
+      'node_modules/**/*',
+      'dist/**/*',
+      'build/**/*',
+      'out/**/*',
+      'coverage/**/*',
+      '.turbo/**/*',
+      'mcp-server/dist/**/*'
+    ],
     languageOptions: {
       parser: typescriptParser,
       parserOptions: {
