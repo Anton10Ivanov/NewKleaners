@@ -1,47 +1,50 @@
 'use client';
 
-import { Footer } from '@/components/layout/Footer';
-import { Header } from '@/components/layout/Header';
-import { UnifiedContainer } from '@/components/layout/UnifiedContainer';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import Link from 'next/link';
+
 import {
   ArrowRight,
   Clock,
   Shield,
   Star,
-  Users
+  Users,
 } from 'lucide-react';
-import Link from 'next/link';
+
+import { Footer } from '@/components/layout/Footer';
+import { Header } from '@/components/layout/Header';
+import { UnifiedContainer } from '@/components/layout/UnifiedContainer';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+
 
 const stats = [
   { number: '500+', label: 'Happy Customers' },
   { number: '4.8/5', label: 'Average Rating' },
   { number: '100%', label: 'Insured & Bonded' },
-  { number: '24/7', label: 'Customer Support' }
+  { number: '24/7', label: 'Customer Support' },
 ];
 
 const values = [
   {
     icon: Shield,
     title: 'Reliability',
-    description: 'We show up on time, every time, with consistent quality service you can count on.'
+    description: 'We show up on time, every time, with consistent quality service you can count on.',
   },
   {
     icon: Star,
     title: 'Excellence',
-    description: 'We strive for perfection in every cleaning task, ensuring your complete satisfaction.'
+    description: 'We strive for perfection in every cleaning task, ensuring your complete satisfaction.',
   },
   {
     icon: Users,
     title: 'Trust',
-    description: 'Our vetted professionals are background-checked and fully insured for your peace of mind.'
+    description: 'Our vetted professionals are background-checked and fully insured for your peace of mind.',
   },
   {
     icon: Clock,
     title: 'Convenience',
-    description: 'Flexible scheduling and easy booking make it simple to maintain a clean space.'
-  }
+    description: 'Flexible scheduling and easy booking make it simple to maintain a clean space.',
+  },
 ];
 
 export default function AboutPage() {

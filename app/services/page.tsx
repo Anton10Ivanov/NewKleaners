@@ -1,12 +1,7 @@
 'use client';
 
-import { Footer } from '@/components/layout/Footer';
-import { Header } from '@/components/layout/Header';
-import { UnifiedContainer } from '@/components/layout/UnifiedContainer';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { ServiceType } from '@/types/bookingFlow';
+import Link from 'next/link';
+
 import {
   ArrowRight,
   Building2,
@@ -17,9 +12,17 @@ import {
   Shield,
   Sparkles,
   Star,
-  Truck
+  Truck,
 } from 'lucide-react';
-import Link from 'next/link';
+
+import { Footer } from '@/components/layout/Footer';
+import { Header } from '@/components/layout/Header';
+import { UnifiedContainer } from '@/components/layout/UnifiedContainer';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { ServiceType } from '@/types/bookingFlow';
+
 
 const services = [
   {
@@ -30,7 +33,7 @@ const services = [
     features: ['Deep cleaning', 'Regular maintenance', 'Move-in/out cleaning'],
     popular: true,
     color: 'bg-blue-500',
-    price: 'Starting at $80'
+    price: 'Starting at $80',
   },
   {
     type: ServiceType.OFFICE_CLEANING,
@@ -40,7 +43,7 @@ const services = [
     features: ['Daily maintenance', 'Deep office cleaning', 'Specialized equipment'],
     popular: false,
     color: 'bg-green-500',
-    price: 'Starting at $100'
+    price: 'Starting at $100',
   },
   {
     type: ServiceType.DEEP_CLEANING,
@@ -50,7 +53,7 @@ const services = [
     features: ['Detailed cleaning', 'Hard-to-reach areas', 'Sanitization'],
     popular: false,
     color: 'bg-purple-500',
-    price: 'Starting at $150'
+    price: 'Starting at $150',
   },
   {
     type: ServiceType.MOVE_IN_OUT,
@@ -60,7 +63,7 @@ const services = [
     features: ['Pre-move cleaning', 'Post-move cleaning', 'Full property cleaning'],
     popular: false,
     color: 'bg-orange-500',
-    price: 'Starting at $120'
+    price: 'Starting at $120',
   },
   {
     type: ServiceType.POST_CONSTRUCTION,
@@ -70,31 +73,31 @@ const services = [
     features: ['Construction debris removal', 'Dust elimination', 'Final cleanup'],
     popular: false,
     color: 'bg-red-500',
-    price: 'Starting at $200'
-  }
+    price: 'Starting at $200',
+  },
 ];
 
 const features = [
   {
     icon: Shield,
     title: 'Insured & Bonded',
-    description: 'All our cleaners are fully insured and bonded for your peace of mind'
+    description: 'All our cleaners are fully insured and bonded for your peace of mind',
   },
   {
     icon: Star,
     title: '5-Star Rated',
-    description: 'Consistently rated 5 stars by our satisfied customers'
+    description: 'Consistently rated 5 stars by our satisfied customers',
   },
   {
     icon: Clock,
     title: 'Flexible Scheduling',
-    description: 'Book at your convenience with flexible scheduling options'
+    description: 'Book at your convenience with flexible scheduling options',
   },
   {
     icon: CheckCircle,
     title: 'Quality Guarantee',
-    description: '100% satisfaction guarantee or we\'ll make it right'
-  }
+    description: '100% satisfaction guarantee or we\'ll make it right',
+  },
 ];
 
 export default function ServicesPage() {

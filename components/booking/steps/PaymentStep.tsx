@@ -1,12 +1,7 @@
-'use client'
+'use client';
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Label } from '@/components/ui/label';
-import { Separator } from '@/components/ui/separator';
-import { BookingFlowState } from '@/types/bookingFlow';
+import React, { useState } from 'react';
+
 import { motion } from 'framer-motion';
 import {
   AlertCircle,
@@ -17,9 +12,18 @@ import {
   Lock,
   MapPin,
   Shield,
-  Star
+  Star,
 } from 'lucide-react';
-import React, { useState } from 'react';
+
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Label } from '@/components/ui/label';
+import { Separator } from '@/components/ui/separator';
+import type { BookingFlowState } from '@/types/bookingFlow';
+
+
 
 interface PaymentStepProps {
   onNext: (bookingId: string) => void;
@@ -36,22 +40,22 @@ const paymentMethods = [
     name: 'Credit/Debit Card',
     description: 'Visa, Mastercard, American Express',
     icon: CreditCard,
-    popular: true
+    popular: true,
   },
   {
     id: 'apple_pay',
     name: 'Apple Pay',
     description: 'Pay with Touch ID or Face ID',
     icon: '🍎',
-    popular: false
+    popular: false,
   },
   {
     id: 'google_pay',
     name: 'Google Pay',
     description: 'Quick and secure payment',
     icon: 'G',
-    popular: false
-  }
+    popular: false,
+  },
 ];
 
 const securityFeatures = [
@@ -59,7 +63,7 @@ const securityFeatures = [
   'PCI DSS compliant',
   'No card data stored',
   'Fraud protection',
-  'Secure checkout'
+  'Secure checkout',
 ];
 
 export const PaymentStep: React.FC<PaymentStepProps> = ({
@@ -68,7 +72,7 @@ export const PaymentStep: React.FC<PaymentStepProps> = ({
   onCancel,
   bookingData,
   errors,
-  isLoading = false
+  isLoading = false,
 }) => {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('card');
   const [agreedToTerms, setAgreedToTerms] = useState(false);
@@ -79,7 +83,7 @@ export const PaymentStep: React.FC<PaymentStepProps> = ({
   };
 
   const handleProcessPayment = async () => {
-    if (!agreedToTerms) return;
+    if (!agreedToTerms) { return; }
 
     setIsProcessing(true);
 
@@ -123,7 +127,7 @@ export const PaymentStep: React.FC<PaymentStepProps> = ({
       weekday: 'long',
       year: 'numeric',
       month: 'long',
-      day: 'numeric'
+      day: 'numeric',
     });
   };
 

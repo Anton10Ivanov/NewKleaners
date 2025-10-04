@@ -223,7 +223,7 @@ export const PropertyDetailsSchema = {
   pets: 'boolean' as const,
   specialRequirements: 'array' as const,
   accessInstructions: 'string' as const,
-  preferredTime: 'string' as const
+  preferredTime: 'string' as const,
 } as const;
 
 // Utility Types

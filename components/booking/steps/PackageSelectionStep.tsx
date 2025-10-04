@@ -1,4 +1,9 @@
-'use client'
+'use client';
+
+import React, { useState } from 'react';
+
+import { motion } from 'framer-motion';
+import { CheckCircle, Clock, Crown, Shield, Star, Users, Zap } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -6,9 +11,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { CleaningFrequency, RegularityPackage } from '@/types/bookingFlow';
-import { motion } from 'framer-motion';
-import { CheckCircle, Clock, Crown, Shield, Star, Users, Zap } from 'lucide-react';
-import React, { useState } from 'react';
+
+
 
 interface PackageSelectionStepProps {
   onNext: (packageType: RegularityPackage) => void;
@@ -34,15 +38,15 @@ const packages = [
       'Clean bathrooms and kitchen',
       'Dust all surfaces',
       'Empty trash bins',
-      'Basic organization'
+      'Basic organization',
     ],
     included: [
       '2-3 hours of cleaning',
       'Standard cleaning supplies',
       'Basic equipment',
-      'Quality guarantee'
+      'Quality guarantee',
     ],
-    popular: false
+    popular: false,
   },
   {
     type: RegularityPackage.STANDARD,
@@ -58,16 +62,16 @@ const packages = [
       'Window cleaning (interior)',
       'Light fixture cleaning',
       'Cabinet exterior cleaning',
-      'Baseboard cleaning'
+      'Baseboard cleaning',
     ],
     included: [
       '3-4 hours of cleaning',
       'Premium cleaning supplies',
       'Professional equipment',
       'Quality guarantee',
-      'Satisfaction guarantee'
+      'Satisfaction guarantee',
     ],
-    popular: true
+    popular: true,
   },
   {
     type: RegularityPackage.PREMIUM,
@@ -84,7 +88,7 @@ const packages = [
       'Light fixture deep cleaning',
       'Vent cleaning',
       'Furniture polishing',
-      'Specialty surface cleaning'
+      'Specialty surface cleaning',
     ],
     included: [
       '4-6 hours of cleaning',
@@ -93,9 +97,9 @@ const packages = [
       'Quality guarantee',
       'Satisfaction guarantee',
       'Priority scheduling',
-      'Dedicated cleaning team'
+      'Dedicated cleaning team',
     ],
-    popular: false
+    popular: false,
   },
   {
     type: RegularityPackage.CUSTOM,
@@ -110,7 +114,7 @@ const packages = [
       'Flexible scheduling options',
       'Specialized cleaning requests',
       'Add-on services included',
-      'Personalized cleaning plan'
+      'Personalized cleaning plan',
     ],
     included: [
       'Flexible duration',
@@ -119,10 +123,10 @@ const packages = [
       'Quality guarantee',
       'Satisfaction guarantee',
       'Direct communication with team',
-      'Regular plan adjustments'
+      'Regular plan adjustments',
     ],
-    popular: false
-  }
+    popular: false,
+  },
 ];
 
 const frequencyBenefits = {
@@ -132,8 +136,8 @@ const frequencyBenefits = {
       'Consistent cleanliness',
       'Easier maintenance',
       'Better health environment',
-      'Reduced deep cleaning needs'
-    ]
+      'Reduced deep cleaning needs',
+    ],
   },
   [CleaningFrequency.BI_WEEKLY]: {
     title: 'Bi-Weekly Cleaning Benefits',
@@ -141,8 +145,8 @@ const frequencyBenefits = {
       'Balanced maintenance',
       'Cost-effective solution',
       'Regular deep cleaning',
-      'Flexible scheduling'
-    ]
+      'Flexible scheduling',
+    ],
   },
   [CleaningFrequency.MONTHLY]: {
     title: 'Monthly Cleaning Benefits',
@@ -150,9 +154,9 @@ const frequencyBenefits = {
       'Deep cleaning focus',
       'Budget-friendly option',
       'Thorough maintenance',
-      'Flexible timing'
-    ]
-  }
+      'Flexible timing',
+    ],
+  },
 };
 
 export const PackageSelectionStep: React.FC<PackageSelectionStepProps> = ({
@@ -161,10 +165,10 @@ export const PackageSelectionStep: React.FC<PackageSelectionStepProps> = ({
   frequency,
   selectedPackage,
   errors,
-  isLoading = false
+  isLoading = false,
 }) => {
   const [selectedPackageType, setSelectedPackageType] = useState<RegularityPackage | null>(
-    selectedPackage || null
+    selectedPackage || null,
   );
 
   const handlePackageSelect = (packageType: RegularityPackage) => {
@@ -181,7 +185,7 @@ export const PackageSelectionStep: React.FC<PackageSelectionStepProps> = ({
     const context = frequencyBenefits[frequency as keyof typeof frequencyBenefits];
     return context || {
       title: 'Regular Cleaning Benefits',
-      benefits: ['Consistent service', 'Better maintenance', 'Cost savings']
+      benefits: ['Consistent service', 'Better maintenance', 'Cost savings'],
     };
   };
 
@@ -365,7 +369,7 @@ export const PackageSelectionStep: React.FC<PackageSelectionStepProps> = ({
                     'Light fixture cleaning',
                     'Cabinet cleaning',
                     'Vent cleaning',
-                    'Furniture polishing'
+                    'Furniture polishing',
                   ].map((feature, index) => (
                     <tr key={index} className="border-b">
                       <td className="py-2 text-gray-700">{feature}</td>

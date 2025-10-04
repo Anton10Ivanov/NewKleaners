@@ -1,8 +1,10 @@
-'use client'
+'use client';
+
+import React from 'react';
 
 import { MainBookingFlow } from '@/MainBookingFlow';
 import { ServiceType } from '@/types/bookingFlow';
-import React from 'react';
+
 
 export const BookingFlowExample: React.FC = () => {
   const handleBookingComplete = (bookingId: string) => {

@@ -1,12 +1,7 @@
 'use client';
 
-import { Footer } from '@/components/layout/Footer';
-import { Header } from '@/components/layout/Header';
-import { UnifiedContainer } from '@/components/layout/UnifiedContainer';
-import { useAuth } from '@/components/providers/AuthProvider';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import Link from 'next/link';
+
 import {
   AlertCircle,
   ArrowRight,
@@ -15,9 +10,17 @@ import {
   Clock,
   MapPin,
   Plus,
-  Star
+  Star,
 } from 'lucide-react';
-import Link from 'next/link';
+
+import { Footer } from '@/components/layout/Footer';
+import { Header } from '@/components/layout/Header';
+import { UnifiedContainer } from '@/components/layout/UnifiedContainer';
+import { useAuth } from '@/components/providers/AuthProvider';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+
 
 const upcomingBookings = [
   {
@@ -28,7 +31,7 @@ const upcomingBookings = [
     status: 'confirmed',
     address: '123 Main St, Frankfurt',
     duration: '3 hours',
-    price: '$120'
+    price: '$120',
   },
   {
     id: 'BK002',
@@ -38,8 +41,8 @@ const upcomingBookings = [
     status: 'pending',
     address: '456 Business Ave, Frankfurt',
     duration: '4 hours',
-    price: '$180'
-  }
+    price: '$180',
+  },
 ];
 
 const pastBookings = [
@@ -52,8 +55,8 @@ const pastBookings = [
     address: '789 Residential St, Frankfurt',
     duration: '5 hours',
     price: '$200',
-    rating: 5
-  }
+    rating: 5,
+  },
 ];
 
 export default function DashboardPage() {

@@ -1,5 +1,12 @@
 'use client';
 
+import { useState } from 'react';
+
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+
+import { ArrowRight, Lock, Mail, User } from 'lucide-react';
+
 import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
 import { UnifiedContainer } from '@/components/layout/UnifiedContainer';
@@ -9,10 +16,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { ArrowRight, Lock, Mail, User } from 'lucide-react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+
+
 
 export default function SignUpPage() {
   const { signUp } = useAuth();
@@ -23,7 +28,7 @@ export default function SignUpPage() {
     email: '',
     password: '',
     confirmPassword: '',
-    agreeToTerms: false
+    agreeToTerms: false,
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
@@ -32,7 +37,7 @@ export default function SignUpPage() {
     const { name, value, type, checked } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: type === 'checkbox' ? checked : value,
     }));
   };
 

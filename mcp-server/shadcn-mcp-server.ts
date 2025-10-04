@@ -1,15 +1,17 @@
 #!/usr/bin/env node
 
-import { Server } from '@modelcontextprotocol/sdk/server/index.js';
-import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
-import {
-  CallToolRequestSchema,
-  ListToolsRequestSchema
-} from '@modelcontextprotocol/sdk/types.js';
+
 import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+
+import { Server } from '@modelcontextprotocol/sdk/server/index.js';
+import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
+import {
+  CallToolRequestSchema,
+  ListToolsRequestSchema,
+} from '@modelcontextprotocol/sdk/types.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -38,7 +40,7 @@ class ShadcnMCPServer {
         capabilities: {
           tools: {},
         },
-      }
+      },
     );
 
     this.setupHandlers();
@@ -410,7 +412,7 @@ class ShadcnMCPServer {
 
     if (args.category) {
       filteredComponents = filteredComponents.filter(
-        (comp) => comp.category === args.category
+        (comp) => comp.category === args.category,
       );
     }
 
@@ -419,7 +421,7 @@ class ShadcnMCPServer {
       filteredComponents = filteredComponents.filter(
         (comp) =>
           comp.name.toLowerCase().includes(searchTerm) ||
-          comp.description.toLowerCase().includes(searchTerm)
+          comp.description.toLowerCase().includes(searchTerm),
       );
     }
 
@@ -430,7 +432,7 @@ class ShadcnMCPServer {
             comp.dependencies && comp.dependencies.length > 0
               ? `\nDependencies: ${comp.dependencies.join(', ')}`
               : ''
-          }`
+          }`,
       )
       .join('\n\n');
 
@@ -449,7 +451,7 @@ class ShadcnMCPServer {
 
     // Check if component exists
     const componentInfo = this.components.find(
-      (comp) => comp.name === component
+      (comp) => comp.name === component,
     );
     if (!componentInfo) {
       throw new Error(`Component '${component}' not found`);
@@ -459,7 +461,7 @@ class ShadcnMCPServer {
     const componentPath = path.join(projectRoot, 'components', 'ui', `${component}.tsx`);
     if (fs.existsSync(componentPath) && !overwrite) {
       throw new Error(
-        `Component '${component}' is already installed. Use overwrite: true to replace it.`
+        `Component '${component}' is already installed. Use overwrite: true to replace it.`,
       );
     }
 
@@ -501,7 +503,7 @@ class ShadcnMCPServer {
       const componentsJsonPath = path.join(projectRoot, 'components.json');
       if (fs.existsSync(componentsJsonPath)) {
         const componentsJson = JSON.parse(
-          fs.readFileSync(componentsJsonPath, 'utf8')
+          fs.readFileSync(componentsJsonPath, 'utf8'),
         );
         // Note: shadcn doesn't track installed components in components.json
         // This is just for cleanup if needed
@@ -554,14 +556,14 @@ class ShadcnMCPServer {
     const { component } = args;
 
     const componentInfo = this.components.find(
-      (comp) => comp.name === component
+      (comp) => comp.name === component,
     );
     if (!componentInfo) {
       throw new Error(`Component '${component}' not found`);
     }
 
     const isInstalled = fs.existsSync(
-      path.join(projectRoot, 'components', 'ui', `${component}.tsx`)
+      path.join(projectRoot, 'components', 'ui', `${component}.tsx`),
     );
 
     return {

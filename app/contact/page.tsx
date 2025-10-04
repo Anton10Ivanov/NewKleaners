@@ -1,5 +1,16 @@
 'use client';
 
+import { useState } from 'react';
+
+import {
+  Clock,
+  Mail,
+  MapPin,
+  MessageCircle,
+  Phone,
+  Send,
+} from 'lucide-react';
+
 import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
 import { UnifiedContainer } from '@/components/layout/UnifiedContainer';
@@ -8,41 +19,33 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import {
-  Clock,
-  Mail,
-  MapPin,
-  MessageCircle,
-  Phone,
-  Send
-} from 'lucide-react';
-import { useState } from 'react';
+
 
 const contactInfo = [
   {
     icon: Phone,
     title: 'Phone',
     details: '+49 69 123 456 789',
-    description: 'Mon-Fri 8AM-6PM, Sat 9AM-4PM'
+    description: 'Mon-Fri 8AM-6PM, Sat 9AM-4PM',
   },
   {
     icon: Mail,
     title: 'Email',
     details: 'hello@kleaners.de',
-    description: 'We respond within 24 hours'
+    description: 'We respond within 24 hours',
   },
   {
     icon: MapPin,
     title: 'Address',
     details: 'Frankfurt am Main, Germany',
-    description: 'Serving Frankfurt and surrounding areas'
+    description: 'Serving Frankfurt and surrounding areas',
   },
   {
     icon: Clock,
     title: 'Business Hours',
     details: 'Mon-Fri: 8AM-6PM',
-    description: 'Sat: 9AM-4PM, Sun: Closed'
-  }
+    description: 'Sat: 9AM-4PM, Sun: Closed',
+  },
 ];
 
 export default function ContactPage() {
@@ -51,7 +54,7 @@ export default function ContactPage() {
     email: '',
     phone: '',
     subject: '',
-    message: ''
+    message: '',
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

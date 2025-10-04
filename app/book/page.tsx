@@ -1,7 +1,8 @@
 'use client';
 
-import { MainBookingFlow } from '@/MainBookingFlow';
 import { useRouter } from 'next/navigation';
+
+import { MainBookingFlow } from '@/MainBookingFlow';
 
 export default function BookingPage() {
   const router = useRouter();

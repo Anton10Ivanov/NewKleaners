@@ -1,11 +1,16 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Suspense, useEffect, useState } from 'react';
+
+import { useRouter, useSearchParams } from 'next/navigation';
+
 import { motion } from 'framer-motion';
 import { Calendar, CheckCircle } from 'lucide-react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { Suspense, useEffect, useState } from 'react';
+
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+
+
 
 function ConfirmationContent() {
   const router = useRouter();
@@ -32,7 +37,7 @@ function ConfirmationContent() {
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
-            transition={{ duration: 0.5, type: "spring" }}
+            transition={{ duration: 0.5, type: 'spring' }}
             className="mb-8"
           >
             <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -114,7 +119,7 @@ export default function BookingConfirmationPage() {
     <Suspense fallback={
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-peel mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-peel mx-auto mb-4" />
           <p className="text-gray-600">Loading confirmation...</p>
         </div>
       </div>

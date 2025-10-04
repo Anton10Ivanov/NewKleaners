@@ -1,10 +1,7 @@
 'use client';
 
-import { Footer } from '@/components/layout/Footer';
-import { Header } from '@/components/layout/Header';
-import { UnifiedContainer } from '@/components/layout/UnifiedContainer';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import Link from 'next/link';
+
 import {
   ArrowRight,
   Calendar,
@@ -13,9 +10,15 @@ import {
   CreditCard,
   Search,
   Shield,
-  Star
+  Star,
 } from 'lucide-react';
-import Link from 'next/link';
+
+import { Footer } from '@/components/layout/Footer';
+import { Header } from '@/components/layout/Header';
+import { UnifiedContainer } from '@/components/layout/UnifiedContainer';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+
 
 const steps = [
   {
@@ -23,52 +26,52 @@ const steps = [
     icon: Search,
     title: 'Choose Your Service',
     description: 'Select the type of cleaning service you need - home, office, deep cleaning, or specialized services.',
-    details: 'Browse our comprehensive range of cleaning services and select the one that best fits your needs.'
+    details: 'Browse our comprehensive range of cleaning services and select the one that best fits your needs.',
   },
   {
     number: 2,
     icon: Calendar,
     title: 'Schedule Your Cleaning',
     description: 'Pick your preferred date and time from our available slots.',
-    details: 'Choose from flexible scheduling options that work with your busy lifestyle.'
+    details: 'Choose from flexible scheduling options that work with your busy lifestyle.',
   },
   {
     number: 3,
     icon: CreditCard,
     title: 'Secure Payment',
     description: 'Complete your booking with our secure payment system.',
-    details: 'Pay safely and securely with our encrypted payment processing.'
+    details: 'Pay safely and securely with our encrypted payment processing.',
   },
   {
     number: 4,
     icon: CheckCircle,
     title: 'Enjoy Clean Results',
     description: 'Relax while our professional cleaners take care of everything.',
-    details: 'Sit back and enjoy your spotless space, knowing you\'re covered by our satisfaction guarantee.'
-  }
+    details: 'Sit back and enjoy your spotless space, knowing you\'re covered by our satisfaction guarantee.',
+  },
 ];
 
 const benefits = [
   {
     icon: Shield,
     title: 'Fully Insured',
-    description: 'All cleaners are background-checked and fully insured'
+    description: 'All cleaners are background-checked and fully insured',
   },
   {
     icon: Star,
     title: '5-Star Rated',
-    description: 'Consistently rated 5 stars by our customers'
+    description: 'Consistently rated 5 stars by our customers',
   },
   {
     icon: Clock,
     title: 'Flexible Scheduling',
-    description: 'Book at your convenience with easy rescheduling'
+    description: 'Book at your convenience with easy rescheduling',
   },
   {
     icon: CheckCircle,
     title: 'Satisfaction Guarantee',
-    description: '100% satisfaction guarantee or we\'ll make it right'
-  }
+    description: '100% satisfaction guarantee or we\'ll make it right',
+  },
 ];
 
 export default function HowItWorksPage() {

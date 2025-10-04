@@ -1,14 +1,19 @@
-'use client'
+'use client';
+
+import React, { useEffect, useState } from 'react';
+
+import { motion } from 'framer-motion';
+import { AlertCircle, Calendar, CheckCircle, Clock, MapPin, User } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { BookingSchedule, CleaningFrequency, Estimate, ServiceType } from '@/types/bookingFlow';
-import { motion } from 'framer-motion';
-import { AlertCircle, Calendar, CheckCircle, Clock, MapPin, User } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
+import type { BookingSchedule, Estimate } from '@/types/bookingFlow';
+import { CleaningFrequency, ServiceType } from '@/types/bookingFlow';
+
+
 
 interface SchedulingStepProps {
   onNext: (schedule: BookingSchedule) => void;
@@ -31,7 +36,7 @@ const timeSlots = [
   { id: 'afternoon-3', start: '14:00', end: '16:00', label: '2:00 PM - 4:00 PM', available: true },
   { id: 'evening-1', start: '16:00', end: '18:00', label: '4:00 PM - 6:00 PM', available: true },
   { id: 'evening-2', start: '17:00', end: '19:00', label: '5:00 PM - 7:00 PM', available: false },
-  { id: 'evening-3', start: '18:00', end: '20:00', label: '6:00 PM - 8:00 PM', available: false }
+  { id: 'evening-3', start: '18:00', end: '20:00', label: '6:00 PM - 8:00 PM', available: false },
 ];
 
 const getNextAvailableDates = (count: number = 14) => {
@@ -49,9 +54,9 @@ const getNextAvailableDates = (count: number = 14) => {
         display: date.toLocaleDateString('en-US', {
           weekday: 'short',
           month: 'short',
-          day: 'numeric'
+          day: 'numeric',
         }),
-        available: true
+        available: true,
       });
     }
   }
@@ -67,7 +72,7 @@ export const SchedulingStep: React.FC<SchedulingStepProps> = ({
   frequency,
   data,
   errors,
-  isLoading = false
+  isLoading = false,
 }) => {
   const [selectedDate, setSelectedDate] = useState<string | null>(data?.date || null);
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<string | null>(data?.timeSlot?.start || null);
@@ -107,11 +112,11 @@ export const SchedulingStep: React.FC<SchedulingStepProps> = ({
           timeSlot: {
             start: timeSlot.start,
             end: timeSlot.end,
-            isAvailable: true
+            isAvailable: true,
           },
           duration: estimate.duration,
           isAvailable: true,
-          notes: `Estimated duration: ${Math.floor(estimate.duration / 60)}h ${estimate.duration % 60}m`
+          notes: `Estimated duration: ${Math.floor(estimate.duration / 60)}h ${estimate.duration % 60}m`,
         };
         onNext(schedule);
       }
@@ -221,8 +226,8 @@ export const SchedulingStep: React.FC<SchedulingStepProps> = ({
                         selectedDate === dateInfo.date
                           ? 'border-primary bg-primary text-white'
                           : dateInfo.available
-                          ? 'border-gray-200 hover:border-primary hover:bg-primary/5'
-                          : 'border-gray-100 bg-gray-50 text-gray-400 cursor-not-allowed'
+                            ? 'border-gray-200 hover:border-primary hover:bg-primary/5'
+                            : 'border-gray-100 bg-gray-50 text-gray-400 cursor-not-allowed'
                       }`}
                     >
                       <div className="text-sm font-medium">{dateInfo.display}</div>
@@ -267,8 +272,8 @@ export const SchedulingStep: React.FC<SchedulingStepProps> = ({
                           selectedTimeSlot === slot.id
                             ? 'border-primary bg-primary/5'
                             : slot.available
-                            ? 'border-gray-200 hover:border-primary/50'
-                            : 'border-gray-100 bg-gray-50 cursor-not-allowed'
+                              ? 'border-gray-200 hover:border-primary/50'
+                              : 'border-gray-100 bg-gray-50 cursor-not-allowed'
                         }`}
                         onClick={() => slot.available && handleTimeSelect(slot.id)}
                       >
@@ -345,7 +350,7 @@ export const SchedulingStep: React.FC<SchedulingStepProps> = ({
                           weekday: 'long',
                           year: 'numeric',
                           month: 'long',
-                          day: 'numeric'
+                          day: 'numeric',
                         })}
                       </span>
                     </div>

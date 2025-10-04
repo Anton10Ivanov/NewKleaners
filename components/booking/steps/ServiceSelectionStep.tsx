@@ -1,12 +1,16 @@
-'use client'
+'use client';
+
+import React from 'react';
+
+import { motion } from 'framer-motion';
+import { Building2, Hammer, Home, Sparkles, Truck } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ServiceType } from '@/types/bookingFlow';
-import { motion } from 'framer-motion';
-import { Building2, Hammer, Home, Sparkles, Truck } from 'lucide-react';
-import React from 'react';
+
+
 
 interface ServiceSelectionStepProps {
   onNext: (serviceType: ServiceType) => void;
@@ -25,7 +29,7 @@ const services = [
     icon: Home,
     features: ['Deep cleaning', 'Regular maintenance', 'Move-in/out cleaning'],
     popular: true,
-    color: 'bg-blue-500'
+    color: 'bg-blue-500',
   },
   {
     type: ServiceType.OFFICE_CLEANING,
@@ -34,7 +38,7 @@ const services = [
     icon: Building2,
     features: ['Daily maintenance', 'Deep office cleaning', 'Specialized equipment'],
     popular: false,
-    color: 'bg-green-500'
+    color: 'bg-green-500',
   },
   {
     type: ServiceType.DEEP_CLEANING,
@@ -43,7 +47,7 @@ const services = [
     icon: Sparkles,
     features: ['Detailed cleaning', 'Hard-to-reach areas', 'Sanitization'],
     popular: false,
-    color: 'bg-purple-500'
+    color: 'bg-purple-500',
   },
   {
     type: ServiceType.MOVE_IN_OUT,
@@ -52,7 +56,7 @@ const services = [
     icon: Truck,
     features: ['Pre-move cleaning', 'Post-move cleaning', 'Full property cleaning'],
     popular: false,
-    color: 'bg-orange-500'
+    color: 'bg-orange-500',
   },
   {
     type: ServiceType.POST_CONSTRUCTION,
@@ -61,8 +65,8 @@ const services = [
     icon: Hammer,
     features: ['Construction debris removal', 'Dust elimination', 'Final cleanup'],
     popular: false,
-    color: 'bg-red-500'
-  }
+    color: 'bg-red-500',
+  },
 ];
 
 export const ServiceSelectionStep: React.FC<ServiceSelectionStepProps> = ({
@@ -70,7 +74,7 @@ export const ServiceSelectionStep: React.FC<ServiceSelectionStepProps> = ({
   onBack,
   preselectedService,
   errors,
-  isLoading = false
+  isLoading = false,
 }) => {
   const handleServiceSelect = (serviceType: ServiceType) => {
     onNext(serviceType);
@@ -156,12 +160,12 @@ export const ServiceSelectionStep: React.FC<ServiceSelectionStepProps> = ({
 
                   <Button
                     className="w-full h-11 sm:h-12 text-sm font-medium"
-                    variant={isSelected ? "default" : "outline"}
+                    variant={isSelected ? 'default' : 'outline'}
                     disabled={isLoading}
                     style={{
                       backgroundColor: isSelected ? '#ffa000' : undefined,
                       borderColor: isSelected ? '#ffa000' : undefined,
-                      color: isSelected ? 'white' : '#ffa000'
+                      color: isSelected ? 'white' : '#ffa000',
                     }}
                   >
                     {isLoading ? 'Selecting...' : isSelected ? 'Selected' : 'Select Service'}

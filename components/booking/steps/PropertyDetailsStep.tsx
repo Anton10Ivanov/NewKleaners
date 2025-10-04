@@ -1,4 +1,9 @@
-'use client'
+'use client';
+
+import React, { useState } from 'react';
+
+import { motion } from 'framer-motion';
+import { Building2, Car, Home, MapPin, Square, TreePine, Users } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -7,10 +12,10 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Textarea } from '@/components/ui/textarea';
-import { OfficeDetails, PropertyDetails, ServiceType } from '@/types/bookingFlow';
-import { motion } from 'framer-motion';
-import { Building2, Car, Home, MapPin, Square, TreePine, Users } from 'lucide-react';
-import React, { useState } from 'react';
+import type { OfficeDetails, PropertyDetails } from '@/types/bookingFlow';
+import { ServiceType } from '@/types/bookingFlow';
+
+
 
 interface PropertyDetailsStepProps {
   onNext: (data: PropertyDetails | OfficeDetails) => void;
@@ -27,7 +32,7 @@ const propertyTypes = [
   { value: 'apartment', label: 'Apartment', icon: Home },
   { value: 'house', label: 'House', icon: Home },
   { value: 'condo', label: 'Condo', icon: Home },
-  { value: 'townhouse', label: 'Townhouse', icon: Home }
+  { value: 'townhouse', label: 'Townhouse', icon: Home },
 ];
 
 const officeTypes = [
@@ -35,14 +40,14 @@ const officeTypes = [
   { value: 'retail', label: 'Retail Store', icon: Building2 },
   { value: 'warehouse', label: 'Warehouse', icon: Building2 },
   { value: 'medical', label: 'Medical Facility', icon: Building2 },
-  { value: 'other', label: 'Other Commercial', icon: Building2 }
+  { value: 'other', label: 'Other Commercial', icon: Building2 },
 ];
 
 const timePreferences = [
   { value: 'morning', label: 'Morning (8 AM - 12 PM)' },
   { value: 'afternoon', label: 'Afternoon (12 PM - 5 PM)' },
   { value: 'evening', label: 'Evening (5 PM - 8 PM)' },
-  { value: 'flexible', label: 'Flexible - Any time works' }
+  { value: 'flexible', label: 'Flexible - Any time works' },
 ];
 
 export const PropertyDetailsStep: React.FC<PropertyDetailsStepProps> = ({
@@ -52,7 +57,7 @@ export const PropertyDetailsStep: React.FC<PropertyDetailsStepProps> = ({
   isRegularCleaning,
   data,
   errors,
-  isLoading = false
+  isLoading = false,
 }) => {
   const [formData, setFormData] = useState<Partial<PropertyDetails | OfficeDetails>>({
     propertyType: 'apartment',
@@ -67,7 +72,7 @@ export const PropertyDetailsStep: React.FC<PropertyDetailsStepProps> = ({
     specialRequirements: [],
     accessInstructions: '',
     preferredTime: 'flexible',
-    ...data
+    ...data,
   });
 
   const isOffice = serviceType === ServiceType.OFFICE_CLEANING;
@@ -104,7 +109,7 @@ export const PropertyDetailsStep: React.FC<PropertyDetailsStepProps> = ({
         'High-traffic area focus',
         'Window cleaning',
         'Floor waxing/polishing',
-        'Restroom deep cleaning'
+        'Restroom deep cleaning',
       ];
     } else {
       return [
@@ -113,7 +118,7 @@ export const PropertyDetailsStep: React.FC<PropertyDetailsStepProps> = ({
         'Eco-friendly products only',
         'Window cleaning',
         'Appliance cleaning',
-        'Cabinet cleaning'
+        'Cabinet cleaning',
       ];
     }
   };

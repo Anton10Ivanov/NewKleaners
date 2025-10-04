@@ -1,41 +1,44 @@
 'use client';
 
-import { Footer } from '@/components/layout/Footer';
-import { Header } from '@/components/layout/Header';
-import { UnifiedContainer } from '@/components/layout/UnifiedContainer';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import Link from 'next/link';
+
 import {
   ArrowRight,
   Calendar,
   CheckCircle,
   DollarSign,
   Shield,
-  Users
+  Users,
 } from 'lucide-react';
-import Link from 'next/link';
+
+import { Footer } from '@/components/layout/Footer';
+import { Header } from '@/components/layout/Header';
+import { UnifiedContainer } from '@/components/layout/UnifiedContainer';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+
 
 const benefits = [
   {
     icon: DollarSign,
     title: 'Earn More',
-    description: 'Set your own rates and earn competitive income'
+    description: 'Set your own rates and earn competitive income',
   },
   {
     icon: Calendar,
     title: 'Flexible Schedule',
-    description: 'Work when you want, as much or as little as you prefer'
+    description: 'Work when you want, as much or as little as you prefer',
   },
   {
     icon: Shield,
     title: 'Insurance Coverage',
-    description: 'We provide liability insurance for all our providers'
+    description: 'We provide liability insurance for all our providers',
   },
   {
     icon: Users,
     title: 'Support Team',
-    description: 'Dedicated support team to help you succeed'
-  }
+    description: 'Dedicated support team to help you succeed',
+  },
 ];
 
 const requirements = [
@@ -43,30 +46,30 @@ const requirements = [
   'Clean background check',
   'Reliable transportation',
   'Professional references',
-  'Commitment to quality service'
+  'Commitment to quality service',
 ];
 
 const steps = [
   {
     number: 1,
     title: 'Apply Online',
-    description: 'Fill out our simple application form with your details and experience'
+    description: 'Fill out our simple application form with your details and experience',
   },
   {
     number: 2,
     title: 'Background Check',
-    description: 'We\'ll verify your background and check your references'
+    description: 'We\'ll verify your background and check your references',
   },
   {
     number: 3,
     title: 'Interview & Training',
-    description: 'Complete a brief interview and our quality training program'
+    description: 'Complete a brief interview and our quality training program',
   },
   {
     number: 4,
     title: 'Start Earning',
-    description: 'Begin accepting bookings and earning money immediately'
-  }
+    description: 'Begin accepting bookings and earning money immediately',
+  },
 ];
 
 export default function ProvidersPage() {

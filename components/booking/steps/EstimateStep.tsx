@@ -1,13 +1,18 @@
-'use client'
+'use client';
+
+import React, { useEffect, useState } from 'react';
+
+import { motion } from 'framer-motion';
+import { Calculator, Clock, Star, Zap } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Separator } from '@/components/ui/separator';
-import { CleaningFrequency, Estimate, OfficeDetails, PropertyDetails, ServiceType } from '@/types/bookingFlow';
-import { motion } from 'framer-motion';
-import { Calculator, Clock, Star, Zap } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
+import type { Estimate, OfficeDetails, PropertyDetails } from '@/types/bookingFlow';
+import { CleaningFrequency, ServiceType } from '@/types/bookingFlow';
+
+
 
 interface EstimateStepProps {
   onNext: (estimate: Estimate) => void;
@@ -28,7 +33,7 @@ const addOns = [
     description: 'Interior and exterior window cleaning',
     price: 25,
     duration: 30,
-    icon: '🪟'
+    icon: '🪟',
   },
   {
     id: 'appliance_cleaning',
@@ -36,7 +41,7 @@ const addOns = [
     description: 'Deep cleaning of kitchen appliances',
     price: 35,
     duration: 45,
-    icon: '🔧'
+    icon: '🔧',
   },
   {
     id: 'cabinet_cleaning',
@@ -44,7 +49,7 @@ const addOns = [
     description: 'Interior and exterior cabinet cleaning',
     price: 30,
     duration: 30,
-    icon: '🏠'
+    icon: '🏠',
   },
   {
     id: 'fridge_cleaning',
@@ -52,7 +57,7 @@ const addOns = [
     description: 'Deep cleaning inside and outside fridge',
     price: 40,
     duration: 60,
-    icon: '❄️'
+    icon: '❄️',
   },
   {
     id: 'oven_cleaning',
@@ -60,7 +65,7 @@ const addOns = [
     description: 'Deep cleaning of oven interior and exterior',
     price: 45,
     duration: 60,
-    icon: '🔥'
+    icon: '🔥',
   },
   {
     id: 'garage_cleaning',
@@ -68,8 +73,8 @@ const addOns = [
     description: 'Complete garage cleaning and organization',
     price: 50,
     duration: 90,
-    icon: '🚗'
-  }
+    icon: '🚗',
+  },
 ];
 
 const discounts = [
@@ -78,22 +83,22 @@ const discounts = [
     name: 'First Time Customer',
     type: 'percentage' as const,
     value: 15,
-    description: 'Welcome discount for new customers'
+    description: 'Welcome discount for new customers',
   },
   {
     id: 'regular_cleaning',
     name: 'Regular Cleaning Discount',
     type: 'percentage' as const,
     value: 10,
-    description: 'Discount for regular cleaning services'
+    description: 'Discount for regular cleaning services',
   },
   {
     id: 'referral',
     name: 'Referral Bonus',
     type: 'fixed' as const,
     value: 20,
-    description: 'Referral discount from existing customer'
-  }
+    description: 'Referral discount from existing customer',
+  },
 ];
 
 export const EstimateStep: React.FC<EstimateStepProps> = ({
@@ -104,7 +109,7 @@ export const EstimateStep: React.FC<EstimateStepProps> = ({
   frequency,
   data,
   errors,
-  isLoading = false
+  isLoading = false,
 }) => {
   const [selectedAddOns, setSelectedAddOns] = useState<string[]>([]);
   const [selectedDiscounts, setSelectedDiscounts] = useState<string[]>([]);
@@ -174,17 +179,17 @@ export const EstimateStep: React.FC<EstimateStepProps> = ({
     const total = Math.max(subtotal - discountTotal, 0);
 
     return {
-      id: 'estimate-' + Date.now(),
+      id: `estimate-${  Date.now()}`,
       basePrice: Math.round(basePrice),
       duration: Math.round(120 + (selectedAddOns.length * 30)), // Base 2 hours + 30 min per add-on
       frequency,
       addOns: addOns.filter(a => selectedAddOns.includes(a.id)).map(a => ({
         ...a,
-        isSelected: true
+        isSelected: true,
       })),
       discounts: discounts.filter(d => selectedDiscounts.includes(d.id)).map(d => ({
         ...d,
-        isSelected: true
+        isSelected: true,
       })),
       totalPrice: Math.round(total),
       currency: 'USD',
@@ -196,8 +201,8 @@ export const EstimateStep: React.FC<EstimateStepProps> = ({
         packageMultiplier: 1,
         discounts: Math.round(discountTotal),
         taxes: Math.round(total * 0.08), // 8% tax
-        total: Math.round(total * 1.08)
-      }
+        total: Math.round(total * 1.08),
+      },
     };
   };
 
@@ -210,7 +215,7 @@ export const EstimateStep: React.FC<EstimateStepProps> = ({
     setSelectedAddOns(prev =>
       prev.includes(addOnId)
         ? prev.filter(id => id !== addOnId)
-        : [...prev, addOnId]
+        : [...prev, addOnId],
     );
   };
 
@@ -218,7 +223,7 @@ export const EstimateStep: React.FC<EstimateStepProps> = ({
     setSelectedDiscounts(prev =>
       prev.includes(discountId)
         ? prev.filter(id => id !== discountId)
-        : [...prev, discountId]
+        : [...prev, discountId],
     );
   };
 

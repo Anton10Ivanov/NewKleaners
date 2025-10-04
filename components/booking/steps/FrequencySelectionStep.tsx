@@ -1,13 +1,17 @@
-'use client'
+'use client';
+
+import React from 'react';
+
+import { motion } from 'framer-motion';
+import { Calendar, Clock, Repeat, Star, Zap } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { CleaningFrequency, ServiceType } from '@/types/bookingFlow';
-import { motion } from 'framer-motion';
-import { Calendar, Clock, Repeat, Star, Zap } from 'lucide-react';
-import React from 'react';
+
+
 
 interface FrequencySelectionStepProps {
   onNext: (frequency: CleaningFrequency) => void;
@@ -27,7 +31,7 @@ const frequencies = [
     features: ['Deep cleaning', 'Flexible scheduling', 'No commitment'],
     price: 'From $120',
     color: 'bg-blue-500',
-    popular: true
+    popular: true,
   },
   {
     type: CleaningFrequency.WEEKLY,
@@ -37,7 +41,7 @@ const frequencies = [
     features: ['Consistent cleaning', 'Best value', 'Priority scheduling'],
     price: 'From $80/week',
     color: 'bg-green-500',
-    popular: true
+    popular: true,
   },
   {
     type: CleaningFrequency.BI_WEEKLY,
@@ -47,7 +51,7 @@ const frequencies = [
     features: ['Balanced schedule', 'Cost effective', 'Regular maintenance'],
     price: 'From $100/visit',
     color: 'bg-purple-500',
-    popular: false
+    popular: false,
   },
   {
     type: CleaningFrequency.MONTHLY,
@@ -57,7 +61,7 @@ const frequencies = [
     features: ['Monthly deep clean', 'Flexible timing', 'Budget friendly'],
     price: 'From $150/visit',
     color: 'bg-orange-500',
-    popular: false
+    popular: false,
   },
   {
     type: CleaningFrequency.CUSTOM,
@@ -67,8 +71,8 @@ const frequencies = [
     features: ['Fully customizable', 'Flexible timing', 'Tailored service'],
     price: 'Custom pricing',
     color: 'bg-indigo-500',
-    popular: false
-  }
+    popular: false,
+  },
 ];
 
 export const FrequencySelectionStep: React.FC<FrequencySelectionStepProps> = ({
@@ -76,7 +80,7 @@ export const FrequencySelectionStep: React.FC<FrequencySelectionStepProps> = ({
   onBack,
   serviceType,
   errors,
-  isLoading = false
+  isLoading = false,
 }) => {
   const [selectedFrequency, setSelectedFrequency] = React.useState<CleaningFrequency | null>(null);
 
@@ -95,22 +99,22 @@ export const FrequencySelectionStep: React.FC<FrequencySelectionStepProps> = ({
       case ServiceType.HOME_CLEANING:
         return {
           title: 'How often do you need home cleaning?',
-          subtitle: 'Choose the frequency that works best for your household'
+          subtitle: 'Choose the frequency that works best for your household',
         };
       case ServiceType.OFFICE_CLEANING:
         return {
           title: 'What\'s your office cleaning schedule?',
-          subtitle: 'Select the frequency that matches your business needs'
+          subtitle: 'Select the frequency that matches your business needs',
         };
       case ServiceType.DEEP_CLEANING:
         return {
           title: 'When do you need deep cleaning?',
-          subtitle: 'Deep cleaning is typically a one-time or occasional service'
+          subtitle: 'Deep cleaning is typically a one-time or occasional service',
         };
       default:
         return {
           title: 'How often do you need cleaning?',
-          subtitle: 'Choose the frequency that works best for you'
+          subtitle: 'Choose the frequency that works best for you',
         };
     }
   };
@@ -197,7 +201,7 @@ export const FrequencySelectionStep: React.FC<FrequencySelectionStepProps> = ({
                         id={frequency.type}
                         className="mt-1 flex-shrink-0"
                         style={{
-                          accentColor: '#ffa000'
+                          accentColor: '#ffa000',
                         }}
                       />
                     </div>

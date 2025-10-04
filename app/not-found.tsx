@@ -1,12 +1,15 @@
 'use client';
 
+import Link from 'next/link';
+
+import { ArrowLeft, Home, Search } from 'lucide-react';
+
 import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
 import { UnifiedContainer } from '@/components/layout/UnifiedContainer';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowLeft, Home, Search } from 'lucide-react';
-import Link from 'next/link';
+
 
 export default function NotFound() {
   return (
