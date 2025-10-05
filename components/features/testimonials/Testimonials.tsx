@@ -64,13 +64,13 @@ const testimonials = [
 
 export function Testimonials() {
   return (
-    <section className='py-20 bg-white'>
+    <section className='py-20 bg-gradient-to-br from-orange-peel/10 to-orange-peel/20'>
       <UnifiedContainer size='xl' padding='lg'>
         <div className='text-center space-y-4 mb-16'>
-          <h2 className='heading-2'>What Our Customers Say</h2>
-          <p className='body-large text-oxford-blue-600 max-w-2xl mx-auto'>
-            Don&apos;t just take our word for it. Here&apos;s what our satisfied customers have to say about
-            their cleaning experiences.
+          <h2 className='heading-2 text-oxford-blue'>What Our Customers Say</h2>
+          <p className='body-large text-oxford-blue/80 max-w-2xl mx-auto'>
+            Don&apos;t just take our word for it. Here&apos;s what our satisfied customers have to
+            say about their cleaning experiences.
           </p>
         </div>
 
@@ -78,7 +78,7 @@ export function Testimonials() {
           {testimonials.map(testimonial => (
             <Card
               key={testimonial.id}
-              className='group hover:shadow-xl transition-all duration-300 border-2 border-transparent hover:border-orange-peel/20'
+              className='group hover:shadow-xl transition-all duration-300 bg-background/80 backdrop-blur-sm border-orange-peel/20 hover:border-orange-peel/40'
             >
               <CardContent className='p-6'>
                 <div className='flex items-center space-x-1 mb-4'>

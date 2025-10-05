@@ -28,8 +28,9 @@ export default [
       'coverage/**/*',
       '.turbo/**/*',
       'mcp-server/dist/**/*',
-      '**/*.d.ts'
-    ]
+      'scripts/**/*',
+      '**/*.d.ts',
+    ],
   },
   ...compat.extends('next/core-web-vitals', 'next/typescript'),
   {
@@ -44,7 +45,8 @@ export default [
       'out/**/*',
       'coverage/**/*',
       '.turbo/**/*',
-      'mcp-server/dist/**/*'
+      'mcp-server/dist/**/*',
+      'scripts/**/*',
     ],
     languageOptions: {
       parser: typescriptParser,
@@ -92,7 +94,6 @@ export default [
       'react/jsx-no-duplicate-props': 'error',
       'react/jsx-no-undef': 'error',
       'react/jsx-pascal-case': 'error',
-      'react/jsx-wrap-multilines': 'error',
       'react/no-array-index-key': 'warn',
       'react/no-danger': 'warn',
       'react/no-deprecated': 'error',
@@ -136,14 +137,7 @@ export default [
       'import/order': [
         'error',
         {
-          groups: [
-            'builtin',
-            'external',
-            'internal',
-            'parent',
-            'sibling',
-            'index',
-          ],
+          groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
           'newlines-between': 'always',
           alphabetize: {
             order: 'asc',
@@ -201,9 +195,9 @@ export default [
       'no-useless-concat': 'error',
       'no-useless-return': 'error',
       'prefer-promise-reject-errors': 'error',
-      'yoda': 'error',
-      'eqeqeq': ['error', 'always'],
-      'curly': ['error', 'all'],
+      yoda: 'error',
+      eqeqeq: ['error', 'always'],
+      curly: ['error', 'all'],
       'brace-style': ['error', '1tbs', { allowSingleLine: true }],
       'comma-dangle': ['error', 'always-multiline'],
       'comma-spacing': ['error', { before: false, after: true }],
@@ -213,7 +207,7 @@ export default [
       'key-spacing': ['error', { beforeColon: false, afterColon: true }],
       'keyword-spacing': ['error', { before: true, after: true }],
       'object-curly-spacing': ['error', 'always'],
-      'semi': ['error', 'always'],
+      semi: ['error', 'always'],
       'semi-spacing': ['error', { before: false, after: true }],
       'space-before-blocks': ['error', 'always'],
       'space-before-function-paren': [
@@ -230,8 +224,8 @@ export default [
       'spaced-comment': ['error', 'always'],
       'arrow-spacing': ['error', { before: true, after: true }],
       'block-spacing': ['error', 'always'],
-      'indent': ['error', 2, { SwitchCase: 1 }],
-      'linebreak-style': ['error', 'unix'],
+      indent: ['error', 2, { SwitchCase: 1 }],
+      'linebreak-style': 'off', // Disabled to allow both LF and CRLF for cross-platform compatibility
       'max-len': [
         'warn',
         {
@@ -243,7 +237,7 @@ export default [
           ignoreRegExpLiterals: true,
         },
       ],
-      'quotes': ['error', 'single', { avoidEscape: true }],
+      quotes: ['error', 'single', { avoidEscape: true }],
       'quote-props': ['error', 'as-needed'],
     },
     settings: {

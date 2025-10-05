@@ -10,7 +10,6 @@ import { UnifiedContainer } from '@/components/layout/UnifiedContainer';
 import { useAuth } from '@/components/providers/AuthProvider';
 import { Button } from '@/components/ui/button';
 
-
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user, signOut } = useAuth();
@@ -29,42 +28,51 @@ export function Header() {
             <div className='w-8 h-8 bg-orange-peel rounded-lg flex items-center justify-center'>
               <span className='text-black font-bold text-lg'>K</span>
             </div>
-            <span className='text-xl font-bold text-seasalt'>Kleaners</span>
+            <span
+              className='text-xl font-light text-orange-peel'
+              style={{ fontFamily: 'Raleway, Inter, system-ui, sans-serif' }}
+            >
+              Kleaners
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
           <nav className='hidden md:flex items-center space-x-8'>
-            <Link href='/services' className='nav-link'>
+            <Link
+              href='/services'
+              className='text-seasalt hover:text-orange-peel transition-colors font-medium'
+            >
               Services
             </Link>
-            <Link href='/how-it-works' className='nav-link'>
+            <Link
+              href='/how-it-works'
+              className='text-seasalt hover:text-orange-peel transition-colors font-medium'
+            >
               How it Works
             </Link>
-            <Link href='/about' className='nav-link'>
+            <Link
+              href='/about'
+              className='text-seasalt hover:text-orange-peel transition-colors font-medium'
+            >
               About
             </Link>
-            <Link href='/contact' className='nav-link'>
+            <Link
+              href='/contact'
+              className='text-seasalt hover:text-orange-peel transition-colors font-medium'
+            >
               Contact
             </Link>
           </nav>
 
           {/* Desktop Auth Buttons */}
           <div className='hidden md:flex items-center space-x-4'>
-            <Link href='/book'>
-              <Button
-                size='sm'
-                className='bg-orange-peel text-black hover:bg-orange-peel-600 mr-2'
-              >
-                Book Now
-              </Button>
-            </Link>
             {user ? (
               <div className='flex items-center space-x-4'>
                 <Link href='/dashboard'>
                   <Button
                     variant='outline'
                     size='sm'
-                    className='border-seasalt text-seasalt hover:bg-seasalt hover:text-oxford-blue'
+                    className='border-seasalt/40 text-seasalt hover:bg-seasalt hover:text-oxford-blue'
                   >
                     <User className='w-4 h-4 mr-2' />
                     Dashboard
@@ -87,13 +95,13 @@ export function Header() {
                     Sign In
                   </Button>
                 </Link>
-                <Link href='/auth/signup'>
-                  <Button size='sm' className='bg-orange-peel text-black hover:bg-orange-peel-600'>
-                    Get Started
-                  </Button>
-                </Link>
               </div>
             )}
+            <Link href='/book' className='ml-2'>
+              <Button size='sm' className='bg-orange-peel text-black hover:bg-orange-peel-600'>
+                Book Now
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -110,20 +118,32 @@ export function Header() {
         {isMenuOpen && (
           <div className='md:hidden py-4 border-t border-seasalt/20'>
             <nav className='flex flex-col space-y-4'>
-              <Link href='/services' className='nav-link py-2' onClick={() => setIsMenuOpen(false)}>
+              <Link
+                href='/services'
+                className='py-2 text-seasalt hover:text-orange-peel transition-colors font-medium'
+                onClick={() => setIsMenuOpen(false)}
+              >
                 Services
               </Link>
               <Link
                 href='/how-it-works'
-                className='nav-link py-2'
+                className='py-2 text-seasalt hover:text-orange-peel transition-colors font-medium'
                 onClick={() => setIsMenuOpen(false)}
               >
                 How it Works
               </Link>
-              <Link href='/about' className='nav-link py-2' onClick={() => setIsMenuOpen(false)}>
+              <Link
+                href='/about'
+                className='py-2 text-seasalt hover:text-orange-peel transition-colors font-medium'
+                onClick={() => setIsMenuOpen(false)}
+              >
                 About
               </Link>
-              <Link href='/contact' className='nav-link py-2' onClick={() => setIsMenuOpen(false)}>
+              <Link
+                href='/contact'
+                className='py-2 text-seasalt hover:text-orange-peel transition-colors font-medium'
+                onClick={() => setIsMenuOpen(false)}
+              >
                 Contact
               </Link>
 

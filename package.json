@@ -49,7 +49,10 @@
     "mcp:start": "cd mcp-server && npm start",
     "mcp:dev": "cd mcp-server && npm run dev",
     "quality:all": "npm run standards:validate && npm run test && npm run deps:audit && npm run unused && npm run knip",
-    "quality:ci": "npm run quality:all && npm run test:e2e"
+    "quality:ci": "npm run quality:all && npm run test:e2e",
+    "migrate:colors": "tsx scripts/color-migration/migrate-simple.ts",
+    "colors:validate": "tsx scripts/color-migration/contrast-validator.ts",
+    "colors:contrast": "tsx -e \"import('./scripts/color-migration/contrast-validator.js').then(m => console.log(m.generateContrastReport()))\""
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",
@@ -114,6 +117,7 @@
     "@testing-library/jest-dom": "^6.1.5",
     "@testing-library/react": "^14.1.2",
     "@testing-library/user-event": "^14.5.1",
+    "@types/glob": "^8.1.0",
     "@types/node": "^20.10.0",
     "@types/react": "^18.2.42",
     "@types/react-dom": "^18.2.17",
@@ -124,6 +128,7 @@
     "@vitest/ui": "^1.0.4",
     "audit-ci": "^7.0.1",
     "autoprefixer": "^10.4.16",
+    "culori": "^4.0.2",
     "depcheck": "^1.4.7",
     "dependency-cruiser": "^16.0.0",
     "dotenv": "^16.3.1",
@@ -145,6 +150,7 @@
     "prettier": "^3.1.0",
     "syncpack": "^12.0.0",
     "tailwindcss": "^3.3.6",
+    "tsx": "^4.20.6",
     "typescript": "^5.3.3",
     "unimported": "^1.0.0",
     "vite": "^5.0.8",
