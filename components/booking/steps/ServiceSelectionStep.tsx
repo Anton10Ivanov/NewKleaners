@@ -198,7 +198,7 @@ export const ServiceSelectionStep: React.FC<ServiceSelectionStepProps> = ({
                   s.border,
                   isSelected
                     ? 'ring-2 ring-primary border-primary shadow-lg'
-                    : 'hover:ring-1 hover:ring-primary/30'
+                    : 'hover:ring-1 hover:ring-primary/30',
                 )}
                 onClick={() => handleServiceSelect(service.type)}
                 role='button'
@@ -229,7 +229,7 @@ export const ServiceSelectionStep: React.FC<ServiceSelectionStepProps> = ({
                         className={cn(
                           'w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center',
                           s.dotBg,
-                          'text-primary-foreground/95'
+                          'text-primary-foreground/95',
                         )}
                       >
                         <IconComponent className='w-5 h-5 sm:w-6 sm:h-6 text-primary-foreground' />
@@ -269,7 +269,7 @@ export const ServiceSelectionStep: React.FC<ServiceSelectionStepProps> = ({
                           'flex items-center text-xs sm:text-sm',
                           featureIndex === 0
                             ? 'font-semibold text-foreground'
-                            : 'text-muted-foreground'
+                            : 'text-muted-foreground',
                         )}
                       >
                         <div
