@@ -97,11 +97,6 @@ export function Header() {
                 </Link>
               </div>
             )}
-            <Link href='/book' className='ml-2'>
-              <Button size='sm' className='bg-orange-peel text-black hover:bg-orange-peel-600'>
-                Book Now
-              </Button>
-            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -148,13 +143,6 @@ export function Header() {
               </Link>
 
               <div className='pt-4 border-t border-seasalt/20'>
-                <Link
-                  href='/book'
-                  className='nav-link py-2 font-semibold text-orange-peel'
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Book Now
-                </Link>
                 {user ? (
                   <div className='flex flex-col space-y-2'>
                     <Link

@@ -146,14 +146,6 @@ export function Footer() {
                 </li>
                 <li>
                   <Link
-                    href='/providers'
-                    className='text-seasalt/80 hover:text-orange-peel transition-colors'
-                  >
-                    Become a Provider
-                  </Link>
-                </li>
-                <li>
-                  <Link
                     href='/careers'
                     className='text-seasalt/80 hover:text-orange-peel transition-colors'
                   >
