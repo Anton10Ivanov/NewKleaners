@@ -71,6 +71,16 @@
 - Use `breakout` prop for hero sections
 - Use `center` prop for centered content
 
+## Icon System Rules
+- Use Lucide React as the primary icon library
+- Import specific icons: `import { Home, CheckCircle } from 'lucide-react'`
+- Never use emoji icons or string-based icons
+- Apply consistent sizing: `w-4 h-4` (default), `w-6 h-6` (large)
+- Use semantic colors: `text-primary`, `text-muted-foreground`
+- Include accessibility labels: `aria-label` and `role="img"`
+- Group related icon imports together
+- Use tree-shaking optimized imports only
+
 ## Code Quality Rules
 - Single responsibility principle for components
 - Proper error handling with try-catch

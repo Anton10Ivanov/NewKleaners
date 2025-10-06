@@ -228,7 +228,7 @@ export const MainBookingFlow: React.FC<MainBookingFlowProps> = ({
       // Check authentication before proceeding to payment
       if (!user) {
         const returnUrl = encodeURIComponent(window.location.pathname + window.location.search);
-        router.push(`/login?returnUrl=${returnUrl}`);
+        router.push(`/auth/signin?returnUrl=${returnUrl}`);
         return;
       }
 

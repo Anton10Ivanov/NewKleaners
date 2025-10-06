@@ -4,12 +4,13 @@ import Link from 'next/link';
 
 import { UnifiedContainer } from '@/components/layout/UnifiedContainer';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+
+import { LogoBar } from './LogoBar';
 
 export function Hero() {
   return (
     <section
-      className='relative min-h-[70vh] md:min-h-[80vh] flex items-center oveflow-hidden'
+      className='relative min-h-[70vh] md:min-h-[80vh] flex items-center overflow-hidden'
       style={{
         backgroundImage: 'url(/images/livingroom.webp)',
         backgroundSize: 'cover',
@@ -18,71 +19,68 @@ export function Hero() {
       }}
       aria-labelledby='hero-heading'
     >
-      <UnifiedContainer size='2xl' padding='lg' className='relative z-5'>
-        <div className='text-left space-y-10'>
+      {/* Overlay for better text readability */}
+      <div className='absolute inset-0 bg-gradient-to-r from-black/40 via-black/20 to-transparent z-0' />
+      <UnifiedContainer size='2xl' padding='lg' className='relative z-10'>
+        <div className='text-left space-y-8 max-w-4xl'>
           {/* Main Headline */}
-          <div className='space-y-4'>
-            <h1 id='hero-heading' className='heading-responsive text-oxford-blue-400'>
+          <div className='space-y-6'>
+            <h1
+              id='hero-heading'
+              className='text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-white drop-shadow-lg'
+            >
               Professional Cleaning Services in Frankfurt
               <span
-                className='block text-orange-peel drop-shadow-lg'
-                style={{ textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3)' }}
+                className='block text-orange-400 mt-2'
+                style={{ textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)' }}
               >
                 Transparent pricing
               </span>
             </h1>
+            <p className='text-lg md:text-xl text-white/90 max-w-2xl leading-relaxed'>
+              Experience premium cleaning services with guaranteed satisfaction. Our certified
+              professionals deliver exceptional results every time.
+            </p>
           </div>
 
           {/* CTA Button */}
-          <div className='flex justify-center md:justify-end' role='group' aria-label='Main action'>
+          <div
+            className='flex flex-col sm:flex-row gap-4 items-start sm:items-center'
+            role='group'
+            aria-label='Main action'
+          >
             <Link href='/book'>
               <Button
                 size='lg'
-                className='bg-oxford-blue-500 hover:bg-blue-500 hover:text-white text-orange-400 px-8 py-4 text-xl border-secondary-foreground'
+                className='bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105'
                 aria-describedby='hero-description'
               >
-                Discover Services
+                Book Now - Get Instant Quote
+              </Button>
+            </Link>
+            <Link href='/services'>
+              <Button
+                variant='outline'
+                size='lg'
+                className='bg-white/10 hover:bg-white/20 text-white border-white/30 px-8 py-4 text-lg font-semibold backdrop-blur-sm'
+              >
+                View Services
               </Button>
             </Link>
           </div>
 
-          {/* Trust Indicators (service-oriented) */}
-          <div className='grid grid-cols-2 sm:grid-cols-4 gap-4 mt-12'>
-            <Card
-              variant='elevated'
-              className='text-center p-4 bg-background/90 backdrop-blur-sm border border-primary/20'
-            >
-              <CardContent className='p-0'>
-                <div className='text-s text-black/90'>Liability Insurance</div>
-                <div className='text-lg font-bold text-black'> ✅ </div>
-              </CardContent>
-            </Card>
-            <Card
-              variant='elevated'
-              className='text-center p-4 bg-background/90 backdrop-blur-sm border border-primary/20'
-            >
-              <CardContent className='p-0'>
-                <div className='text-s text-black/90'>Background Checked Professionals</div>
-                <div className='text-lg font-bold text-black'> ✅ </div>
-              </CardContent>
-            </Card>
-            <Card
-              variant='elevated'
-              className='text-center p-4 bg-background/90 backdrop-blur-sm border border-primary/20'
-            >
-              <CardContent className='p-0'>
-                <div className='text-s text-black/90'>Payment after service</div>
-                <div className='text-lg font-bold text-black'> ✅ </div>
-              </CardContent>
-            </Card>
-            <Card
-              variant='subtle'
-              className='text-center p-4 bg-background/90 backdrop-blur-sm border border-primary/20'
-            >
-              <CardContent className='p-0'>
-                <div className='text-s text-black/90'>Satisfaction Guaranteed</div>
-              </CardContent>
-            </Card>
+          {/* Trust Section */}
+          <div className='mt-12'>
+            <div className='text-center mb-8'>
+              <p className='text-sm text-white/90 font-medium tracking-wide uppercase mb-3'>
+                Trusted & Certified
+              </p>
+              <div className='w-20 h-0.5 bg-gradient-to-r from-transparent via-orange-400 to-transparent mx-auto' />
+            </div>
+
+            <div className='flex justify-center items-center'>
+              <LogoBar />
+            </div>
           </div>
         </div>
       </UnifiedContainer>

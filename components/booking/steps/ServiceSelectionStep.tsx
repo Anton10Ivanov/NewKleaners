@@ -243,12 +243,6 @@ export const ServiceSelectionStep: React.FC<ServiceSelectionStepProps> = ({
                         </p>
                       </div>
                     </div>
-                    <div className='text-right bg-background/80 border rounded-full px-3 py-1'>
-                      <div className={cn('leading-none font-bold text-lg', s.accentText)}>
-                        ${service.startingFrom}
-                      </div>
-                      <div className='text-[10px] text-muted-foreground -mt-0.5'>starting at</div>
-                    </div>
                   </div>
                 </div>
 
@@ -292,20 +286,6 @@ export const ServiceSelectionStep: React.FC<ServiceSelectionStepProps> = ({
                       <CreditCard className='w-3.5 h-3.5 mr-1' /> Secure payment
                     </span>
                   </div>
-
-                  <Button
-                    className='w-full h-11 sm:h-12 text-sm font-medium'
-                    variant={
-                      isSelected
-                        ? 'default'
-                        : priorityServices.includes(service.type)
-                          ? 'default'
-                          : 'outline'
-                    }
-                    disabled={isLoading}
-                  >
-                    {isLoading ? 'Selecting...' : isSelected ? 'Selected' : 'Choose Service'}
-                  </Button>
                 </CardContent>
               </Card>
             </motion.div>

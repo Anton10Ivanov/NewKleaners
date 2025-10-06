@@ -73,8 +73,7 @@ export function ServicesOverview() {
         <div className='text-center space-y-4 mb-16'>
           <h2 className='heading-2'>Our Cleaning Services</h2>
           <p className='body-large text-muted-foreground max-w-2xl mx-auto'>
-            Choose from our comprehensive range of professional cleaning services tailored to meet
-            your specific needs.
+            Choose your cleaning service and receive your personalized quote immediately.
           </p>
         </div>
 

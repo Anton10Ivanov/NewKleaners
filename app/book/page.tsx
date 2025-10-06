@@ -1,11 +1,15 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { Suspense } from 'react';
+
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import { MainBookingFlow } from '@/MainBookingFlow';
 
-export default function BookingPage() {
+function BookingContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const preselectedService = searchParams.get('service');
 
   const handleBookingComplete = (bookingId: string) => {
     console.log('Booking completed:', bookingId);
@@ -20,13 +24,28 @@ export default function BookingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="container mx-auto px-4 py-8">
+    <div className='min-h-screen bg-background'>
+      <div className='container mx-auto px-4 py-8'>
         <MainBookingFlow
+          preselectedService={preselectedService as any}
           onComplete={handleBookingComplete}
           onCancel={handleBookingCancel}
         />
       </div>
     </div>
+  );
+}
+
+export default function BookingPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className='min-h-screen bg-background flex items-center justify-center'>
+          Loading...
+        </div>
+      }
+    >
+      <BookingContent />
+    </Suspense>
   );
 }
