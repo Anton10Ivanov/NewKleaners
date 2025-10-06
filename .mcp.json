@@ -1,18 +1,22 @@
 {
   "mcpServers": {
+    "supabase": {
+      "url": "https://mcp.supabase.com/mcp?project_ref=cvjjiqqwibukrqnyylex&features=docs%2Caccount%2Cdatabase%2Cdebugging%2Cdevelopment%2Cfunctions%2Cbranching%2Cstorage",
+      "headers": {}
+    },
     "shadcn": {
       "command": "node",
-      "args": ["./mcp-server/shadcn-mcp-server.js"],
+      "args": ["./mcp-server/dist/shadcn-mcp-server.js"],
       "env": {
         "NODE_ENV": "production"
       }
     },
-    "shadcn-dev": {
-      "command": "npx",
-      "args": ["tsx", "./mcp-server/shadcn-mcp-server.ts"],
-      "env": {
-        "NODE_ENV": "development"
-      }
+    "figma": {
+      "command": "bun",
+      "args": [
+        "C:\\Users\\Anton\\AppData\\Roaming\\npm\\node_modules\\figma-mcp-server\\mcpServer.js"
+      ],
+      "cwd": "C:\\Users\\Anton\\Desktop\\NewKleanersProject\\NewKleaners"
     }
   }
 }

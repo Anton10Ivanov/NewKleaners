@@ -9,7 +9,7 @@ import { Card, CardContent } from '@/components/ui/card';
 export function Hero() {
   return (
     <section
-      className='relative min-h-[70vh] md:min-h-[80vh] flex items-center overflow-hidden bg-red-500'
+      className='relative min-h-[70vh] md:min-h-[80vh] flex items-center oveflow-hidden'
       style={{
         backgroundImage: 'url(/images/livingroom.webp)',
         backgroundSize: 'cover',
@@ -18,20 +18,17 @@ export function Hero() {
       }}
       aria-labelledby='hero-heading'
     >
-      {/* Gradient Background */}
-      <div className='absolute inset-0 z-0 bg-gradient-to-br from-orange-peel/5 via-background/10 to-orange-peel/5' />
-
-      <UnifiedContainer size='xl' padding='lg' className='relative z-10'>
-        <div className='text-left space-y-8'>
+      <UnifiedContainer size='2xl' padding='lg' className='relative z-5'>
+        <div className='text-left space-y-10'>
           {/* Main Headline */}
           <div className='space-y-4'>
-            <h1 id='hero-heading' className='heading-responsive text-oxford-blue'>
-              Feeling Overwhelmed by Mess?
+            <h1 id='hero-heading' className='heading-responsive text-oxford-blue-400'>
+              Professional Cleaning Services in Frankfurt
               <span
                 className='block text-orange-peel drop-shadow-lg'
                 style={{ textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3)' }}
               >
-                Reliable cleaning, Transparent pricing.
+                Transparent pricing
               </span>
             </h1>
           </div>
@@ -41,10 +38,10 @@ export function Hero() {
             <Link href='/book'>
               <Button
                 size='lg'
-                className='bg-oxford-blue hover:bg-oxford-blue-600 text-seasalt px-8 py-4 text-lg'
+                className='bg-oxford-blue-500 hover:bg-blue-500 hover:text-white text-orange-400 px-8 py-4 text-xl border-secondary-foreground'
                 aria-describedby='hero-description'
               >
-                Explore Services
+                Discover Services
               </Button>
             </Link>
           </div>
@@ -56,8 +53,8 @@ export function Hero() {
               className='text-center p-4 bg-background/90 backdrop-blur-sm border border-primary/20'
             >
               <CardContent className='p-0'>
-                <div className='text-lg font-bold text-oxford-blue'>✓</div>
-                <div className='text-xs text-oxford-blue/90'>Fully Insured</div>
+                <div className='text-s text-black/90'>Liability Insurance</div>
+                <div className='text-lg font-bold text-black'> ✅ </div>
               </CardContent>
             </Card>
             <Card
@@ -65,8 +62,8 @@ export function Hero() {
               className='text-center p-4 bg-background/90 backdrop-blur-sm border border-primary/20'
             >
               <CardContent className='p-0'>
-                <div className='text-lg font-bold text-oxford-blue'>✓</div>
-                <div className='text-xs text-oxford-blue/90'>Background Checked</div>
+                <div className='text-s text-black/90'>Background Checked Professionals</div>
+                <div className='text-lg font-bold text-black'> ✅ </div>
               </CardContent>
             </Card>
             <Card
@@ -74,17 +71,16 @@ export function Hero() {
               className='text-center p-4 bg-background/90 backdrop-blur-sm border border-primary/20'
             >
               <CardContent className='p-0'>
-                <div className='text-lg font-bold text-oxford-blue'>✓</div>
-                <div className='text-xs text-oxford-blue/90'>Eco-Friendly</div>
+                <div className='text-s text-black/90'>Payment after service</div>
+                <div className='text-lg font-bold text-black'> ✅ </div>
               </CardContent>
             </Card>
             <Card
-              variant='elevated'
+              variant='subtle'
               className='text-center p-4 bg-background/90 backdrop-blur-sm border border-primary/20'
             >
               <CardContent className='p-0'>
-                <div className='text-lg font-bold text-oxford-blue'>✓</div>
-                <div className='text-xs text-oxford-blue/90'>Satisfaction Guaranteed</div>
+                <div className='text-s text-black/90'>Satisfaction Guaranteed</div>
               </CardContent>
             </Card>
           </div>

@@ -1,4 +1,4 @@
-import { CTA } from '@/components/features/cta/CTA';
+import { CTA as CallToAction } from '@/components/features/cta/CTA';
 import { Hero } from '@/components/features/hero/Hero';
 import { HowItWorks } from '@/components/features/how-it-works/HowItWorks';
 import { ServicesOverview } from '@/components/features/services/ServicesOverview';
@@ -20,7 +20,7 @@ export default function HomePage() {
         <Separator className='my-12 md:my-16' />
         <Testimonials />
         <Separator className='my-12 md:my-16' />
-        <CTA />
+        <CallToAction />
       </main>
       <Footer />
     </div>
