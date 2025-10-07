@@ -151,9 +151,16 @@ kleaners/
 
 ### Typography
 
-- **Font Family**: Inter (Google Fonts)
+- **Font Family**: Inter (Google Fonts) via `next/font`
+- **Loading**: `import { Inter } from 'next/font/google'` with
+  `subsets: ['latin']`
+- **Application**: `inter.className` applied to `<body>` in `app/layout.tsx`
+- **Tailwind Usage**: `font-sans` maps to Inter with fallbacks
+- **Weights**: 300, 400, 500, 600, 700 (avoid 800+ except display)
 - **Hierarchy**: H1-H6 with semantic sizing
 - **Responsive**: Fluid typography with clamp()
+- **Fallbacks**:
+  `system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif`
 
 ### Component System
 
@@ -306,7 +313,8 @@ contributing to the project.
 
 ### MCP Server
 
-This project includes a custom Model Context Protocol (MCP) server for shadcn/ui component management. The MCP server allows AI assistants to:
+This project includes a custom Model Context Protocol (MCP) server for shadcn/ui
+component management. The MCP server allows AI assistants to:
 
 - Browse and search shadcn/ui components
 - Install/remove components
@@ -315,6 +323,7 @@ This project includes a custom Model Context Protocol (MCP) server for shadcn/ui
 - Initialize shadcn/ui in the project
 
 **Usage:**
+
 ```bash
 # Development mode
 npm run mcp:dev
@@ -327,6 +336,7 @@ npm run mcp:start
 ```
 
 **Configuration files:**
+
 - `.mcp.json` - General MCP configuration
 - `.cursor/mcp.json` - Cursor IDE specific configuration
 
@@ -347,6 +357,5 @@ This project is proprietary software. All rights reserved.
 
 ---
 
-**Last Updated**: December 2024
-**Version**: 1.1.0
-**Status**: Active Development
+**Last Updated**: December 2024 **Version**: 1.1.0 **Status**: Active
+Development

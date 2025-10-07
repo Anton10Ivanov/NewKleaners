@@ -2201,11 +2201,11 @@ Conflicts: ${analysis.conflicts.join(', ') || 'None'}`,
 Total Estimated Size: ${totalSize}KB
 
 ${Object.entries(analysis)
-  .map(
-    ([name, data]) =>
-      `**${name}**: ${data.estimatedSize}KB${data.treeShakeable !== null ? ` (Tree-shakeable: ${data.treeShakeable})` : ''}`,
-  )
-  .join('\n')}`,
+    .map(
+      ([name, data]) =>
+        `**${name}**: ${data.estimatedSize}KB${data.treeShakeable !== null ? ` (Tree-shakeable: ${data.treeShakeable})` : ''}`,
+    )
+    .join('\n')}`,
         },
       ],
     };
@@ -2514,8 +2514,8 @@ import { cn } from '@/lib/utils';
 const ${name}Variants = cva(
   'base-classes',
   ${
-    hasVariants
-      ? `{
+  hasVariants
+    ? `{
     variants: {
       variant: {
         default: 'default-variant-classes',
@@ -2534,8 +2534,8 @@ const ${name}Variants = cva(
       size: 'default',
     },
   }`
-      : '{}'
-  }
+    : '{}'
+}
 );
 
 export interface ${name}Props
@@ -2577,13 +2577,13 @@ describe('${name}', () => {
   });
 
   ${
-    includeAccessibility
-      ? `it('meets accessibility requirements', () => {
+  includeAccessibility
+    ? `it('meets accessibility requirements', () => {
     render(<${name} />);
     // Add accessibility tests here
   });`
-      : ''
-  }
+    : ''
+}
 });`;
   }
 

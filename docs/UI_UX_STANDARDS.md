@@ -494,10 +494,29 @@ module.exports = {
 
 ### Font Family
 
-- **Primary**: Inter (Google Fonts)
-- **Fallback**: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-  sans-serif
-- **Monospace**: "Fira Code", "JetBrains Mono", monospace
+- Primary: Inter
+- Fallback: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif
+- Monospace: "Fira Code", "JetBrains Mono", monospace
+- Weights: 300, 400, 500, 600, 700 (avoid 800+ except display)
+- Features (optional): stylistic sets `ss01`, contextual alternates, and
+  case-sensitive forms
+
+### Usage
+
+- Root: load Inter via `next/font` and apply `inter.className` on `<body>`
+- Tailwind: ensure `font-sans` maps to Inter via `theme.extend.fontFamily.sans`
+- Headings: 600–700 weight; Body: 400–500; Captions: 400
+- Line-height: 1.2 for headings, 1.6 for body
+
+```css
+/* Example utilities */
+.heading-1 {
+  @apply font-sans text-4xl font-bold leading-tight;
+}
+.body-regular {
+  @apply font-sans text-base leading-relaxed;
+}
+```
 
 ### Type Scale
 
@@ -730,7 +749,7 @@ const buttonVariants = cva(
       variant: 'default',
       size: 'default',
     },
-  }
+  },
 );
 ```
 
@@ -760,7 +779,7 @@ const cardVariants = cva(
       variant: 'default',
       padding: 'md',
     },
-  }
+  },
 );
 ```
 
@@ -769,12 +788,12 @@ const cardVariants = cva(
 ```typescript
 // Input Field
 const inputVariants = cva(
-  'flex h-10 w-full rounded-md border border-seasalt-300 bg-white px-3 py-2 text-sm text-oxford-blue ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-oxford-blue-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-peel focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50'
+  'flex h-10 w-full rounded-md border border-seasalt-300 bg-white px-3 py-2 text-sm text-oxford-blue ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-oxford-blue-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-peel focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
 );
 
 // Label
 const labelVariants = cva(
-  'text-sm font-medium text-oxford-blue leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
+  'text-sm font-medium text-oxford-blue leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70',
 );
 
 // Error Message
@@ -895,7 +914,7 @@ const focusableElements = [
 // Focus Trap for Modals
 const trapFocus = (element: HTMLElement) => {
   const focusableElements = element.querySelectorAll(
-    focusableElements.join(',')
+    focusableElements.join(','),
   );
   const firstElement = focusableElements[0] as HTMLElement;
   const lastElement = focusableElements[

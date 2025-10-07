@@ -356,10 +356,10 @@ export const PaymentStep: React.FC<PaymentStepProps> = ({
                             -$
                             {discount.type === 'percentage'
                               ? Math.round(
-                                  ((bookingData.estimate?.breakdown.baseService || 0) *
+                                ((bookingData.estimate?.breakdown.baseService || 0) *
                                     discount.value) /
                                     100,
-                                )
+                              )
                               : discount.value}
                           </span>
                         </div>

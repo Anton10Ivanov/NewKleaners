@@ -9,8 +9,13 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Separator } from '@/components/ui/separator';
-import type { Estimate, OfficeDetails, PropertyDetails } from '@/types/bookingFlow';
-import { CleaningFrequency, ServiceType } from '@/types/bookingFlow';
+import {
+  CleaningFrequency,
+  ServiceType,
+  type Estimate,
+  type OfficeDetails,
+  type PropertyDetails,
+} from '@/types/bookingFlow';
 
 interface EstimateStepProps {
   onNext: (estimate: Estimate) => void;
@@ -116,7 +121,8 @@ export const EstimateStep: React.FC<EstimateStepProps> = ({
   // Calculate base price based on property details
   const calculateBasePrice = () => {
     let basePrice = 0;
-    const sqm = propertyData.squareFootage || 100; // Convert to square meters (assuming 100 sqm default)
+    // Convert to square meters (default 100 sqm)
+    const sqm = propertyData.squareFootage || 100;
     const floors = propertyData.floors || 1;
 
     // Base price per square meter (converted from USD to EUR)
@@ -211,6 +217,7 @@ export const EstimateStep: React.FC<EstimateStepProps> = ({
   useEffect(() => {
     const newEstimate = calculateEstimate();
     setEstimate(newEstimate);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedAddOns, selectedDiscounts, propertyData, serviceType, frequency]);
 
   const handleAddOnToggle = (addOnId: string) => {

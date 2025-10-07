@@ -1,267 +1,252 @@
 # Kleaners Project Structure
 
-**Generated:** December 19, 2024  
-**Project:** Kleaners - Professional Cleaning Services Platform  
-**Version:** 1.1.0
+**Generated:** October 7, 2025 **Project:** Kleaners - Professional Cleaning
+Services Platform **Version:** 1.1.0
 
 ## Root Directory Structure
 
 ```
-kleaners-950da1517f080802f2d42aded18b6b9ef80fe236/
-├── app/                                    # Next.js App Router pages
-│   ├── (auth)/                            # Authentication pages
-│   │   ├── login/
-│   │   ├── register/
-│   │   ├── reset-password/
-│   │   └── verify-provider/
-│   ├── (dashboard)/                       # Dashboard layouts
-│   │   ├── admin/
-│   │   ├── client/
-│   │   └── provider/
-│   ├── (public)/                          # Public pages
-│   │   ├── about/
-│   │   ├── contact/
-│   │   └── faq/
-│   ├── admin/                             # Admin-specific pages
-│   │   ├── adminpanel/
-│   │   ├── adminsettings/
-│   │   └── dashboard/
-│   ├── auth/                              # Auth pages (legacy)
-│   ├── booking/                           # Booking flow pages
-│   ├── client/                            # Client dashboard pages
-│   ├── provider/                          # Provider dashboard pages
-│   ├── services/                          # Service listing pages
-│   │   ├── homecleaning/
-│   │   └── officecleaning/
-│   ├── globals.css                        # Global styles
-│   ├── layout.tsx                         # Root layout
-│   ├── page.tsx                           # Home page
-│   └── not-found.tsx                      # 404 page
-├── components/                            # Reusable UI components
-│   ├── ui/                                # shadcn/ui base components
-│   │   ├── accordion.tsx
-│   │   ├── alert.tsx
-│   │   ├── alert-dialog.tsx
-│   │   ├── avatar.tsx
-│   │   ├── badge.tsx
-│   │   ├── button.tsx
-│   │   ├── calendar.tsx
-│   │   ├── card.tsx
-│   │   ├── checkbox.tsx
-│   │   ├── dialog.tsx
-│   │   ├── dropdown-menu.tsx
-│   │   ├── form.tsx
-│   │   ├── input.tsx
-│   │   ├── label.tsx
-│   │   ├── radio-group.tsx
-│   │   ├── scroll-area.tsx
-│   │   ├── select.tsx
-│   │   ├── separator.tsx
-│   │   ├── sheet.tsx
-│   │   ├── slider.tsx
-│   │   ├── switch.tsx
-│   │   ├── tabs.tsx
-│   │   ├── textarea.tsx
-│   │   └── toaster.tsx
-│   ├── admin/                             # Admin-specific components
-│   │   ├── AdminHeader.tsx
-│   │   ├── AdminQuickActions.tsx
-│   │   ├── AdminTabs.tsx
-│   │   ├── AdminForm.tsx
-│   │   └── Dashboard.tsx
-│   ├── booking/                           # Booking components
-│   ├── forms/                             # Form components
-│   ├── layout/                            # Layout components
-│   │   ├── Header.tsx
+NewKleaners/
+├── app/                                   # Next.js App Router pages
+│   ├── about/
+│   │   └── page.tsx
+│   ├── auth/
+│   │   ├── signin/
+│   │   │   └── page.tsx
+│   │   └── signup/
+│   │       └── page.tsx
+│   ├── book/
+│   │   └── page.tsx
+│   ├── booking/
+│   │   └── confirmation/
+│   │       └── page.tsx
+│   ├── contact/
+│   │   └── page.tsx
+│   ├── dashboard/
+│   │   └── page.tsx
+│   ├── how-it-works/
+│   │   └── page.tsx
+│   ├── privacy/
+│   │   └── page.tsx
+│   ├── providers/
+│   │   └── page.tsx
+│   ├── services/                           # Service listing pages
+│   │   ├── commercial/
+│   │   │   └── page.tsx
+│   │   ├── outdoor/
+│   │   │   └── page.tsx
+│   │   ├── residential/
+│   │   │   └── page.tsx
+│   │   ├── specialized/
+│   │   │   └── page.tsx
+│   │   ├── DeepCleaning.tsx
+│   │   ├── HomeCleaning.tsx
+│   │   ├── MoveInOut.tsx
+│   │   └── OfficeCleaning.tsx
+│   ├── globals.css
+│   ├── layout.tsx
+│   ├── not-found.tsx
+│   └── page.tsx
+├── components/                             # Reusable UI components
+│   ├── booking/
+│   │   ├── BookingFlowExample.tsx
+│   │   └── steps/
+│   │       ├── EstimateStep.tsx
+│   │       ├── FrequencySelectionStep.tsx
+│   │       ├── PackageSelectionStep.tsx
+│   │       ├── PaymentStep.tsx
+│   │       ├── PropertyDetailsStep.tsx
+│   │       ├── SchedulingStep.tsx
+│   │       └── ServiceSelectionStep.tsx
+│   ├── features/
+│   │   ├── cta/CTA.tsx
+│   │   ├── hero/
+│   │   │   ├── Hero.tsx
+│   │   │   └── LogoBar.tsx
+│   │   ├── how-it-works/HowItWorks.tsx
+│   │   └── services/
+│   │       ├── ServiceCategoryCard.tsx
+│   │       └── ServicesOverview.tsx
+│   ├── layout/
 │   │   ├── Footer.tsx
-│   │   ├── Navbar.tsx
+│   │   ├── Header.tsx
 │   │   └── UnifiedContainer.tsx
-│   ├── navbar/                            # Navigation components
-│   ├── payments/                          # Payment components
-│   ├── seo/                               # SEO components
-│   │   └── GlobalSEO.tsx
-│   └── features/                          # Feature-specific components
-├── docs/                                  # Documentation
-│   ├── architecture/
-│   │   └── architecture.md
-│   ├── rules/
-│   │   └── code-quality.md
-│   ├── standards/
-│   │   └── shadcn-implementation-guide.md
-│   ├── CURSOR_BRANCH_README.md
-│   ├── database-migration-guide.md
-│   ├── development-workflow.md
-│   ├── deployment.md
-│   ├── faq.md
-│   ├── PRD.md
-│   └── README.md
-├── hooks/                                 # Custom React hooks
-│   ├── useBookingSubmission.ts
-│   ├── useEnhancedBookingSubmission.ts
-│   ├── use-media-query.ts
-│   └── useAuth.ts
-├── lib/                                   # Utility functions and configurations
-│   ├── utils.ts
-│   ├── auth.ts
-│   └── validations.ts
-├── schemas/                               # Zod validation schemas
-│   └── booking.ts
-├── types/                                 # TypeScript type definitions
-│   ├── auth.ts
-│   ├── booking.ts
+│   ├── providers/
+│   │   ├── AuthProvider.tsx
+│   │   └── Providers.tsx
+│   └── ui/                                 # shadcn/ui base components
+│       ├── alert.tsx
+│       ├── avatar.tsx
+│       ├── badge.tsx
+│       ├── button.tsx
+│       ├── card.tsx
+│       ├── checkbox.tsx
+│       ├── dialog.tsx
+│       ├── input.tsx
+│       ├── label.tsx
+│       ├── popover.tsx
+│       ├── progress.tsx
+│       ├── radio-group.tsx
+│       ├── scroll-area.tsx
+│       ├── select.tsx
+│       ├── separator.tsx
+│       ├── sheet.tsx
+│       ├── skeleton.tsx
+│       ├── sonner.tsx
+│       ├── switch.tsx
+│       ├── tabs.tsx
+│       ├── textarea.tsx
+│       ├── toast.tsx
+│       ├── toaster.tsx
+│       └── tooltip.tsx
+├── docs/                                    # Documentation
+│   ├── application-structure.md
+│   ├── architecture.md
+│   ├── color-system.md
+│   ├── component-architecture.md
+│   ├── container-system.md
+│   ├── description.md
+│   ├── design-principles.md
+│   ├── DEVELOPMENT.md
+│   ├── icon-system-standards.md
+│   ├── MIGRATION_SUMMARY.md
+│   ├── overview.md
+│   ├── performance-guidelines.md
+│   ├── QUALITY_MONITORING.md
+│   ├── security-architecture.md
+│   ├── shadcn-implementation-guide.md
+│   ├── state-management.md
+│   ├── technology-stack.md
+│   ├── typography.md
+│   └── UI_UX_STANDARDS.md
+├── hooks/
+│   └── use-toast.ts
+├── lib/
+│   ├── colors.ts
 │   ├── supabase.ts
-│   └── index.ts
-├── utils/                                 # Helper functions
-│   ├── errors/
-│   ├── scripts/
-│   └── index.ts
-├── services/                              # Business logic services
-│   ├── auth.ts
-│   ├── booking.ts
-│   └── payment.ts
-├── store/                                 # State management (Zustand)
-│   ├── authStore.ts
-│   ├── bookingStore.ts
-│   └── uiStore.ts
-├── contexts/                              # React contexts
-│   └── AuthContext.tsx
-├── integrations/                          # External service integrations
-│   ├── supabase/
-│   │   ├── client.ts
-│   │   ├── server.ts
-│   │   └── types.ts
-│   └── stripe/
-│       ├── client.ts
-│       └── server.ts
-├── scripts/                               # Build and utility scripts
-│   ├── analyze-bundle.js
-│   ├── analyze-dependencies.js
-│   ├── audit-shadcn-components.js
-│   ├── enforce-ui-ux-standards.js
-│   ├── fix-shadcn-syntax-errors.js
-│   ├── implement-seo-standards.js
-│   ├── implement-shadcn-components.js
-│   ├── next.config.js
-│   ├── performance-monitor.js
-│   ├── tailwind.config.js
-│   └── validate-standards-compliance.js
-├── public/                                # Static assets
-│   ├── Images/
-│   │   └── Logo.png
-│   ├── icons/
-│   ├── manifest.json
-│   ├── robots.txt
-│   └── sitemap.xml
-├── .cursor/                               # Cursor IDE configuration
-│   └── rules/
-│       └── PRD.md
-├── .next/                                 # Next.js build output (generated)
-├── node_modules/                          # Dependencies (generated)
-├── .env.local                             # Environment variables (local)
-├── .env.example                           # Environment variables template
-├── .gitignore                             # Git ignore rules
-├── .eslintrc.json                         # ESLint configuration
-├── .prettierrc                            # Prettier configuration
-├── components.json                        # shadcn/ui configuration
-├── next.config.js                         # Next.js configuration
-├── package.json                           # Project dependencies and scripts
-├── package-lock.json                      # Dependency lock file
-├── postcss.config.js                      # PostCSS configuration
-├── tailwind.config.js                     # Tailwind CSS configuration
-├── tsconfig.json                          # TypeScript configuration
-├── bundle-analysis-report.json            # Bundle analysis report
-├── standards-compliance-report.json       # Standards compliance report
-├── fix_database_structure.sql             # Database migration script
-└── README.md                              # Project documentation
+│   └── utils.ts
+├── mcp-server/                              # MCP server (dev tooling)
+│   ├── dist/
+│   ├── node_modules/
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── README.md
+│   ├── shadcn-mcp-server.ts
+│   └── tsconfig.json
+├── public/
+│   └── images/
+│       ├── AL-logo.webp
+│       ├── HWK-logo.webp
+│       ├── livingroom.webp
+│       ├── maps.webp
+│       ├── pixabay-commercial.webp
+│       ├── pixabay-industrial.webp
+│       ├── pixabay-outdoor.webp
+│       └── pixabay-residential.webp
+├── scripts/
+│   ├── build/
+│   ├── color-migration/
+│   │   ├── contrast-validator.ts
+│   │   ├── migrate-simple.ts
+│   │   ├── migrate.ts
+│   │   ├── simple-migrate.ts
+│   │   └── utils.ts
+│   ├── config-manager.js
+│   ├── dev/
+│   │   ├── setup-dev.js
+│   │   └── start-dev.js
+│   └── quality/
+│       ├── cleanup-unused.js
+│       └── quality-check.js
+├── tests/
+│   ├── e2e/
+│   ├── mocks/
+│   │   ├── handlers.ts
+│   │   └── server.ts
+│   ├── example.test.ts
+│   └── setup.ts
+├── types/
+│   ├── bookingFlow.ts
+│   ├── culori.d.ts
+│   ├── index.ts
+│   └── supabase.ts
+├── COLOR_MIGRATION_SUMMARY.md
+├── CONTRAST_IMPROVEMENTS.md
+├── MCP_SERVER_EXPANSION_SUMMARY.md
+├── MainBookingFlow.tsx
+├── components.json
+├── config/
+│   ├── audit-ci.json
+│   ├── index.js
+│   ├── knip.json
+│   ├── lighthouserc.js
+│   ├── playwright.config.ts
+│   ├── renovate.json
+│   └── vitest.config.ts
+├── env.example
+├── eslint.config.js
+├── next-env.d.ts
+├── next.config.js
+├── package-lock.json
+├── package.json
+├── postcss.config.js
+├── tailwind.config.ts
+├── tsconfig.json
+└── tsconfig.tsbuildinfo
 ```
 
 ## Key Directories Explained
 
 ### `/app` - Next.js App Router
 
-- **Purpose**: Contains all pages and layouts using Next.js 15 App Router
-- **Structure**: Route groups `(auth)`, `(dashboard)`, `(public)` for
-  organization
-- **Key Files**: `layout.tsx`, `page.tsx`, `globals.css`
+- **Purpose**: All pages and layouts using Next.js App Router
+- **Key Files**: `layout.tsx`, `page.tsx`, `globals.css`, route folders under
+  `services/`
 
 ### `/components` - UI Components
 
-- **Purpose**: Reusable React components organized by feature
+- **Purpose**: Reusable components organized by feature
 - **Structure**:
-  - `ui/` - shadcn/ui base components (76 components)
-  - `admin/` - Admin-specific components
-  - `layout/` - Layout and container components
-  - `features/` - Feature-specific components
+  - `ui/` - shadcn/ui base components
+  - `layout/` - Layout primitives including `UnifiedContainer`
+  - `features/` - Feature-specific UIs (hero, services, etc.)
+  - `booking/` - Multi-step booking flow components
 
 ### `/docs` - Documentation
 
-- **Purpose**: Comprehensive project documentation
-- **Key Files**:
-  - `PRD.md` - Product Requirements Document
-  - `README.md` - Main project documentation
-  - `architecture/` - Technical architecture guides
-
-### `/hooks` - Custom React Hooks
-
-- **Purpose**: Reusable React hooks for state and side effects
-- **Key Files**: `useBookingSubmission.ts`, `useAuth.ts`
+- **Purpose**: Project documentation (architecture, standards, guides)
+- **Note**: Backup/duplicate docs removed to avoid redundancy
 
 ### `/lib` - Utilities
 
-- **Purpose**: Shared utility functions and configurations
-- **Key Files**: `utils.ts`, `auth.ts`, `validations.ts`
+- **Purpose**: Shared utilities and client configs
+- **Key Files**: `utils.ts`, `supabase.ts`, `colors.ts`
+
+### `/scripts` - Tooling
+
+- **Purpose**: Development, quality, and migration scripts
 
 ### `/types` - TypeScript Definitions
 
-- **Purpose**: TypeScript type definitions and interfaces
-- **Key Files**: `supabase.ts`, `booking.ts`, `auth.ts`
-
-### `/scripts` - Build Scripts
-
-- **Purpose**: Custom build, analysis, and utility scripts
-- **Key Files**:
-  - `validate-standards-compliance.js`
-  - `audit-shadcn-components.js`
-  - `implement-shadcn-components.js`
-
-## File Count Summary
-
-- **Total Components**: 76 shadcn/ui components installed
-- **Active Components**: 36 components in use
-- **Unused Components**: 40 components available but not used
-- **Pages**: 20+ pages across different route groups
-- **Documentation Files**: 15+ comprehensive documentation files
-- **Scripts**: 10+ custom build and analysis scripts
+- **Purpose**: Centralized types and interfaces
 
 ## Technology Stack
 
-- **Framework**: Next.js 15.5.3 with App Router
-- **Language**: TypeScript 5.3.3
-- **Styling**: Tailwind CSS 3.3.6
-- **UI Library**: shadcn/ui with Radix UI primitives
-- **Backend**: Supabase (PostgreSQL, Auth, Real-time, Storage)
-- **Payments**: Stripe 13.11.0
-- **State Management**: Zustand 4.4.7, TanStack React Query 5.14.2
-- **Forms**: React Hook Form 7.48.2 with Zod 3.22.4
-- **Animations**: Framer Motion 10.16.16
+- **Framework**: Next.js 15 with App Router
+- **Language**: TypeScript (strict)
+- **Styling**: Tailwind CSS + shadcn/ui
+- **Backend**: Supabase (PostgreSQL, Auth, Storage)
+- **Payments**: Stripe
+- **State**: Zustand, React Query
+- **Forms**: React Hook Form + Zod
 
-## Project Status
+## Status
 
 - **Version**: 1.1.0
-- **Status**: Production-ready with minor optimizations needed
-- **Compliance Score**: 78% (Good - Some Issues to Address)
-- **Bundle Size**: 2.1MB total, 650KB gzipped
-- **Performance**: Good Core Web Vitals scores
-
-## Next Steps
-
-1. Fix remaining build and TypeScript errors
-2. Remove unused shadcn components (~200KB savings)
-3. Add missing metadata to service pages
-4. Implement component lazy loading
-5. Deploy to production environment
+- **Status**: Active development
+- **Notes**: Documentation aligned with current repository layout
 
 ---
 
-_This structure represents the current state of the Kleaners platform as of
-December 19, 2024._
+_This structure reflects the current state of the Kleaners platform as of
+October 2025._

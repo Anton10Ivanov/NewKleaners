@@ -4,76 +4,103 @@ import Link from 'next/link';
 
 import {
   ArrowRight,
-  Building2,
   CheckCircle,
   Clock,
-  Hammer,
   Home,
   Shield,
-  Sparkles,
+  Square,
   Star,
-  Truck,
+  Wind,
+  Wrench,
 } from 'lucide-react';
 
-import { ServiceCategoryCard } from '@/components/features/services/ServiceCategoryCard';
 import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
 import { UnifiedContainer } from '@/components/layout/UnifiedContainer';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { ServiceType } from '@/types/bookingFlow';
 
 const services = [
   {
-    type: ServiceType.HOME_CLEANING,
-    title: 'Home Cleaning',
-    description: 'Regular or one-time residential cleaning services',
-    icon: Home,
-    features: ['Deep cleaning', 'Regular maintenance', 'Move-in/out cleaning'],
+    id: 'window-cleaning',
+    title: 'Window Cleaning',
+    description: 'Professional window and glass cleaning services',
+    icon: Square,
+    features: ['Interior & exterior windows', 'Frame cleaning', 'Streak-free results'],
     popular: true,
     color: 'bg-blue-500',
-    price: 'Starting at $89',
+    price: 'Starting at €59',
   },
   {
-    type: ServiceType.OFFICE_CLEANING,
-    title: 'Office Cleaning',
-    description: 'Professional commercial cleaning for businesses',
-    icon: Building2,
-    features: ['Daily maintenance', 'Deep office cleaning', 'Specialized equipment'],
+    id: 'carpet-cleaning',
+    title: 'Carpet Cleaning',
+    description: 'Deep carpet cleaning for residential properties',
+    icon: Wind,
+    features: ['Deep stain removal', 'Pet odor elimination', 'Eco-friendly products'],
     popular: false,
     color: 'bg-green-500',
-    price: 'Starting at $149',
+    price: 'Starting at €89',
   },
   {
-    type: ServiceType.DEEP_CLEANING,
-    title: 'Deep Cleaning',
-    description: 'Intensive cleaning for special occasions',
-    icon: Sparkles,
-    features: ['Detailed cleaning', 'Hard-to-reach areas', 'Sanitization'],
+    id: 'upholstery-cleaning',
+    title: 'Upholstery Cleaning',
+    description: 'Professional furniture and upholstery cleaning',
+    icon: Home,
+    features: ['Sofa cleaning', 'Chair cleaning', 'Fabric protection'],
     popular: false,
     color: 'bg-purple-500',
-    price: 'Starting at $199',
+    price: 'Starting at €79',
   },
   {
-    type: ServiceType.MOVE_IN_OUT,
-    title: 'Move In/Out',
-    description: 'Cleaning services for moving transitions',
-    icon: Truck,
-    features: ['Pre-move cleaning', 'Post-move cleaning', 'Full property cleaning'],
+    id: 'stairwell-cleaning',
+    title: 'Stairwell Cleaning',
+    description: 'Professional stairwell and common area cleaning',
+    icon: ArrowRight,
+    features: ['Step cleaning', 'Handrail sanitization', 'Wall maintenance'],
     popular: false,
-    color: 'bg-orange-500',
-    price: 'Starting at $179',
+    color: 'bg-indigo-500',
+    price: 'Starting at €129',
   },
   {
-    type: ServiceType.POST_CONSTRUCTION,
-    title: 'Post-Construction',
-    description: 'Specialized cleaning after construction work',
-    icon: Hammer,
-    features: ['Construction debris removal', 'Dust elimination', 'Final cleanup'],
+    id: 'mold-removal',
+    title: 'Mold Removal',
+    description: 'Professional mold remediation and prevention',
+    icon: Wrench,
+    features: ['Mold detection', 'Safe removal', 'Prevention treatment'],
     popular: false,
     color: 'bg-red-500',
-    price: 'Starting at $249',
+    price: 'Starting at €199',
+  },
+  {
+    id: 'hoarder-cleaning',
+    title: 'Hoarder Cleaning',
+    description: 'Compassionate hoarding cleanup services',
+    icon: Shield,
+    features: ['Sensitive approach', 'Complete cleanup', 'Disposal services'],
+    popular: false,
+    color: 'bg-gray-500',
+    price: 'Starting at €299',
+  },
+  {
+    id: 'holiday-apartment-cleaning',
+    title: 'Holiday Apartment Cleaning',
+    description: 'Turnover cleaning for vacation rentals',
+    icon: Clock,
+    features: ['Quick turnaround', 'Guest-ready standards', 'Flexible scheduling'],
+    popular: false,
+    color: 'bg-yellow-500',
+    price: 'Starting at €129',
+  },
+  {
+    id: 'household-clearance',
+    title: 'Household Clearance',
+    description: 'Complete household clearance and disposal',
+    icon: ArrowRight,
+    features: ['Item sorting', 'Responsible disposal', 'Donation coordination'],
+    popular: false,
+    color: 'bg-indigo-500',
+    price: 'Starting at €179',
   },
 ];
 
@@ -100,87 +127,33 @@ const features = [
   },
 ];
 
-export default function ServicesPage() {
+export default function ResidentialServicesPage() {
   return (
     <div className='min-h-screen bg-background'>
       <Header />
       <main>
-        {/* Service Categories Section */}
-        <section className='py-20 bg-seasalt-100'>
+        {/* Hero Section */}
+        <section className='bg-gradient-to-br from-seasalt via-seasalt-50 to-orange-peel-50 py-20'>
           <UnifiedContainer size='xl' padding='lg'>
-            <div className='text-center mb-16'>
-              <h2 className='text-3xl md:text-4xl font-bold text-oxford-blue mb-4'>
-                Explore Our Service Categories
-              </h2>
-              <p className='text-xl text-oxford-blue-600 max-w-2xl mx-auto'>
-                Find the right cleaning service for your space
+            <div className='text-center space-y-6'>
+              <h1 className='text-4xl md:text-5xl font-bold text-oxford-blue'>
+                Residential Cleaning Services
+              </h1>
+              <p className='text-xl text-oxford-blue-600 max-w-3xl mx-auto'>
+                Professional cleaning services designed specifically for your home and family needs
               </p>
-            </div>
-            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'>
-              <ServiceCategoryCard
-                title='Commercial'
-                href='/services/commercial'
-                icon={Building2}
-                labels={['Industrial', 'Medical', 'Kindergarten', 'Garage', 'Stairwell']}
-                imageSrc='/images/pixabay-commercial.webp'
-                imageAlt='Commercial cleaning services'
-                description='For businesses, institutions, and commercial facilities'
-                trustSignals={[
-                  'Certified professionals',
-                  'Flexible scheduling',
-                  'Eco-friendly products',
-                ]}
-              />
-              <ServiceCategoryCard
-                title='Residential'
-                href='/services/residential'
-                icon={Home}
-                labels={['Window', 'Carpet', 'Upholstery', 'Holiday Apt']}
-                imageSrc='/images/pixabay-residential.webp'
-                imageAlt='Residential cleaning services'
-                description='For homes, apartments, and residential properties'
-                trustSignals={['Insured & bonded', 'Pet-safe products', 'Same-day service']}
-              />
-              <ServiceCategoryCard
-                title='Specialized'
-                href='/services/specialized'
-                icon={Sparkles}
-                labels={['Construction', 'Disinfection', 'Facade', 'Graffiti', 'Ventilation']}
-                imageSrc='/images/pixabay-industrial.webp'
-                imageAlt='Specialized and industrial cleaning services'
-                description='Advanced cleaning solutions for unique challenges'
-                trustSignals={['Specialized equipment', 'Safety certified', '24/7 emergency']}
-              />
-              <ServiceCategoryCard
-                title='Outdoor'
-                href='/services/outdoor'
-                icon={Star}
-                labels={['Gardening', 'Pool', 'Roof', 'Sidewalk', 'Vehicle']}
-                imageSrc='/images/pixabay-outdoor.webp'
-                imageAlt='Outdoor cleaning services'
-                description='Exterior cleaning and maintenance services'
-                trustSignals={['Weather-resistant', 'Seasonal packages', 'Equipment included']}
-              />
             </div>
           </UnifiedContainer>
         </section>
 
-        {/* Core Services with Online Estimation */}
-        <section className='py-20 bg-gradient-to-br from-oxford-blue/5 via-seasalt to-blue-green/10'>
+        {/* Services Grid */}
+        <section className='py-20'>
           <UnifiedContainer size='xl' padding='lg'>
-            <div className='text-center mb-10'>
-              <h2 className='text-3xl md:text-4xl font-bold text-oxford-blue mb-4'>
-                Available online pricing and booking
-              </h2>
-              <p className='text-lg text-oxford-blue-600'>
-                Get instant estimates and book directly online for our most popular services
-              </p>
-            </div>
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
-              {services.map(service => {
+              {services.map((service, index) => {
                 const IconComponent = service.icon;
                 return (
-                  <Link key={service.type} href={`/book?service=${service.type}`}>
+                  <Link key={service.id} href={`/book?service=${service.id}`}>
                     <Card className='relative hover:shadow-lg transition-shadow cursor-pointer'>
                       {service.popular && (
                         <Badge className='absolute -top-2 -right-2 bg-orange-peel text-black'>
@@ -198,8 +171,11 @@ export default function ServicesPage() {
                       </CardHeader>
                       <CardContent>
                         <ul className='space-y-2'>
-                          {service.features.map(feature => (
-                            <li key={feature} className='flex items-center text-sm text-gray-600'>
+                          {service.features.map((feature, featureIndex) => (
+                            <li
+                              key={featureIndex}
+                              className='flex items-center text-sm text-gray-600'
+                            >
                               <CheckCircle className='w-4 h-4 text-green-500 mr-2 flex-shrink-0' />
                               {feature}
                             </li>
@@ -222,7 +198,7 @@ export default function ServicesPage() {
                 Why Choose Kleaners?
               </h2>
               <p className='text-xl text-oxford-blue-600 max-w-2xl mx-auto'>
-                We&apos;re committed to providing the highest quality cleaning services
+                We're committed to providing the highest quality residential cleaning services
               </p>
             </div>
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'>
@@ -250,7 +226,7 @@ export default function ServicesPage() {
                 Ready to Get Started?
               </h2>
               <p className='text-xl text-oxford-blue-600 max-w-2xl mx-auto'>
-                Book your cleaning service today and experience the difference
+                Book your residential cleaning service today and experience the difference
               </p>
               <div className='flex flex-col sm:flex-row gap-4 justify-center'>
                 <Link href='/book'>

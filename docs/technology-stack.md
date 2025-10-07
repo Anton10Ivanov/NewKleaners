@@ -22,6 +22,20 @@ Next.js 15
 
 ## Styling & UI
 
+### Fonts
+
+- Primary: Inter (Google Fonts) via `next/font`
+- Loading: `import { Inter } from 'next/font/google'` with `subsets: ['latin']`
+- Usage: Apply `inter.className` on `<body>` in `app/layout.tsx`
+- Tailwind mapping:
+  `theme.extend.fontFamily.sans = ['Inter','system-ui','sans-serif']`
+- Weights used: 300, 400, 500, 600, 700; styles: normal
+- Features: `font-feature-settings: 'cv02','cv03','cv04','cv11','ss01'`
+  (optional)
+- Fallbacks:
+  `system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif`
+- Accessibility: prefer 1.5 line-height for body, use `clamp()` for fluid sizes
+
 ### Tailwind CSS
 
 - **Version**: 3.3.6

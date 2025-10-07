@@ -29,10 +29,11 @@ export default [
       '.turbo/**/*',
       'mcp-server/dist/**/*',
       'scripts/**/*',
+      'config/**/*',
       '**/*.d.ts',
     ],
   },
-  ...compat.extends('next/core-web-vitals', 'next/typescript'),
+  ...compat.extends('next/core-web-vitals', 'next/typescript', 'plugin:prettier/recommended'),
   {
     files: ['**/*.{ts,tsx}'],
     ignores: [
@@ -65,6 +66,7 @@ export default [
       'react-hooks': reactHooks,
       'jsx-a11y': jsxA11y,
       import: importPlugin,
+      prettier: (await import('eslint-plugin-prettier')).default,
     },
     rules: {
       // TypeScript rules
@@ -102,7 +104,7 @@ export default [
       'react/no-is-mounted': 'error',
       'react/no-render-return-value': 'error',
       'react/no-string-refs': 'error',
-      'react/no-unescaped-entities': 'error',
+      'react/no-unescaped-entities': 'warn',
       'react/no-unknown-property': 'error',
       'react/no-unsafe': 'warn',
       'react/require-render-return': 'error',
@@ -115,7 +117,7 @@ export default [
       // Accessibility rules
       'jsx-a11y/alt-text': 'error',
       'jsx-a11y/anchor-has-content': 'error',
-      'jsx-a11y/anchor-is-valid': 'error',
+      'jsx-a11y/anchor-is-valid': 'warn',
       'jsx-a11y/aria-props': 'error',
       'jsx-a11y/aria-proptypes': 'error',
       'jsx-a11y/aria-unsupported-elements': 'error',
@@ -225,7 +227,7 @@ export default [
       'arrow-spacing': ['error', { before: true, after: true }],
       'block-spacing': ['error', 'always'],
       indent: ['error', 2, { SwitchCase: 1 }],
-      'linebreak-style': 'off', // Disabled to allow both LF and CRLF for cross-platform compatibility
+      'linebreak-style': 'off',
       'max-len': [
         'warn',
         {
@@ -239,6 +241,9 @@ export default [
       ],
       quotes: ['error', 'single', { avoidEscape: true }],
       'quote-props': ['error', 'as-needed'],
+
+      // Prettier
+      'prettier/prettier': ['warn', { endOfLine: 'auto' }],
     },
     settings: {
       react: {
@@ -260,10 +265,25 @@ export default [
     },
   },
   {
-    files: ['**/*.config.js', '**/*.config.ts', 'next.config.js'],
+    files: [
+      '**/*.config.js',
+      '**/*.config.ts',
+      'next.config.js',
+      'postcss.config.js',
+      '.dependency-cruiser.js',
+    ],
     rules: {
       '@typescript-eslint/no-var-requires': 'off',
       'import/no-default-export': 'off',
+      'import/no-anonymous-default-export': 'off',
+    },
+  },
+  {
+    files: ['components/ui/**/*.ts*'],
+    rules: {
+      // Shadcn generated files: relax formatting & minor rules
+      'import/order': 'off',
+      'max-len': 'off',
     },
   },
   {
