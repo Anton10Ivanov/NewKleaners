@@ -16,8 +16,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
-
-
 export default function SignInPage() {
   const { signIn } = useAuth();
   const router = useRouter();
@@ -49,79 +47,78 @@ export default function SignInPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className='min-h-screen bg-background'>
       <Header />
-      <main className="flex items-center justify-center min-h-[80vh] py-12">
-        <UnifiedContainer size="sm" padding="lg">
-          <Card className="w-full max-w-md mx-auto">
-            <CardHeader className="text-center">
-              <CardTitle className="text-2xl font-bold text-oxford-blue">
-                Welcome Back
-              </CardTitle>
-              <CardDescription>
-                Sign in to your account to continue
-              </CardDescription>
+      <main className='flex items-center justify-center min-h-[80vh] py-12'>
+        <UnifiedContainer size='sm' padding='lg'>
+          <Card className='w-full max-w-md mx-auto'>
+            <CardHeader className='text-center'>
+              <CardTitle className='heading-3 text-oxford-blue'>Welcome Back</CardTitle>
+              <CardDescription>Sign in to your account to continue</CardDescription>
             </CardHeader>
             <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={handleSubmit} className='space-y-6'>
                 {error && (
-                  <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-                    <p className="text-sm text-red-700">{error}</p>
+                  <div className='bg-red-50 border border-red-200 rounded-lg p-4'>
+                    <p className='body-small text-red-700'>{error}</p>
                   </div>
                 )}
 
-                <div className="space-y-4">
+                <div className='space-y-4'>
                   <div>
-                    <Label htmlFor="email">Email</Label>
-                    <div className="relative">
-                      <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                    <Label htmlFor='email'>Email</Label>
+                    <div className='relative'>
+                      <Mail className='absolute left-3 top-3 h-4 w-4 text-gray-400' />
                       <Input
-                        id="email"
-                        name="email"
-                        type="email"
+                        id='email'
+                        name='email'
+                        type='email'
                         value={formData.email}
                         onChange={handleInputChange}
                         required
-                        placeholder="Enter your email"
-                        className="pl-10"
+                        placeholder='Enter your email'
+                        className='pl-10'
                       />
                     </div>
                   </div>
 
                   <div>
-                    <Label htmlFor="password">Password</Label>
-                    <div className="relative">
-                      <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                    <Label htmlFor='password'>Password</Label>
+                    <div className='relative'>
+                      <Lock className='absolute left-3 top-3 h-4 w-4 text-gray-400' />
                       <Input
-                        id="password"
-                        name="password"
-                        type="password"
+                        id='password'
+                        name='password'
+                        type='password'
                         value={formData.password}
                         onChange={handleInputChange}
                         required
-                        placeholder="Enter your password"
-                        className="pl-10"
+                        placeholder='Enter your password'
+                        className='pl-10'
                       />
                     </div>
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between">
-                  <Link href="/auth/forgot-password" className="text-sm text-orange-peel hover:underline">
+                <div className='flex items-center justify-between'>
+                  <Link
+                    href='/auth/forgot-password'
+                    className='body-small text-orange-peel hover:underline'
+                  >
                     Forgot password?
                   </Link>
                 </div>
 
-                <Button type="submit" className="w-full" disabled={isLoading}>
+                <Button type='submit' className='w-full' disabled={isLoading}>
                   {isLoading ? 'Signing in...' : 'Sign In'}
-                  <ArrowRight className="w-4 h-4 ml-2" />
+                  <ArrowRight className='w-4 h-4 ml-2' />
                 </Button>
               </form>
 
-              <div className="mt-6 text-center">
-                <p className="text-sm text-gray-600">
+              <div className='mt-6 text-center'>
+                <p className='body-small text-gray-600'>
                   Don't have an account?{' '}
-                  <Link href="/auth/signup" className="text-orange-peel hover:underline">
+                  <Link href='/auth/signup' className='text-orange-peel hover:underline'>
                     Sign up
                   </Link>
                 </p>

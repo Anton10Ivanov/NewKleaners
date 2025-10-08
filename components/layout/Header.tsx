@@ -26,10 +26,10 @@ export function Header() {
           {/* Logo */}
           <Link href='/' className='flex items-center space-x-2'>
             <div className='w-8 h-8 bg-orange-peel rounded-lg flex items-center justify-center'>
-              <span className='text-black font-bold text-lg'>K</span>
+              <span className='text-black font-bold heading-5'>K</span>
             </div>
             <span
-              className='text-xl font-light text-orange-peel'
+              className='heading-4 font-light text-orange-peel'
               style={{ fontFamily: 'Raleway, Inter, system-ui, sans-serif' }}
             >
               Kleaners

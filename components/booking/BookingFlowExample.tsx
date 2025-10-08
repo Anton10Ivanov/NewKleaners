@@ -5,7 +5,6 @@ import React from 'react';
 import { MainBookingFlow } from '@/MainBookingFlow';
 import { ServiceType } from '@/types/bookingFlow';
 
-
 export const BookingFlowExample: React.FC = () => {
   const handleBookingComplete = (bookingId: string) => {
     console.log('Booking completed:', bookingId);
@@ -20,7 +19,7 @@ export const BookingFlowExample: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className='min-h-screen'>
       <MainBookingFlow
         preselectedService={ServiceType.HOME_CLEANING} // Optional: pre-select a service
         onComplete={handleBookingComplete}
@@ -33,10 +32,10 @@ export const BookingFlowExample: React.FC = () => {
 // Example with different service types
 export const OfficeBookingFlowExample: React.FC = () => {
   return (
-    <div className="min-h-screen">
+    <div className='min-h-screen'>
       <MainBookingFlow
         preselectedService={ServiceType.OFFICE_CLEANING}
-        onComplete={(bookingId) => {
+        onComplete={bookingId => {
           console.log('Office booking completed:', bookingId);
         }}
         onCancel={() => {
@@ -50,9 +49,9 @@ export const OfficeBookingFlowExample: React.FC = () => {
 // Example without preselected service (user chooses from all options)
 export const FullBookingFlowExample: React.FC = () => {
   return (
-    <div className="min-h-screen">
+    <div className='min-h-screen'>
       <MainBookingFlow
-        onComplete={(bookingId) => {
+        onComplete={bookingId => {
           console.log('Booking completed:', bookingId);
         }}
         onCancel={() => {

@@ -89,20 +89,20 @@ export function Testimonials() {
 
                 <div className='relative mb-6'>
                   <Quote className='w-8 h-8 text-orange-peel/20 absolute -top-2 -left-2' />
-                  <p className='text-oxford-blue-700 text-sm leading-relaxed italic'>
+                  <p className='body-small text-oxford-blue-700 leading-relaxed italic'>
                     &ldquo;{testimonial.text}&rdquo;
                   </p>
                 </div>
 
                 <div className='flex items-center space-x-3'>
                   <div className='w-10 h-10 bg-orange-peel/10 rounded-full flex items-center justify-center'>
-                    <span className='text-sm font-semibold text-orange-peel'>
+                    <span className='body-small font-semibold text-orange-peel'>
                       {testimonial.avatar}
                     </span>
                   </div>
                   <div>
-                    <div className='font-semibold text-oxford-blue text-sm'>{testimonial.name}</div>
-                    <div className='text-xs text-oxford-blue-600'>
+                    <div className='label text-oxford-blue'>{testimonial.name}</div>
+                    <div className='caption text-oxford-blue-600'>
                       {testimonial.location} • {testimonial.service}
                     </div>
                   </div>
@@ -120,10 +120,10 @@ export function Testimonials() {
                   <Star key={i} className='w-5 h-5 fill-orange-peel text-orange-peel' />
                 ))}
               </div>
-              <span className='text-lg font-bold text-oxford-blue'>4.8/5</span>
+              <span className='heading-4 text-oxford-blue'>4.8/5</span>
             </div>
             <div className='w-px h-6 bg-oxford-blue/20' />
-            <div className='text-sm text-oxford-blue-600'>
+            <div className='body-small text-oxford-blue-600'>
               Based on <span className='font-semibold text-orange-peel'>1,200+</span> reviews
             </div>
           </div>

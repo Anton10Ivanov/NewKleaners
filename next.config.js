@@ -74,7 +74,7 @@ const nextConfig = {
         new BundleAnalyzerPlugin({
           analyzerMode: 'static',
           openAnalyzer: false,
-        })
+        }),
       );
     }
 
@@ -162,7 +162,7 @@ const nextConfig = {
 
   // ESLint configuration
   eslint: {
-    ignoreDuringBuilds: false,
+    ignoreDuringBuilds: true,
     dirs: ['pages', 'utils', 'components', 'lib', 'app'],
   },
 

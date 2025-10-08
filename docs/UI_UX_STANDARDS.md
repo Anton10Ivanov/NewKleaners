@@ -567,16 +567,69 @@ module.exports = {
 }
 ```
 
-### Typography Hierarchy
+### Semantic Typography System
 
-1. **Page Title**: `heading-1` - Main page headings
-2. **Section Title**: `heading-2` - Major section headers
-3. **Card Title**: `heading-3` - Component titles
-4. **Subsection**: `heading-4` - Subsection headers
-5. **Form Label**: `heading-5` - Form field labels
-6. **Body Text**: `body-regular` - Default text content
-7. **Small Text**: `body-small` - Supporting information
-8. **Caption**: `caption` - Image captions, metadata
+We use semantic typography classes instead of hardcoded Tailwind text sizes for
+better maintainability and consistency.
+
+#### Heading Classes
+
+- **`.heading-responsive`**: `text-3xl md:text-4xl lg:text-5xl` - Main page
+  titles and hero headings
+- **`.heading-1`**: `text-3xl md:text-4xl lg:text-5xl` - Large statistics and
+  numbers
+- **`.heading-2`**: `text-3xl md:text-4xl` - Section headings
+- **`.heading-3`**: `text-2xl` - Card titles and subsection headings
+- **`.heading-4`**: `text-xl` - Feature titles and small headings
+- **`.heading-5`**: `text-lg` - Form section headings
+- **`.heading-6`**: `text-base` - Smallest headings
+
+#### Body Text Classes
+
+- **`.body-large`**: `text-xl` - Hero descriptions and important text
+- **`.body-regular`**: `text-base` - Default body text
+- **`.body-small`**: `text-sm` - Secondary text and descriptions
+- **`.body-xs`**: `text-xs` - Fine print and metadata
+
+#### Utility Classes
+
+- **`.caption`**: `text-xs` - Image captions and small labels
+- **`.label`**: `text-sm font-medium` - Form labels
+- **`.overline`**: `text-xs font-semibold uppercase tracking-wider` - Category
+  labels and tags
+
+### Typography Implementation
+
+All components have been refactored to use semantic typography classes:
+
+```tsx
+// ✅ Correct - Semantic classes
+<h1 className="heading-responsive text-oxford-blue">
+  About Kleaners
+</h1>
+<p className="body-large text-oxford-blue-600">
+  Your trusted partner for professional cleaning services
+</p>
+
+// ❌ Avoid - Hardcoded sizes
+<h1 className="text-4xl md:text-5xl font-bold text-oxford-blue">
+  About Kleaners
+</h1>
+<p className="text-xl text-oxford-blue-600">
+  Your trusted partner for professional cleaning services
+</p>
+```
+
+### Typography Guidelines
+
+1. **Always use semantic classes** instead of hardcoded Tailwind text sizes
+2. **Maintain heading hierarchy** - don't skip heading levels
+3. **Use appropriate body text sizes** for content hierarchy
+4. **Combine with semantic colors** for better maintainability
+5. **Test responsiveness** on different screen sizes
+
+For detailed implementation information, see
+[Typography Implementation Guide](./typography-implementation.md).
 
 ---
 

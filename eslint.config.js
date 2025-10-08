@@ -27,13 +27,13 @@ export default [
       'out/**/*',
       'coverage/**/*',
       '.turbo/**/*',
-      'mcp-server/dist/**/*',
+      'mcp-server/**/*',
       'scripts/**/*',
       'config/**/*',
       '**/*.d.ts',
     ],
   },
-  ...compat.extends('next/core-web-vitals', 'next/typescript', 'plugin:prettier/recommended'),
+  ...compat.extends('next/core-web-vitals', 'next/typescript'),
   {
     files: ['**/*.{ts,tsx}'],
     ignores: [
@@ -146,21 +146,9 @@ export default [
             caseInsensitive: true,
           },
           pathGroups: [
-            {
-              pattern: 'react',
-              group: 'builtin',
-              position: 'before',
-            },
-            {
-              pattern: 'next/**',
-              group: 'builtin',
-              position: 'before',
-            },
-            {
-              pattern: '@/**',
-              group: 'internal',
-              position: 'before',
-            },
+            { pattern: 'react', group: 'builtin', position: 'before' },
+            { pattern: 'next/**', group: 'builtin', position: 'before' },
+            { pattern: '@/**', group: 'internal', position: 'before' },
           ],
           pathGroupsExcludedImportTypes: ['react', 'next'],
         },
@@ -214,11 +202,7 @@ export default [
       'space-before-blocks': ['error', 'always'],
       'space-before-function-paren': [
         'error',
-        {
-          anonymous: 'always',
-          named: 'never',
-          asyncArrow: 'always',
-        },
+        { anonymous: 'always', named: 'never', asyncArrow: 'always' },
       ],
       'space-in-parens': ['error', 'never'],
       'space-infix-ops': 'error',
@@ -242,19 +226,12 @@ export default [
       quotes: ['error', 'single', { avoidEscape: true }],
       'quote-props': ['error', 'as-needed'],
 
-      // Prettier
+      // Prettier for TS/TSX only
       'prettier/prettier': ['warn', { endOfLine: 'auto' }],
     },
     settings: {
-      react: {
-        version: 'detect',
-      },
-      'import/resolver': {
-        typescript: {
-          alwaysTryTypes: true,
-          project: './tsconfig.json',
-        },
-      },
+      react: { version: 'detect' },
+      'import/resolver': { typescript: { alwaysTryTypes: true, project: './tsconfig.json' } },
     },
   },
   {
@@ -262,6 +239,7 @@ export default [
     rules: {
       '@typescript-eslint/no-var-requires': 'off',
       '@typescript-eslint/explicit-function-return-type': 'off',
+      'prettier/prettier': 'off',
     },
   },
   {
@@ -271,11 +249,13 @@ export default [
       'next.config.js',
       'postcss.config.js',
       '.dependency-cruiser.js',
+      'eslint.config.js',
     ],
     rules: {
       '@typescript-eslint/no-var-requires': 'off',
       'import/no-default-export': 'off',
       'import/no-anonymous-default-export': 'off',
+      'prettier/prettier': 'off',
     },
   },
   {
@@ -288,8 +268,6 @@ export default [
   },
   {
     files: ['app/**/*.tsx', 'pages/**/*.tsx'],
-    rules: {
-      'import/no-default-export': 'off',
-    },
+    rules: { 'import/no-default-export': 'off' },
   },
 ];

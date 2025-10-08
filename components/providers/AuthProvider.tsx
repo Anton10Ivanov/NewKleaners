@@ -87,7 +87,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       const { data, error } = await supabase.from('users').select('*').eq('id', userId).single();
 
-      if (error) { throw error; }
+      if (error) {
+        throw error;
+      }
       setUserProfile(data as UserProfile);
     } catch (error) {
       console.error('Error fetching user profile:', error);
@@ -96,7 +98,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signIn = async (email: string, password: string) => {
     if (!isSupabaseConfigured || !supabase) {
-      return { error: new Error('Supabase not configured. Please set up your environment variables.') };
+      return {
+        error: new Error('Supabase not configured. Please set up your environment variables.'),
+      };
     }
 
     const { error } = await supabase.auth.signInWithPassword({
@@ -108,7 +112,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signUp = async (email: string, password: string, fullName: string) => {
     if (!isSupabaseConfigured || !supabase) {
-      return { error: new Error('Supabase not configured. Please set up your environment variables.') };
+      return {
+        error: new Error('Supabase not configured. Please set up your environment variables.'),
+      };
     }
 
     const { error } = await supabase.auth.signUp({
@@ -133,10 +139,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const updateProfile = async (updates: Partial<UserProfile>) => {
     if (!isSupabaseConfigured || !supabase) {
-      return { error: new Error('Supabase not configured. Please set up your environment variables.') };
+      return {
+        error: new Error('Supabase not configured. Please set up your environment variables.'),
+      };
     }
 
-    if (!user) { return { error: new Error('No user logged in') }; }
+    if (!user) {
+      return { error: new Error('No user logged in') };
+    }
 
     const { error } = await supabase.from('users').update(updates).eq('id', user.id);
 

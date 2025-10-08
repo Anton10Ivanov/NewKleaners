@@ -2,20 +2,13 @@
 
 import Link from 'next/link';
 
-import {
-  ArrowRight,
-  Clock,
-  Shield,
-  Star,
-  Users,
-} from 'lucide-react';
+import { ArrowRight, Clock, Shield, Star, Users } from 'lucide-react';
 
 import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
 import { UnifiedContainer } from '@/components/layout/UnifiedContainer';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-
 
 const stats = [
   { number: '500+', label: 'Happy Customers' },
@@ -28,17 +21,20 @@ const values = [
   {
     icon: Shield,
     title: 'Reliability',
-    description: 'We show up on time, every time, with consistent quality service you can count on.',
+    description:
+      'We show up on time, every time, with consistent quality service you can count on.',
   },
   {
     icon: Star,
     title: 'Excellence',
-    description: 'We strive for perfection in every cleaning task, ensuring your complete satisfaction.',
+    description:
+      'We strive for perfection in every cleaning task, ensuring your complete satisfaction.',
   },
   {
     icon: Users,
     title: 'Trust',
-    description: 'Our vetted professionals are background-checked and fully insured for your peace of mind.',
+    description:
+      'Our vetted professionals are background-checked and fully insured for your peace of mind.',
   },
   {
     icon: Clock,
@@ -49,35 +45,30 @@ const values = [
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className='min-h-screen bg-background'>
       <Header />
       <main>
         {/* Hero Section */}
-        <section className="bg-gradient-to-br from-seasalt via-seasalt-50 to-orange-peel-50 py-20">
-          <UnifiedContainer size="xl" padding="lg">
-            <div className="text-center space-y-6">
-              <h1 className="text-4xl md:text-5xl font-bold text-oxford-blue">
-                About Kleaners
-              </h1>
-              <p className="text-xl text-oxford-blue-600 max-w-3xl mx-auto">
-                Your trusted partner for professional cleaning services in Frankfurt and surrounding areas
+        <section className='bg-gradient-to-br from-seasalt via-seasalt-50 to-orange-peel-50 py-20'>
+          <UnifiedContainer size='xl' padding='lg'>
+            <div className='text-center space-y-6'>
+              <h1 className='heading-responsive text-oxford-blue'>About Kleaners</h1>
+              <p className='body-large text-oxford-blue-600 max-w-3xl mx-auto'>
+                Your trusted partner for professional cleaning services in Frankfurt and surrounding
+                areas
               </p>
             </div>
           </UnifiedContainer>
         </section>
 
         {/* Stats Section */}
-        <section className="py-20">
-          <UnifiedContainer size="xl" padding="lg">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+        <section className='py-20'>
+          <UnifiedContainer size='xl' padding='lg'>
+            <div className='grid grid-cols-2 md:grid-cols-4 gap-8'>
               {stats.map((stat, index) => (
-                <div key={index} className="text-center">
-                  <div className="text-4xl font-bold text-orange-peel mb-2">
-                    {stat.number}
-                  </div>
-                  <div className="text-gray-600">
-                    {stat.label}
-                  </div>
+                <div key={index} className='text-center'>
+                  <div className='heading-1 text-orange-peel mb-2'>{stat.number}</div>
+                  <div className='text-gray-600'>{stat.label}</div>
                 </div>
               ))}
             </div>
@@ -85,36 +76,35 @@ export default function AboutPage() {
         </section>
 
         {/* Story Section */}
-        <section className="bg-gray-50 py-20">
-          <UnifiedContainer size="xl" padding="lg">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <section className='bg-gray-50 py-20'>
+          <UnifiedContainer size='xl' padding='lg'>
+            <div className='grid grid-cols-1 lg:grid-cols-2 gap-12 items-center'>
               <div>
-                <h2 className="text-3xl font-bold text-oxford-blue mb-6">
-                  Our Story
-                </h2>
-                <div className="space-y-4 text-gray-600">
+                <h2 className='heading-2 text-oxford-blue mb-6'>Our Story</h2>
+                <div className='space-y-4 text-gray-600'>
                   <p>
-                    Founded in 2020, Kleaners began with a simple mission: to make professional cleaning
-                    services accessible, reliable, and affordable for everyone in Frankfurt.
+                    Founded in 2020, Kleaners began with a simple mission: to make professional
+                    cleaning services accessible, reliable, and affordable for everyone in
+                    Frankfurt.
                   </p>
                   <p>
-                    What started as a small team of dedicated cleaners has grown into a trusted platform
-                    connecting customers with verified, professional cleaning services across the region.
+                    What started as a small team of dedicated cleaners has grown into a trusted
+                    platform connecting customers with verified, professional cleaning services
+                    across the region.
                   </p>
                   <p>
-                    Today, we're proud to serve hundreds of satisfied customers with our comprehensive
-                    range of cleaning services, from regular home maintenance to specialized commercial cleaning.
+                    Today, we're proud to serve hundreds of satisfied customers with our
+                    comprehensive range of cleaning services, from regular home maintenance to
+                    specialized commercial cleaning.
                   </p>
                 </div>
               </div>
-              <div className="bg-orange-peel/10 rounded-lg p-8">
-                <h3 className="text-2xl font-bold text-oxford-blue mb-4">
-                  Our Mission
-                </h3>
-                <p className="text-gray-600 text-lg">
-                  To provide exceptional cleaning services that exceed expectations,
-                  while building lasting relationships with our customers and creating
-                  a positive impact in our community.
+              <div className='bg-orange-peel/10 rounded-lg p-8'>
+                <h3 className='heading-3 text-oxford-blue mb-4'>Our Mission</h3>
+                <p className='body-large text-gray-600'>
+                  To provide exceptional cleaning services that exceed expectations, while building
+                  lasting relationships with our customers and creating a positive impact in our
+                  community.
                 </p>
               </div>
             </div>
@@ -122,29 +112,27 @@ export default function AboutPage() {
         </section>
 
         {/* Values Section */}
-        <section className="py-20">
-          <UnifiedContainer size="xl" padding="lg">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold text-oxford-blue mb-4">
-                Our Values
-              </h2>
-              <p className="text-xl text-oxford-blue-600 max-w-2xl mx-auto">
+        <section className='py-20'>
+          <UnifiedContainer size='xl' padding='lg'>
+            <div className='text-center mb-16'>
+              <h2 className='heading-2 text-oxford-blue mb-4'>Our Values</h2>
+              <p className='body-large text-oxford-blue-600 max-w-2xl mx-auto'>
                 The principles that guide everything we do
               </p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'>
               {values.map((value, index) => {
                 const IconComponent = value.icon;
                 return (
-                  <Card key={index} className="text-center">
+                  <Card key={index} className='text-center'>
                     <CardHeader>
-                      <div className="w-16 h-16 bg-orange-peel/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <IconComponent className="w-8 h-8 text-orange-peel" />
+                      <div className='w-16 h-16 bg-orange-peel/10 rounded-full flex items-center justify-center mx-auto mb-4'>
+                        <IconComponent className='w-8 h-8 text-orange-peel' />
                       </div>
-                      <CardTitle className="text-xl">{value.title}</CardTitle>
+                      <CardTitle className='heading-4'>{value.title}</CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <CardDescription className="text-base">
+                      <CardDescription className='body-regular'>
                         {value.description}
                       </CardDescription>
                     </CardContent>
@@ -156,24 +144,29 @@ export default function AboutPage() {
         </section>
 
         {/* CTA Section */}
-        <section className="bg-orange-peel py-20">
-          <UnifiedContainer size="xl" padding="lg">
-            <div className="text-center space-y-8">
-              <h2 className="text-3xl md:text-4xl font-bold text-black">
-                Ready to Experience the Difference?
-              </h2>
-              <p className="text-xl text-black/80 max-w-2xl mx-auto">
+        <section className='bg-orange-peel py-20'>
+          <UnifiedContainer size='xl' padding='lg'>
+            <div className='text-center space-y-8'>
+              <h2 className='heading-2 text-black'>Ready to Experience the Difference?</h2>
+              <p className='body-large text-black/80 max-w-2xl mx-auto'>
                 Join hundreds of satisfied customers who trust Kleaners for their cleaning needs
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link href="/book">
-                  <Button size="lg" className="bg-black hover:bg-gray-800 text-white px-8 py-4 text-lg">
+              <div className='flex flex-col sm:flex-row gap-4 justify-center'>
+                <Link href='/book'>
+                  <Button
+                    size='lg'
+                    className='bg-black hover:bg-gray-800 text-white px-8 py-4 body-large'
+                  >
                     Book Your Service
-                    <ArrowRight className="w-5 h-5 ml-2" />
+                    <ArrowRight className='w-5 h-5 ml-2' />
                   </Button>
                 </Link>
-                <Link href="/contact">
-                  <Button variant="outline" size="lg" className="border-black text-black hover:bg-black hover:text-white px-8 py-4 text-lg">
+                <Link href='/contact'>
+                  <Button
+                    variant='outline'
+                    size='lg'
+                    className='border-black text-black hover:bg-black hover:text-white px-8 py-4 body-large'
+                  >
                     Contact Us
                   </Button>
                 </Link>

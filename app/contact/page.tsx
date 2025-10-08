@@ -2,14 +2,7 @@
 
 import { useState } from 'react';
 
-import {
-  Clock,
-  Mail,
-  MapPin,
-  MessageCircle,
-  Phone,
-  Send,
-} from 'lucide-react';
+import { Clock, Mail, MapPin, MessageCircle, Phone, Send } from 'lucide-react';
 
 import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
@@ -19,7 +12,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-
 
 const contactInfo = [
   {
@@ -70,17 +62,15 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className='min-h-screen bg-background'>
       <Header />
       <main>
         {/* Hero Section */}
-        <section className="bg-gradient-to-br from-seasalt via-seasalt-50 to-orange-peel-50 py-20">
-          <UnifiedContainer size="xl" padding="lg">
-            <div className="text-center space-y-6">
-              <h1 className="text-4xl md:text-5xl font-bold text-oxford-blue">
-                Contact Us
-              </h1>
-              <p className="text-xl text-oxford-blue-600 max-w-3xl mx-auto">
+        <section className='bg-gradient-to-br from-seasalt via-seasalt-50 to-orange-peel-50 py-20'>
+          <UnifiedContainer size='xl' padding='lg'>
+            <div className='text-center space-y-6'>
+              <h1 className='heading-responsive text-oxford-blue'>Contact Us</h1>
+              <p className='body-large text-oxford-blue-600 max-w-3xl mx-auto'>
                 Get in touch with our team. We're here to help with any questions or concerns.
               </p>
             </div>
@@ -88,41 +78,33 @@ export default function ContactPage() {
         </section>
 
         {/* Contact Info & Form */}
-        <section className="py-20">
-          <UnifiedContainer size="xl" padding="lg">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <section className='py-20'>
+          <UnifiedContainer size='xl' padding='lg'>
+            <div className='grid grid-cols-1 lg:grid-cols-2 gap-12'>
               {/* Contact Information */}
-              <div className="space-y-8">
+              <div className='space-y-8'>
                 <div>
-                  <h2 className="text-3xl font-bold text-oxford-blue mb-6">
-                    Get in Touch
-                  </h2>
-                  <p className="text-gray-600 text-lg">
-                    Have questions about our services? Need help with a booking?
-                    We're here to help! Reach out to us using any of the methods below.
+                  <h2 className='heading-2 text-oxford-blue mb-6'>Get in Touch</h2>
+                  <p className='body-large text-gray-600'>
+                    Have questions about our services? Need help with a booking? We're here to help!
+                    Reach out to us using any of the methods below.
                   </p>
                 </div>
 
-                <div className="space-y-6">
+                <div className='space-y-6'>
                   {contactInfo.map((info, index) => {
                     const IconComponent = info.icon;
                     return (
                       <Card key={index}>
-                        <CardContent className="p-6">
-                          <div className="flex items-start space-x-4">
-                            <div className="w-12 h-12 bg-orange-peel/10 rounded-full flex items-center justify-center flex-shrink-0">
-                              <IconComponent className="w-6 h-6 text-orange-peel" />
+                        <CardContent className='p-6'>
+                          <div className='flex items-start space-x-4'>
+                            <div className='w-12 h-12 bg-orange-peel/10 rounded-full flex items-center justify-center flex-shrink-0'>
+                              <IconComponent className='w-6 h-6 text-orange-peel' />
                             </div>
                             <div>
-                              <h3 className="text-lg font-semibold text-oxford-blue mb-1">
-                                {info.title}
-                              </h3>
-                              <p className="text-gray-900 font-medium">
-                                {info.details}
-                              </p>
-                              <p className="text-gray-600 text-sm">
-                                {info.description}
-                              </p>
+                              <h3 className='heading-5 text-oxford-blue mb-1'>{info.title}</h3>
+                              <p className='text-gray-900 font-medium'>{info.details}</p>
+                              <p className='body-small text-gray-600'>{info.description}</p>
                             </div>
                           </div>
                         </CardContent>
@@ -136,8 +118,8 @@ export default function ContactPage() {
               <div>
                 <Card>
                   <CardHeader>
-                    <CardTitle className="flex items-center">
-                      <MessageCircle className="w-5 h-5 mr-2" />
+                    <CardTitle className='flex items-center'>
+                      <MessageCircle className='w-5 h-5 mr-2' />
                       Send us a Message
                     </CardTitle>
                     <CardDescription>
@@ -145,50 +127,50 @@ export default function ContactPage() {
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <form onSubmit={handleSubmit} className="space-y-6">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <form onSubmit={handleSubmit} className='space-y-6'>
+                      <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
                         <div>
-                          <Label htmlFor="name">Name *</Label>
+                          <Label htmlFor='name'>Name *</Label>
                           <Input
-                            id="name"
-                            name="name"
+                            id='name'
+                            name='name'
                             value={formData.name}
                             onChange={handleInputChange}
                             required
-                            placeholder="Your full name"
+                            placeholder='Your full name'
                           />
                         </div>
                         <div>
-                          <Label htmlFor="email">Email *</Label>
+                          <Label htmlFor='email'>Email *</Label>
                           <Input
-                            id="email"
-                            name="email"
-                            type="email"
+                            id='email'
+                            name='email'
+                            type='email'
                             value={formData.email}
                             onChange={handleInputChange}
                             required
-                            placeholder="your.email@example.com"
+                            placeholder='your.email@example.com'
                           />
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
                         <div>
-                          <Label htmlFor="phone">Phone</Label>
+                          <Label htmlFor='phone'>Phone</Label>
                           <Input
-                            id="phone"
-                            name="phone"
-                            type="tel"
+                            id='phone'
+                            name='phone'
+                            type='tel'
                             value={formData.phone}
                             onChange={handleInputChange}
-                            placeholder="+49 69 123 456 789"
+                            placeholder='+49 69 123 456 789'
                           />
                         </div>
                         <div>
-                          <Label htmlFor="subject">Subject *</Label>
+                          <Label htmlFor='subject'>Subject *</Label>
                           <Input
-                            id="subject"
-                            name="subject"
+                            id='subject'
+                            name='subject'
                             value={formData.subject}
                             onChange={handleInputChange}
                             required
@@ -198,20 +180,20 @@ export default function ContactPage() {
                       </div>
 
                       <div>
-                        <Label htmlFor="message">Message *</Label>
+                        <Label htmlFor='message'>Message *</Label>
                         <Textarea
-                          id="message"
-                          name="message"
+                          id='message'
+                          name='message'
                           value={formData.message}
                           onChange={handleInputChange}
                           required
-                          placeholder="Tell us more about your inquiry..."
+                          placeholder='Tell us more about your inquiry...'
                           rows={5}
                         />
                       </div>
 
-                      <Button type="submit" className="w-full">
-                        <Send className="w-4 h-4 mr-2" />
+                      <Button type='submit' className='w-full'>
+                        <Send className='w-4 h-4 mr-2' />
                         Send Message
                       </Button>
                     </form>
@@ -223,26 +205,23 @@ export default function ContactPage() {
         </section>
 
         {/* FAQ Section */}
-        <section className="bg-gray-50 py-20">
-          <UnifiedContainer size="xl" padding="lg">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold text-oxford-blue mb-4">
-                Frequently Asked Questions
-              </h2>
-              <p className="text-xl text-oxford-blue-600 max-w-2xl mx-auto">
+        <section className='bg-gray-50 py-20'>
+          <UnifiedContainer size='xl' padding='lg'>
+            <div className='text-center mb-16'>
+              <h2 className='heading-2 text-oxford-blue mb-4'>Frequently Asked Questions</h2>
+              <p className='body-large text-oxford-blue-600 max-w-2xl mx-auto'>
                 Quick answers to common questions about our services
               </p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
               <Card>
                 <CardHeader>
                   <CardTitle>How do I book a cleaning service?</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-gray-600">
-                    Simply click "Book Now" on our website, select your service type,
-                    choose your preferred date and time, and complete the booking form.
-                    It's that easy!
+                  <p className='text-gray-600'>
+                    Simply click "Book Now" on our website, select your service type, choose your
+                    preferred date and time, and complete the booking form. It's that easy!
                   </p>
                 </CardContent>
               </Card>
@@ -251,9 +230,9 @@ export default function ContactPage() {
                   <CardTitle>Are your cleaners insured and background-checked?</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-gray-600">
-                    Yes! All our cleaners are fully insured, bonded, and have passed
-                    comprehensive background checks for your peace of mind.
+                  <p className='text-gray-600'>
+                    Yes! All our cleaners are fully insured, bonded, and have passed comprehensive
+                    background checks for your peace of mind.
                   </p>
                 </CardContent>
               </Card>
@@ -262,9 +241,9 @@ export default function ContactPage() {
                   <CardTitle>What if I'm not satisfied with the service?</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-gray-600">
-                    We offer a 100% satisfaction guarantee. If you're not happy with
-                    the service, we'll make it right or provide a full refund.
+                  <p className='text-gray-600'>
+                    We offer a 100% satisfaction guarantee. If you're not happy with the service,
+                    we'll make it right or provide a full refund.
                   </p>
                 </CardContent>
               </Card>
@@ -273,9 +252,9 @@ export default function ContactPage() {
                   <CardTitle>Do I need to be home during the cleaning?</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-gray-600">
-                    No, you don't need to be home. We can arrange key pickup or you
-                    can provide access instructions. We'll keep you updated throughout the process.
+                  <p className='text-gray-600'>
+                    No, you don't need to be home. We can arrange key pickup or you can provide
+                    access instructions. We'll keep you updated throughout the process.
                   </p>
                 </CardContent>
               </Card>

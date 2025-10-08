@@ -24,16 +24,16 @@ export function Footer() {
             <div className='space-y-4'>
               <div className='flex items-center space-x-2'>
                 <div className='w-8 h-8 bg-orange-peel rounded-lg flex items-center justify-center'>
-                  <span className='text-black font-bold text-lg'>K</span>
+                  <span className='text-black font-bold heading-5'>K</span>
                 </div>
                 <span
-                  className='text-xl font-light text-orange-peel'
+                  className='heading-4 font-light text-orange-peel'
                   style={{ fontFamily: 'Raleway, Inter, system-ui, sans-serif' }}
                 >
                   Kleaners
                 </span>
               </div>
-              <p className='text-seasalt/80 text-sm leading-relaxed'>
+              <p className='body-small text-seasalt/80 leading-relaxed'>
                 Professional cleaning services in Frankfurt. Connect with verified providers for
                 residential, commercial, and specialized cleaning needs.
               </p>
@@ -79,8 +79,8 @@ export function Footer() {
 
             {/* Services */}
             <div className='space-y-4'>
-              <h3 className='text-lg font-semibold'>Services</h3>
-              <ul className='space-y-2 text-sm'>
+              <h3 className='heading-5'>Services</h3>
+              <ul className='space-y-2 body-small'>
                 <li>
                   <Link
                     href='/services/residential'

@@ -1,21 +1,27 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { motion } from 'framer-motion';
-import { Building2, Car, Home, MapPin, Square, TreePine, Users } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Textarea } from '@/components/ui/textarea';
-import type { OfficeDetails, PropertyDetails } from '@/types/bookingFlow';
-import { ServiceType } from '@/types/bookingFlow';
+import { Card, CardContent } from '@/components/ui/card';
+import { NumberStepper } from '@/components/ui/number-stepper';
+import {
+  getPropertyConstraints,
+  getSizeTier,
+  validatePropertyDetails,
+} from '@/lib/pricing-calculator';
+import {
+  ServiceType,
+  type OfficeDetails,
+  type PropertyDetails,
+  type PropertySizeTier,
+} from '@/types/bookingFlow';
 
+import { EnhancedButton } from '../shared/EnhancedButton';
 
+// Import pricing calculator
 
 interface PropertyDetailsStepProps {
   onNext: (data: PropertyDetails | OfficeDetails) => void;
@@ -28,421 +34,269 @@ interface PropertyDetailsStepProps {
   isLoading?: boolean;
 }
 
-const propertyTypes = [
-  { value: 'apartment', label: 'Apartment', icon: Home },
-  { value: 'house', label: 'House', icon: Home },
-  { value: 'condo', label: 'Condo', icon: Home },
-  { value: 'townhouse', label: 'Townhouse', icon: Home },
-];
-
-const officeTypes = [
-  { value: 'office', label: 'Office Space', icon: Building2 },
-  { value: 'retail', label: 'Retail Store', icon: Building2 },
-  { value: 'warehouse', label: 'Warehouse', icon: Building2 },
-  { value: 'medical', label: 'Medical Facility', icon: Building2 },
-  { value: 'other', label: 'Other Commercial', icon: Building2 },
-];
-
-const timePreferences = [
-  { value: 'morning', label: 'Morning (8 AM - 12 PM)' },
-  { value: 'afternoon', label: 'Afternoon (12 PM - 5 PM)' },
-  { value: 'evening', label: 'Evening (5 PM - 8 PM)' },
-  { value: 'flexible', label: 'Flexible - Any time works' },
-];
-
 export const PropertyDetailsStep: React.FC<PropertyDetailsStepProps> = ({
   onNext,
   onBack,
   serviceType,
-  isRegularCleaning,
+  isRegularCleaning: _isRegularCleaning,
   data,
   errors,
   isLoading = false,
 }) => {
+  const getDefaultValues = (serviceType: ServiceType): Partial<PropertyDetails | OfficeDetails> => {
+    switch (serviceType) {
+      case ServiceType.DEEP_CLEANING:
+        return {
+          bedrooms: 2,
+          bathrooms: 2,
+          squareFootage: 100,
+        };
+      case ServiceType.MOVE_IN_OUT:
+        return {
+          bedrooms: 2,
+          bathrooms: 1,
+          squareFootage: 80,
+        };
+      case ServiceType.POST_CONSTRUCTION:
+        return {
+          bedrooms: 2,
+          bathrooms: 2,
+          squareFootage: 120,
+        };
+      case ServiceType.WINDOW_CLEANING:
+        return {
+          bedrooms: 2,
+          bathrooms: 1,
+          squareFootage: 90,
+        };
+      case ServiceType.OFFICE_CLEANING:
+        return {
+          workstations: 10,
+          meetingRooms: 2,
+          commonAreas: 1,
+          squareFootage: 150,
+        };
+      default: // HOME_CLEANING
+        return {
+          bedrooms: 2,
+          bathrooms: 2,
+          squareFootage: 100,
+        };
+    }
+  };
+
   const [formData, setFormData] = useState<Partial<PropertyDetails | OfficeDetails>>({
-    propertyType: 'apartment',
-    bedrooms: 2,
-    bathrooms: 1,
-    squareFootage: 1000,
-    floors: 1,
-    hasBasement: false,
-    hasAttic: false,
-    hasGarage: false,
-    pets: false,
-    specialRequirements: [],
-    accessInstructions: '',
-    preferredTime: 'flexible',
+    ...getDefaultValues(serviceType),
     ...data,
   });
 
+  const [selectedSizeTier, setSelectedSizeTier] = useState<PropertySizeTier | null>(null);
+  const [validationErrors, setValidationErrors] = useState<string[]>([]);
+
   const isOffice = serviceType === ServiceType.OFFICE_CLEANING;
 
-  const handleInputChange = (field: string, value: any) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
-  };
+  // Initialize size tier based on current square footage
+  useEffect(() => {
+    if (formData.squareFootage) {
+      const sizeTier = getSizeTier(formData.squareFootage);
+      setSelectedSizeTier(sizeTier);
+    }
+  }, [formData.squareFootage]);
 
-  const handleSpecialRequirementChange = (requirement: string, checked: boolean) => {
-    setFormData(prev => {
-      const current = prev.specialRequirements || [];
-      if (checked) {
-        return { ...prev, specialRequirements: [...current, requirement] };
-      } else {
-        return { ...prev, specialRequirements: current.filter(r => r !== requirement) };
-      }
-    });
+  // Validate property details whenever they change
+  useEffect(() => {
+    if (!isOffice && formData.squareFootage && 'bedrooms' in formData && 'bathrooms' in formData) {
+      const propertyData = formData as PropertyDetails;
+      const validation = validatePropertyDetails(propertyData);
+      setValidationErrors(validation.errors);
+    }
+  }, [formData, isOffice]);
+
+  const handleInputChange = (field: string, value: number) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+
+    // Auto-calculate size tier when square footage changes
+    if (field === 'squareFootage') {
+      const sizeTier = getSizeTier(value);
+      setSelectedSizeTier(sizeTier);
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Validate before submitting
+    if (!isOffice) {
+      const validation = validatePropertyDetails(formData as PropertyDetails);
+      if (!validation.isValid) {
+        setValidationErrors(validation.errors);
+        return;
+      }
+    }
+
+    const dataWithSizeTier = {
+      ...formData,
+      sizeTier: selectedSizeTier,
+    };
+
     if (isOffice) {
-      onNext(formData as OfficeDetails);
+      onNext(dataWithSizeTier as OfficeDetails);
     } else {
-      onNext(formData as PropertyDetails);
+      onNext(dataWithSizeTier as PropertyDetails);
     }
   };
 
-  const getSpecialRequirements = () => {
-    if (isOffice) {
-      return [
-        'Medical facility cleaning',
-        'Food service area cleaning',
-        'High-traffic area focus',
-        'Window cleaning',
-        'Floor waxing/polishing',
-        'Restroom deep cleaning',
-      ];
-    } else {
-      return [
-        'Pet hair removal',
-        'Allergen reduction',
-        'Eco-friendly products only',
-        'Window cleaning',
-        'Appliance cleaning',
-        'Cabinet cleaning',
-      ];
-    }
-  };
+  // Get constraints for current square footage
+  const constraints = formData.squareFootage
+    ? getPropertyConstraints(formData.squareFootage)
+    : null;
 
   return (
-    <div className="w-full max-w-4xl mx-auto">
+    <div className='w-full max-w-4xl mx-auto px-2 sm:px-4'>
+      {/* Simple Header */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="text-center mb-8"
+        className='text-center mb-8'
       >
-        <h2 className="text-3xl font-bold text-gray-900 mb-4">
+        <h2 className='heading-2 text-gray-900 mb-4'>
           Tell us about your {isOffice ? 'office' : 'property'}
         </h2>
-        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-          Help us provide the most accurate estimate by sharing details about your {isOffice ? 'commercial space' : 'home'}.
+        <p className='text-gray-600'>
+          Use the controls below to specify your {isOffice ? 'office space' : 'home'} details
         </p>
       </motion.div>
 
       <form onSubmit={handleSubmit}>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Left Column */}
-          <div className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <MapPin className="w-5 h-5 mr-2" />
-                  Property Type
-                </CardTitle>
-                <CardDescription>
-                  Select the type of {isOffice ? 'commercial space' : 'property'} you have
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <RadioGroup
-                  value={formData.propertyType || ''}
-                  onValueChange={(value) => handleInputChange('propertyType', value)}
-                  className="grid grid-cols-2 gap-4"
-                >
-                  {(isOffice ? officeTypes : propertyTypes).map((type) => {
-                    const IconComponent = type.icon;
-                    return (
-                      <div key={type.value} className="flex items-center space-x-2">
-                        <RadioGroupItem value={type.value} id={type.value} />
-                        <Label htmlFor={type.value} className="flex items-center cursor-pointer">
-                          <IconComponent className="w-4 h-4 mr-2" />
-                          {type.label}
-                        </Label>
-                      </div>
-                    );
-                  })}
-                </RadioGroup>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <Square className="w-5 h-5 mr-2" />
-                  Space Details
-                </CardTitle>
-                <CardDescription>
-                  Provide details about your {isOffice ? 'office' : 'home'} size and layout
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="squareFootage">Square Meters (m²)</Label>
-                    <Input
-                      id="squareFootage"
-                      type="number"
-                      value={formData.squareFootage || ''}
-                      onChange={(e) => handleInputChange('squareFootage', parseInt(e.target.value))}
-                      placeholder="100"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="floors">Number of Floors</Label>
-                    <Input
-                      id="floors"
-                      type="number"
-                      value={formData.floors || ''}
-                      onChange={(e) => handleInputChange('floors', parseInt(e.target.value))}
-                      placeholder="1"
-                    />
-                  </div>
-                </div>
-
-                {!isOffice && (
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <Label htmlFor="bedrooms">Bedrooms</Label>
-                      <Input
-                        id="bedrooms"
-                        type="number"
-                        value={(formData as PropertyDetails).bedrooms || ''}
-                        onChange={(e) => handleInputChange('bedrooms', parseInt(e.target.value))}
-                        placeholder="2"
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="bathrooms">Bathrooms</Label>
-                      <Input
-                        id="bathrooms"
-                        type="number"
-                        value={(formData as PropertyDetails).bathrooms || ''}
-                        onChange={(e) => handleInputChange('bathrooms', parseInt(e.target.value))}
-                        placeholder="1"
-                      />
-                    </div>
-                  </div>
-                )}
-
-                {isOffice && (
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <Label htmlFor="workstations">Workstations</Label>
-                      <Input
-                        id="workstations"
-                        type="number"
-                        value={(formData as OfficeDetails).workstations || ''}
-                        onChange={(e) => handleInputChange('workstations', parseInt(e.target.value))}
-                        placeholder="10"
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="meetingRooms">Meeting Rooms</Label>
-                      <Input
-                        id="meetingRooms"
-                        type="number"
-                        value={(formData as OfficeDetails).meetingRooms || ''}
-                        onChange={(e) => handleInputChange('meetingRooms', parseInt(e.target.value))}
-                        placeholder="2"
-                      />
-                    </div>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Right Column */}
-          <div className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <TreePine className="w-5 h-5 mr-2" />
-                  Additional Features
-                </CardTitle>
-                <CardDescription>
-                  Tell us about special areas or features in your {isOffice ? 'office' : 'home'}
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="flex items-center space-x-2">
-                    <Checkbox
-                      id="hasBasement"
-                      checked={formData.hasBasement || false}
-                      onCheckedChange={(checked) => handleInputChange('hasBasement', checked)}
-                    />
-                    <Label htmlFor="hasBasement">Basement</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Checkbox
-                      id="hasAttic"
-                      checked={formData.hasAttic || false}
-                      onCheckedChange={(checked) => handleInputChange('hasAttic', checked)}
-                    />
-                    <Label htmlFor="hasAttic">Attic</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Checkbox
-                      id="hasGarage"
-                      checked={formData.hasGarage || false}
-                      onCheckedChange={(checked) => handleInputChange('hasGarage', checked)}
-                    />
-                    <Label htmlFor="hasGarage">Garage</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Checkbox
-                      id="pets"
-                      checked={formData.pets || false}
-                      onCheckedChange={(checked) => handleInputChange('pets', checked)}
-                    />
-                    <Label htmlFor="pets">Pets</Label>
-                  </div>
-                </div>
-
-                {isOffice && (
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="flex items-center space-x-2">
-                      <Checkbox
-                        id="hasKitchen"
-                        checked={(formData as OfficeDetails).hasKitchen || false}
-                        onCheckedChange={(checked) => handleInputChange('hasKitchen', checked)}
-                      />
-                      <Label htmlFor="hasKitchen">Kitchen</Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <Checkbox
-                        id="hasReception"
-                        checked={(formData as OfficeDetails).hasReception || false}
-                        onCheckedChange={(checked) => handleInputChange('hasReception', checked)}
-                      />
-                      <Label htmlFor="hasReception">Reception Area</Label>
-                    </div>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <Users className="w-5 h-5 mr-2" />
-                  Special Requirements
-                </CardTitle>
-                <CardDescription>
-                  Select any special cleaning requirements
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 gap-3">
-                  {getSpecialRequirements().map((requirement) => (
-                    <div key={requirement} className="flex items-center space-x-2">
-                      <Checkbox
-                        id={requirement}
-                        checked={formData.specialRequirements?.includes(requirement) || false}
-                        onCheckedChange={(checked) => handleSpecialRequirementChange(requirement, checked as boolean)}
-                      />
-                      <Label htmlFor={requirement} className="text-sm">
-                        {requirement}
-                      </Label>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <Car className="w-5 h-5 mr-2" />
-                  Additional Information
-                </CardTitle>
-                <CardDescription>
-                  Any other details we should know?
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <Label htmlFor="accessInstructions">Access Instructions</Label>
-                  <Textarea
-                    id="accessInstructions"
-                    value={formData.accessInstructions || ''}
-                    onChange={(e) => handleInputChange('accessInstructions', e.target.value)}
-                    placeholder="e.g., Key under the mat, Ring doorbell, etc."
-                    rows={3}
+        <div className='space-y-8'>
+          {/* Property Details Steppers */}
+          <Card>
+            <CardContent>
+              {isOffice ? (
+                // Office-specific steppers
+                <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
+                  <NumberStepper
+                    label='Workstations'
+                    value={'workstations' in formData ? formData.workstations || 10 : 10}
+                    onChange={value => handleInputChange('workstations', value)}
+                    min={1}
+                    max={50}
+                    step={1}
+                    unit='stations'
+                  />
+                  <NumberStepper
+                    label='Meeting Rooms'
+                    value={'meetingRooms' in formData ? formData.meetingRooms || 2 : 2}
+                    onChange={value => handleInputChange('meetingRooms', value)}
+                    min={0}
+                    max={10}
+                    step={1}
+                    unit='rooms'
+                  />
+                  <NumberStepper
+                    label='Common Areas'
+                    value={'commonAreas' in formData ? formData.commonAreas || 1 : 1}
+                    onChange={value => handleInputChange('commonAreas', value)}
+                    min={0}
+                    max={5}
+                    step={1}
+                    unit='areas'
                   />
                 </div>
-                <div>
-                  <Label htmlFor="preferredTime">Preferred Time</Label>
-                  <RadioGroup
-                    value={formData.preferredTime || 'flexible'}
-                    onValueChange={(value) => handleInputChange('preferredTime', value)}
-                    className="mt-2"
-                  >
-                    {timePreferences.map((time) => (
-                      <div key={time.value} className="flex items-center space-x-2">
-                        <RadioGroupItem value={time.value} id={time.value} />
-                        <Label htmlFor={time.value} className="text-sm">
-                          {time.label}
-                        </Label>
-                      </div>
-                    ))}
-                  </RadioGroup>
+              ) : (
+                // Residential property steppers
+                <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
+                  <NumberStepper
+                    label='Home Size'
+                    value={formData.squareFootage || 100}
+                    onChange={value => handleInputChange('squareFootage', value)}
+                    min={50}
+                    max={serviceType === ServiceType.HOME_CLEANING ? 150 : Number.POSITIVE_INFINITY}
+                    step={5}
+                    unit='m²'
+                  />
+                  <NumberStepper
+                    label='Bedrooms'
+                    value={'bedrooms' in formData ? formData.bedrooms || 2 : 2}
+                    onChange={value => handleInputChange('bedrooms', value)}
+                    min={1}
+                    max={constraints?.maxBedrooms || 5}
+                    step={1}
+                  />
+                  <NumberStepper
+                    label='Bathrooms'
+                    value={'bathrooms' in formData ? formData.bathrooms || 2 : 2}
+                    onChange={value => handleInputChange('bathrooms', value)}
+                    min={1}
+                    max={constraints?.maxBathrooms || 3}
+                    step={1}
+                  />
                 </div>
-              </CardContent>
-            </Card>
-          </div>
+              )}
+            </CardContent>
+          </Card>
         </div>
 
-        {errors && Object.keys(errors).length > 0 && (
+        {/* Validation Errors */}
+        {validationErrors.length > 0 && (
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mt-6"
+            className='mt-8'
           >
-            <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-              <ul className="text-sm text-red-700 space-y-1">
-                {Object.entries(errors).map(([field, error]) => (
-                  <li key={field}>• {error}</li>
+            <div className='bg-red-50 border border-red-200 rounded-xl p-6 shadow-lg'>
+              <h4 className='text-red-800 font-semibold mb-3'>
+                Please adjust your property details:
+              </h4>
+              <ul className='text-base text-red-700 space-y-2'>
+                {validationErrors.map(error => (
+                  <li key={error} className='flex items-center'>
+                    <span className='w-2 h-2 bg-red-500 rounded-full mr-3' />
+                    {error}
+                  </li>
                 ))}
               </ul>
             </div>
           </motion.div>
         )}
 
-        <motion.div
-          className="flex justify-between mt-8"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-        >
-          <Button
-            type="button"
-            variant="ghost"
-            onClick={onBack}
-            className="text-gray-500 hover:text-gray-700"
+        {/* General Error Display */}
+        {errors && Object.keys(errors).length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className='mt-8'
           >
-            ← Back to Frequency
-          </Button>
+            <div className='bg-red-50 border border-red-200 rounded-xl p-6 shadow-lg'>
+              <ul className='text-base text-red-700 space-y-2'>
+                {Object.entries(errors).map(([field, error]) => (
+                  <li key={field} className='flex items-center'>
+                    <span className='w-2 h-2 bg-red-500 rounded-full mr-3' />
+                    {error}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </motion.div>
+        )}
 
-          <Button
-            type="submit"
-            disabled={isLoading}
-            className="px-8"
+        {/* Action Buttons */}
+        <div className='flex flex-col sm:flex-row gap-3 mt-8'>
+          <EnhancedButton
+            type='submit'
+            disabled={isLoading || validationErrors.length > 0}
+            className='flex-1'
+            size='lg'
+            loading={isLoading}
           >
-            {isLoading ? 'Processing...' : 'Continue to Estimate'}
+            Continue to Effort Level
+          </EnhancedButton>
+
+          <Button variant='outline' onClick={onBack} className='flex-1 sm:flex-none'>
+            Back
           </Button>
-        </motion.div>
+        </div>
       </form>
     </div>
   );

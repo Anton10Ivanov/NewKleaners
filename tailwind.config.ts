@@ -91,6 +91,162 @@ const config: Config = {
           950: 'oklch(0.30 0.15 200)',
         },
 
+        // Additional Harmonious Colors - Color theory validated combinations
+        teal: {
+          DEFAULT: '#14b8a6', // Fallback for older browsers
+          50: 'oklch(0.95 0.05 180)',
+          100: 'oklch(0.90 0.08 180)',
+          200: 'oklch(0.85 0.12 180)',
+          300: 'oklch(0.80 0.15 180)',
+          400: 'oklch(0.75 0.18 180)',
+          500: 'oklch(0.70 0.20 180)', // Main teal - complementary to orange
+          600: 'oklch(0.65 0.20 180)',
+          700: 'oklch(0.60 0.20 180)',
+          800: 'oklch(0.55 0.20 180)',
+          900: 'oklch(0.50 0.20 180)',
+          950: 'oklch(0.45 0.20 180)',
+        },
+        gold: {
+          DEFAULT: '#fbbf24', // Fallback for older browsers
+          50: 'oklch(0.95 0.05 45)',
+          100: 'oklch(0.90 0.08 45)',
+          200: 'oklch(0.85 0.12 45)',
+          300: 'oklch(0.80 0.15 45)',
+          400: 'oklch(0.75 0.18 45)',
+          500: 'oklch(0.70 0.20 45)', // Main gold - warm luxury
+          600: 'oklch(0.65 0.20 45)',
+          700: 'oklch(0.60 0.20 45)',
+          800: 'oklch(0.55 0.20 45)',
+          900: 'oklch(0.50 0.20 45)',
+          950: 'oklch(0.45 0.20 45)',
+        },
+        purple: {
+          DEFAULT: '#8b5cf6', // Fallback for older browsers
+          50: 'oklch(0.95 0.05 280)',
+          100: 'oklch(0.90 0.08 280)',
+          200: 'oklch(0.85 0.12 280)',
+          300: 'oklch(0.80 0.15 280)',
+          400: 'oklch(0.75 0.18 280)',
+          500: 'oklch(0.70 0.20 280)', // Main purple - triadic harmony
+          600: 'oklch(0.65 0.20 280)',
+          700: 'oklch(0.60 0.20 280)',
+          800: 'oklch(0.55 0.20 280)',
+          900: 'oklch(0.50 0.20 280)',
+          950: 'oklch(0.45 0.20 280)',
+        },
+        pink: {
+          DEFAULT: '#ec4899', // Fallback for older browsers
+          50: 'oklch(0.95 0.05 330)',
+          100: 'oklch(0.90 0.08 330)',
+          200: 'oklch(0.85 0.12 330)',
+          300: 'oklch(0.80 0.15 330)',
+          400: 'oklch(0.75 0.18 330)',
+          500: 'oklch(0.70 0.20 330)', // Main pink - warm accent
+          600: 'oklch(0.65 0.20 330)',
+          700: 'oklch(0.60 0.20 330)',
+          800: 'oklch(0.55 0.20 330)',
+          900: 'oklch(0.50 0.20 330)',
+          950: 'oklch(0.45 0.20 330)',
+        },
+        emerald: {
+          DEFAULT: '#10b981', // Fallback for older browsers
+          50: 'oklch(0.95 0.05 150)',
+          100: 'oklch(0.90 0.08 150)',
+          200: 'oklch(0.85 0.12 150)',
+          300: 'oklch(0.80 0.15 150)',
+          400: 'oklch(0.75 0.18 150)',
+          500: 'oklch(0.70 0.20 150)', // Main emerald - natural trust
+          600: 'oklch(0.65 0.20 150)',
+          700: 'oklch(0.60 0.20 150)',
+          800: 'oklch(0.55 0.20 150)',
+          900: 'oklch(0.50 0.20 150)',
+          950: 'oklch(0.45 0.20 150)',
+        },
+        'neutral-gray': {
+          DEFAULT: '#6b7280', // Fallback for older browsers
+          50: 'oklch(0.95 0.005 0)',
+          100: 'oklch(0.90 0.01 0)',
+          200: 'oklch(0.85 0.015 0)',
+          300: 'oklch(0.80 0.02 0)',
+          400: 'oklch(0.75 0.025 0)',
+          500: 'oklch(0.70 0.03 0)', // Main neutral gray - text hierarchy
+          600: 'oklch(0.65 0.03 0)',
+          700: 'oklch(0.60 0.03 0)',
+          800: 'oklch(0.55 0.03 0)',
+          900: 'oklch(0.50 0.03 0)',
+          950: 'oklch(0.45 0.03 0)',
+        },
+        'warm-gray': {
+          DEFAULT: '#78716c', // Fallback for older browsers
+          50: 'oklch(0.95 0.005 30)',
+          100: 'oklch(0.90 0.01 30)',
+          200: 'oklch(0.85 0.015 30)',
+          300: 'oklch(0.80 0.02 30)',
+          400: 'oklch(0.75 0.025 30)',
+          500: 'oklch(0.70 0.03 30)', // Main warm gray - warm neutral
+          600: 'oklch(0.65 0.03 30)',
+          700: 'oklch(0.60 0.03 30)',
+          800: 'oklch(0.55 0.03 30)',
+          900: 'oklch(0.50 0.03 30)',
+          950: 'oklch(0.45 0.03 30)',
+        },
+        'cool-gray': {
+          DEFAULT: '#64748b', // Fallback for older browsers
+          50: 'oklch(0.95 0.005 220)',
+          100: 'oklch(0.90 0.01 220)',
+          200: 'oklch(0.85 0.015 220)',
+          300: 'oklch(0.80 0.02 220)',
+          400: 'oklch(0.75 0.025 220)',
+          500: 'oklch(0.70 0.03 220)', // Main cool gray - cool neutral
+          600: 'oklch(0.65 0.03 220)',
+          700: 'oklch(0.60 0.03 220)',
+          800: 'oklch(0.55 0.03 220)',
+          900: 'oklch(0.50 0.03 220)',
+          950: 'oklch(0.45 0.03 220)',
+        },
+        amber: {
+          DEFAULT: '#f59e0b', // Fallback for older browsers
+          50: 'oklch(0.95 0.05 40)',
+          100: 'oklch(0.90 0.08 40)',
+          200: 'oklch(0.85 0.12 40)',
+          300: 'oklch(0.80 0.15 40)',
+          400: 'oklch(0.75 0.18 40)',
+          500: 'oklch(0.70 0.20 40)', // Main amber - attention
+          600: 'oklch(0.65 0.20 40)',
+          700: 'oklch(0.60 0.20 40)',
+          800: 'oklch(0.55 0.20 40)',
+          900: 'oklch(0.50 0.20 40)',
+          950: 'oklch(0.45 0.20 40)',
+        },
+        copper: {
+          DEFAULT: '#b45309', // Fallback for older browsers
+          50: 'oklch(0.95 0.05 25)',
+          100: 'oklch(0.90 0.08 25)',
+          200: 'oklch(0.85 0.12 25)',
+          300: 'oklch(0.80 0.15 25)',
+          400: 'oklch(0.75 0.18 25)',
+          500: 'oklch(0.70 0.20 25)', // Main copper - warm accent
+          600: 'oklch(0.65 0.20 25)',
+          700: 'oklch(0.60 0.20 25)',
+          800: 'oklch(0.55 0.20 25)',
+          900: 'oklch(0.50 0.20 25)',
+          950: 'oklch(0.45 0.20 25)',
+        },
+        silver: {
+          DEFAULT: '#94a3b8', // Fallback for older browsers
+          50: 'oklch(0.95 0.005 210)',
+          100: 'oklch(0.90 0.01 210)',
+          200: 'oklch(0.85 0.015 210)',
+          300: 'oklch(0.80 0.02 210)',
+          400: 'oklch(0.75 0.025 210)',
+          500: 'oklch(0.70 0.03 210)', // Main silver - cool accent
+          600: 'oklch(0.65 0.03 210)',
+          700: 'oklch(0.60 0.03 210)',
+          800: 'oklch(0.55 0.03 210)',
+          900: 'oklch(0.50 0.03 210)',
+          950: 'oklch(0.45 0.03 210)',
+        },
+
         // Semantic Color Tokens - Primary way to use colors
         primary: {
           DEFAULT: 'oklch(var(--primary))',
@@ -115,6 +271,10 @@ const config: Config = {
         warning: {
           DEFAULT: 'oklch(var(--warning))',
           foreground: 'oklch(var(--warning-foreground))',
+        },
+        error: {
+          DEFAULT: 'oklch(var(--error))',
+          foreground: 'oklch(var(--error-foreground))',
         },
 
         // UI Colors - Enhanced Contrast

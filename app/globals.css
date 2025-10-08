@@ -19,6 +19,51 @@
     --dark-spring-green: 0.45 0.12 140; /* Success color (#177245) */
     --blue-green: 0.55 0.15 200; /* Info color (#0d98ba) */
 
+    /* Additional Harmonious Colors - Color theory validated combinations */
+    --teal: 0.7 0.2 180; /* Complementary to orange - vibrant contrast */
+    --teal-foreground: 0.9 0 0; /* White text on teal */
+    --teal-hover: 0.65 0.2 180; /* Darker teal on hover */
+
+    --gold: 0.7 0.2 45; /* Warm luxury - analogous to orange */
+    --gold-foreground: 0.2 0 0; /* Black text on gold */
+    --gold-hover: 0.65 0.2 45; /* Darker gold on hover */
+
+    --purple: 0.7 0.2 280; /* Triadic harmony - creative accent */
+    --purple-foreground: 0.9 0 0; /* White text on purple */
+    --purple-hover: 0.65 0.2 280; /* Darker purple on hover */
+
+    --pink: 0.7 0.2 330; /* Warm accent - playful highlight */
+    --pink-foreground: 0.9 0 0; /* White text on pink */
+    --pink-hover: 0.65 0.2 330; /* Darker pink on hover */
+
+    --emerald: 0.7 0.2 150; /* Natural trust - complementary to orange */
+    --emerald-foreground: 0.9 0 0; /* White text on emerald */
+    --emerald-hover: 0.65 0.2 150; /* Darker emerald on hover */
+
+    --neutral-gray: 0.7 0.03 0; /* Text hierarchy - pure neutral */
+    --neutral-gray-foreground: 0.9 0 0; /* White text on dark gray */
+    --neutral-gray-hover: 0.65 0.03 0; /* Darker gray on hover */
+
+    --warm-gray: 0.7 0.03 30; /* Warm neutral - subtle warmth */
+    --warm-gray-foreground: 0.9 0 0; /* White text on warm gray */
+    --warm-gray-hover: 0.65 0.03 30; /* Darker warm gray on hover */
+
+    --cool-gray: 0.7 0.03 220; /* Cool neutral - subtle coolness */
+    --cool-gray-foreground: 0.9 0 0; /* White text on cool gray */
+    --cool-gray-hover: 0.65 0.03 220; /* Darker cool gray on hover */
+
+    --amber: 0.7 0.2 40; /* Attention - warm warning */
+    --amber-foreground: 0.2 0 0; /* Black text on amber */
+    --amber-hover: 0.65 0.2 40; /* Darker amber on hover */
+
+    --copper: 0.7 0.2 25; /* Warm accent - earthy luxury */
+    --copper-foreground: 0.9 0 0; /* White text on copper */
+    --copper-hover: 0.65 0.2 25; /* Darker copper on hover */
+
+    --silver: 0.7 0.03 210; /* Cool accent - metallic elegance */
+    --silver-foreground: 0.2 0 0; /* Black text on silver */
+    --silver-hover: 0.65 0.03 210; /* Darker silver on hover */
+
     /* Semantic Color Tokens - Primary way to use colors */
     --primary: var(--orange-peel);
     --primary-foreground: 0.05 0 0; /* Very dark for maximum contrast on orange */
@@ -39,6 +84,9 @@
 
     --warning: var(--orange-peel);
     --warning-foreground: var(--orange-peel-foreground);
+
+    --error: 0.6 0.2 0; /* Red for errors */
+    --error-foreground: 0.9 0 0;
 
     /* UI Colors - Pure white theme for maximum vibrancy */
     --card: 0.99 0 0; /* Pure white cards */
@@ -85,6 +133,9 @@
     --warning: var(--orange-peel);
     --warning-foreground: var(--orange-peel-foreground);
 
+    --error: 0.6 0.2 0; /* Red for errors */
+    --error-foreground: var(--seasalt);
+
     --muted: 0.4 0.05 240; /* Darker muted backgrounds in dark mode */
     --muted-foreground: 0.8 0 0; /* Brighter muted text for better contrast */
     --accent: 0.35 0.05 240; /* Darker accent backgrounds */
@@ -113,12 +164,28 @@
     @apply text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight mb-6;
   }
 
+  .heading-1 {
+    @apply text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-foreground mb-6;
+  }
+
   .heading-2 {
     @apply text-2xl md:text-3xl lg:text-4xl font-bold text-foreground mb-4;
   }
 
   .heading-3 {
     @apply text-xl md:text-2xl font-semibold text-foreground mb-3;
+  }
+
+  .heading-4 {
+    @apply text-lg md:text-xl font-semibold text-foreground mb-3;
+  }
+
+  .heading-5 {
+    @apply text-base md:text-lg font-medium text-foreground mb-2;
+  }
+
+  .heading-6 {
+    @apply text-sm md:text-base font-medium text-foreground mb-2;
   }
 
   .body-responsive {
@@ -129,8 +196,28 @@
     @apply text-lg md:text-xl leading-relaxed text-foreground mb-4;
   }
 
+  .body-regular {
+    @apply text-base leading-relaxed text-foreground mb-4;
+  }
+
   .body-small {
     @apply text-sm md:text-base leading-relaxed text-muted-foreground mb-3;
+  }
+
+  .body-xs {
+    @apply text-xs leading-normal text-muted-foreground mb-2;
+  }
+
+  .caption {
+    @apply text-xs text-muted-foreground leading-normal;
+  }
+
+  .label {
+    @apply text-sm font-medium text-foreground;
+  }
+
+  .overline {
+    @apply text-xs font-semibold uppercase tracking-wider text-muted-foreground;
   }
 
   /* Enhanced text hierarchy */
@@ -183,8 +270,20 @@
     @apply transition-transform duration-200 ease-out hover:scale-110;
   }
 
-  /* Focus improvements */
-  .focus-enhanced {
-    @apply focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background;
+  /* Mobile-first spacing utilities */
+  .mobile-compact {
+    @apply space-y-2 sm:space-y-4;
+  }
+
+  .mobile-gap-tight {
+    @apply gap-2 sm:gap-4 lg:gap-6;
+  }
+
+  .mobile-p-compact {
+    @apply p-2 sm:p-4 lg:p-6;
+  }
+
+  .mobile-hidden-svg {
+    @apply hidden sm:block;
   }
 }

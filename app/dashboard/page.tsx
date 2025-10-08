@@ -21,7 +21,6 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
-
 const upcomingBookings = [
   {
     id: 'BK001',
@@ -78,35 +77,33 @@ export default function DashboardPage() {
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'confirmed':
-        return <CheckCircle className="w-4 h-4" />;
+        return <CheckCircle className='w-4 h-4' />;
       case 'pending':
-        return <Clock className="w-4 h-4" />;
+        return <Clock className='w-4 h-4' />;
       case 'completed':
-        return <CheckCircle className="w-4 h-4" />;
+        return <CheckCircle className='w-4 h-4' />;
       default:
-        return <AlertCircle className="w-4 h-4" />;
+        return <AlertCircle className='w-4 h-4' />;
     }
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className='min-h-screen bg-background'>
       <Header />
       <main>
         {/* Welcome Section */}
-        <section className="bg-gradient-to-br from-seasalt via-seasalt-50 to-orange-peel-50 py-12">
-          <UnifiedContainer size="xl" padding="lg">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
+        <section className='bg-gradient-to-br from-seasalt via-seasalt-50 to-orange-peel-50 py-12'>
+          <UnifiedContainer size='xl' padding='lg'>
+            <div className='flex flex-col md:flex-row justify-between items-start md:items-center'>
               <div>
-                <h1 className="text-3xl font-bold text-oxford-blue mb-2">
+                <h1 className='text-3xl font-bold text-oxford-blue mb-2'>
                   Welcome back, {user?.email?.split('@')[0] || 'User'}!
                 </h1>
-                <p className="text-oxford-blue-600">
-                  Manage your bookings and cleaning services
-                </p>
+                <p className='text-oxford-blue-600'>Manage your bookings and cleaning services</p>
               </div>
-              <Link href="/book">
-                <Button className="bg-orange-peel hover:bg-orange-peel-600 text-black">
-                  <Plus className="w-4 h-4 mr-2" />
+              <Link href='/book'>
+                <Button className='bg-orange-peel hover:bg-orange-peel-600 text-black'>
+                  <Plus className='w-4 h-4 mr-2' />
                   Book New Service
                 </Button>
               </Link>
@@ -115,43 +112,43 @@ export default function DashboardPage() {
         </section>
 
         {/* Quick Stats */}
-        <section className="py-8">
-          <UnifiedContainer size="xl" padding="lg">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <section className='py-8'>
+          <UnifiedContainer size='xl' padding='lg'>
+            <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
               <Card>
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between">
+                <CardContent className='p-6'>
+                  <div className='flex items-center justify-between'>
                     <div>
-                      <p className="text-sm text-gray-600">Upcoming Bookings</p>
-                      <p className="text-2xl font-bold text-oxford-blue">
+                      <p className='text-sm text-gray-600'>Upcoming Bookings</p>
+                      <p className='text-2xl font-bold text-oxford-blue'>
                         {upcomingBookings.length}
                       </p>
                     </div>
-                    <Calendar className="w-8 h-8 text-orange-peel" />
+                    <Calendar className='w-8 h-8 text-orange-peel' />
                   </div>
                 </CardContent>
               </Card>
               <Card>
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between">
+                <CardContent className='p-6'>
+                  <div className='flex items-center justify-between'>
                     <div>
-                      <p className="text-sm text-gray-600">Total Bookings</p>
-                      <p className="text-2xl font-bold text-oxford-blue">
+                      <p className='text-sm text-gray-600'>Total Bookings</p>
+                      <p className='text-2xl font-bold text-oxford-blue'>
                         {upcomingBookings.length + pastBookings.length}
                       </p>
                     </div>
-                    <CheckCircle className="w-8 h-8 text-green-500" />
+                    <CheckCircle className='w-8 h-8 text-green-500' />
                   </div>
                 </CardContent>
               </Card>
               <Card>
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between">
+                <CardContent className='p-6'>
+                  <div className='flex items-center justify-between'>
                     <div>
-                      <p className="text-sm text-gray-600">Average Rating</p>
-                      <p className="text-2xl font-bold text-oxford-blue">4.8</p>
+                      <p className='text-sm text-gray-600'>Average Rating</p>
+                      <p className='text-2xl font-bold text-oxford-blue'>4.8</p>
                     </div>
-                    <Star className="w-8 h-8 text-yellow-500" />
+                    <Star className='w-8 h-8 text-yellow-500' />
                   </div>
                 </CardContent>
               </Card>
@@ -160,51 +157,51 @@ export default function DashboardPage() {
         </section>
 
         {/* Upcoming Bookings */}
-        <section className="py-8">
-          <UnifiedContainer size="xl" padding="lg">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-oxford-blue">Upcoming Bookings</h2>
-              <Link href="/bookings">
-                <Button variant="outline">
+        <section className='py-8'>
+          <UnifiedContainer size='xl' padding='lg'>
+            <div className='flex justify-between items-center mb-6'>
+              <h2 className='text-2xl font-bold text-oxford-blue'>Upcoming Bookings</h2>
+              <Link href='/bookings'>
+                <Button variant='outline'>
                   View All
-                  <ArrowRight className="w-4 h-4 ml-2" />
+                  <ArrowRight className='w-4 h-4 ml-2' />
                 </Button>
               </Link>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {upcomingBookings.map((booking) => (
+            <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+              {upcomingBookings.map(booking => (
                 <Card key={booking.id}>
                   <CardHeader>
-                    <div className="flex justify-between items-start">
+                    <div className='flex justify-between items-start'>
                       <div>
-                        <CardTitle className="text-lg">{booking.service}</CardTitle>
+                        <CardTitle className='text-lg'>{booking.service}</CardTitle>
                         <CardDescription>Booking #{booking.id}</CardDescription>
                       </div>
                       <Badge className={getStatusColor(booking.status)}>
-                        <div className="flex items-center">
+                        <div className='flex items-center'>
                           {getStatusIcon(booking.status)}
-                          <span className="ml-1 capitalize">{booking.status}</span>
+                          <span className='ml-1 capitalize'>{booking.status}</span>
                         </div>
                       </Badge>
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <div className="space-y-3">
-                      <div className="flex items-center text-sm text-gray-600">
-                        <Calendar className="w-4 h-4 mr-2" />
+                    <div className='space-y-3'>
+                      <div className='flex items-center text-sm text-gray-600'>
+                        <Calendar className='w-4 h-4 mr-2' />
                         {new Date(booking.date).toLocaleDateString()} at {booking.time}
                       </div>
-                      <div className="flex items-center text-sm text-gray-600">
-                        <MapPin className="w-4 h-4 mr-2" />
+                      <div className='flex items-center text-sm text-gray-600'>
+                        <MapPin className='w-4 h-4 mr-2' />
                         {booking.address}
                       </div>
-                      <div className="flex items-center text-sm text-gray-600">
-                        <Clock className="w-4 h-4 mr-2" />
+                      <div className='flex items-center text-sm text-gray-600'>
+                        <Clock className='w-4 h-4 mr-2' />
                         {booking.duration}
                       </div>
-                      <div className="flex justify-between items-center pt-2 border-t">
-                        <span className="font-semibold text-lg">{booking.price}</span>
-                        <Button size="sm" variant="outline">
+                      <div className='flex justify-between items-center pt-2 border-t'>
+                        <span className='font-semibold text-lg'>{booking.price}</span>
+                        <Button size='sm' variant='outline'>
                           View Details
                         </Button>
                       </div>
@@ -217,57 +214,57 @@ export default function DashboardPage() {
         </section>
 
         {/* Recent Bookings */}
-        <section className="py-8 bg-gray-50">
-          <UnifiedContainer size="xl" padding="lg">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-oxford-blue">Recent Bookings</h2>
-              <Link href="/bookings">
-                <Button variant="outline">
+        <section className='py-8 bg-gray-50'>
+          <UnifiedContainer size='xl' padding='lg'>
+            <div className='flex justify-between items-center mb-6'>
+              <h2 className='text-2xl font-bold text-oxford-blue'>Recent Bookings</h2>
+              <Link href='/bookings'>
+                <Button variant='outline'>
                   View All
-                  <ArrowRight className="w-4 h-4 ml-2" />
+                  <ArrowRight className='w-4 h-4 ml-2' />
                 </Button>
               </Link>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {pastBookings.map((booking) => (
+            <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+              {pastBookings.map(booking => (
                 <Card key={booking.id}>
                   <CardHeader>
-                    <div className="flex justify-between items-start">
+                    <div className='flex justify-between items-start'>
                       <div>
-                        <CardTitle className="text-lg">{booking.service}</CardTitle>
+                        <CardTitle className='text-lg'>{booking.service}</CardTitle>
                         <CardDescription>Booking #{booking.id}</CardDescription>
                       </div>
                       <Badge className={getStatusColor(booking.status)}>
-                        <div className="flex items-center">
+                        <div className='flex items-center'>
                           {getStatusIcon(booking.status)}
-                          <span className="ml-1 capitalize">{booking.status}</span>
+                          <span className='ml-1 capitalize'>{booking.status}</span>
                         </div>
                       </Badge>
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <div className="space-y-3">
-                      <div className="flex items-center text-sm text-gray-600">
-                        <Calendar className="w-4 h-4 mr-2" />
+                    <div className='space-y-3'>
+                      <div className='flex items-center text-sm text-gray-600'>
+                        <Calendar className='w-4 h-4 mr-2' />
                         {new Date(booking.date).toLocaleDateString()} at {booking.time}
                       </div>
-                      <div className="flex items-center text-sm text-gray-600">
-                        <MapPin className="w-4 h-4 mr-2" />
+                      <div className='flex items-center text-sm text-gray-600'>
+                        <MapPin className='w-4 h-4 mr-2' />
                         {booking.address}
                       </div>
-                      <div className="flex items-center text-sm text-gray-600">
-                        <Clock className="w-4 h-4 mr-2" />
+                      <div className='flex items-center text-sm text-gray-600'>
+                        <Clock className='w-4 h-4 mr-2' />
                         {booking.duration}
                       </div>
                       {booking.rating && (
-                        <div className="flex items-center text-sm text-gray-600">
-                          <Star className="w-4 h-4 mr-2 text-yellow-500" />
+                        <div className='flex items-center text-sm text-gray-600'>
+                          <Star className='w-4 h-4 mr-2 text-yellow-500' />
                           Rated {booking.rating}/5 stars
                         </div>
                       )}
-                      <div className="flex justify-between items-center pt-2 border-t">
-                        <span className="font-semibold text-lg">{booking.price}</span>
-                        <Button size="sm" variant="outline">
+                      <div className='flex justify-between items-center pt-2 border-t'>
+                        <span className='font-semibold text-lg'>{booking.price}</span>
+                        <Button size='sm' variant='outline'>
                           View Details
                         </Button>
                       </div>

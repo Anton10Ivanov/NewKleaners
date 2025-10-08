@@ -4,48 +4,88 @@ export enum ServiceType {
   OFFICE_CLEANING = 'office_cleaning',
   DEEP_CLEANING = 'deep_cleaning',
   MOVE_IN_OUT = 'move_in_out',
-  POST_CONSTRUCTION = 'post_construction'
+  POST_CONSTRUCTION = 'post_construction',
+  WINDOW_CLEANING = 'window_cleaning',
 }
 
 export enum CleaningFrequency {
-  ONE_TIME = 'one_time',
+  ONCE = 'once',
   WEEKLY = 'weekly',
   BI_WEEKLY = 'bi_weekly',
   MONTHLY = 'monthly',
-  CUSTOM = 'custom'
+  CUSTOM = 'custom',
 }
 
-export enum RegularityPackage {
+export enum EffortLevel {
   BASIC = 'basic',
   STANDARD = 'standard',
-  PREMIUM = 'premium',
-  CUSTOM = 'custom'
+  KLEANERS = 'kleaners',
+}
+
+export enum PropertySizeTier {
+  TIER_1 = 'tier_1', // 50-70sqm (Studio/1BR)
+  TIER_2 = 'tier_2', // 70-90sqm (2BR)
+  TIER_3 = 'tier_3', // 90-110sqm (3BR)
+  TIER_4 = 'tier_4', // 110-130sqm (4BR)
+  TIER_5 = 'tier_5', // 130-150sqm (Large 4BR)
+  TIER_6 = 'tier_6', // 150+sqm (Custom quote required)
 }
 
 export enum BookingStep {
   SERVICE_SELECTION = 0,
   FREQUENCY_SELECTION = 1,
   PROPERTY_DETAILS = 2,
-  ESTIMATE = 3,
-  PACKAGE_SELECTION = 4,
-  SCHEDULING = 5,
-  PAYMENT = 6
+  EFFORT_SELECTION = 3,
+  SCHEDULING = 4,
+  ESTIMATE = 5,
+  PAYMENT = 6,
 }
 
 // Property Details Types
 export interface PropertyDetails {
-  propertyType: 'apartment' | 'house' | 'office' | 'commercial';
   bedrooms: number;
   bathrooms: number;
   squareFootage: number;
-  floors: number;
-  hasBasement: boolean;
-  hasAttic: boolean;
-  hasGarage: boolean;
-  pets: boolean;
-  specialRequirements?: string[];
   accessInstructions?: string;
-  preferredTime?: 'morning' | 'afternoon' | 'evening' | 'flexible';
+  sizeTier?: PropertySizeTier;
+}
+
+// Service-specific interfaces
+export interface DeepCleaningDetails extends PropertyDetails {
+  serviceType: ServiceType.DEEP_CLEANING;
+  cleaningLevel: 'light' | 'moderate' | 'heavy' | 'extreme';
+  lastCleanedDate?: string;
+  hasStains: boolean;
+  hasOdors: boolean;
+  requiresDisinfection: boolean;
+}
+
+export interface MoveInOutDetails extends PropertyDetails {
+  serviceType: ServiceType.MOVE_IN_OUT;
+  moveType: 'move_in' | 'move_out' | 'both';
+  moveDate: string;
+  propertyCondition: 'excellent' | 'fair' | 'poor';
+  hasAppliances: boolean;
+  requiresDeepClean: boolean;
+}
+
+export interface PostConstructionDetails extends PropertyDetails {
+  serviceType: ServiceType.POST_CONSTRUCTION;
+  constructionType: 'renovation' | 'new_build' | 'other';
+  dustLevel: 'light' | 'heavy' | 'extreme';
+  hasPaintResidue: boolean;
+  hasDrywallDust: boolean;
+  requiresHepaFilter: boolean;
+}
+
+export interface WindowCleaningDetails extends PropertyDetails {
+  serviceType: ServiceType.WINDOW_CLEANING;
+  windowCount: number;
+  windowHeight: 'ground' | 'medium' | 'high' | 'very_high';
+  hasHardToReach: boolean;
+  requiresLadder: boolean;
+  includesScreens: boolean;
+  includesTracks: boolean;
 }
 
 export interface OfficeDetails extends Omit<PropertyDetails, 'bedrooms' | 'bathrooms'> {
@@ -57,27 +97,38 @@ export interface OfficeDetails extends Omit<PropertyDetails, 'bedrooms' | 'bathr
   businessType: 'startup' | 'corporate' | 'retail' | 'medical' | 'other';
 }
 
+// Union type for all property detail types
+export type AllPropertyDetails =
+  | PropertyDetails
+  | OfficeDetails
+  | DeepCleaningDetails
+  | MoveInOutDetails
+  | PostConstructionDetails
+  | WindowCleaningDetails;
+
 // Estimate Types
 export interface Estimate {
   id: string;
   basePrice: number;
   duration: number; // in minutes
   frequency: CleaningFrequency;
-  packageType?: RegularityPackage;
+  effortLevel?: EffortLevel;
+  sizeTier?: PropertySizeTier;
+  isEstimate: boolean;
   addOns: EstimateAddOn[];
   discounts: EstimateDiscount[];
   totalPrice: number;
   currency: string;
   validUntil: string;
   breakdown: EstimateBreakdown;
+  accessInstructions?: string;
 }
 
 export interface EstimateAddOn {
   id: string;
   name: string;
-  description: string;
   price: number;
-  duration: number;
+  quantity?: number;
   isSelected: boolean;
 }
 
@@ -93,7 +144,7 @@ export interface EstimateBreakdown {
   baseService: number;
   addOns: number;
   frequencyMultiplier: number;
-  packageMultiplier?: number;
+  effortMultiplier?: number;
   discounts: number;
   taxes: number;
   total: number;
@@ -108,6 +159,8 @@ export interface BookingSchedule {
   providerId?: string;
   isAvailable: boolean;
   notes?: string;
+  addOns?: Record<string, number>; // Add-ons selected in schedule step
+  accessInstructions?: string; // Access instructions from schedule step
 }
 
 export interface TimeSlot {
@@ -123,7 +176,8 @@ export interface BookingFlowState {
   cleaningFrequency: CleaningFrequency | null;
   propertyDetails: PropertyDetails | OfficeDetails | null;
   estimate: Estimate | null;
-  selectedPackage: RegularityPackage | null;
+  selectedEffort: EffortLevel | null;
+  sizeTier: PropertySizeTier | null;
   schedule: BookingSchedule | null;
   isSubmitting: boolean;
   errors: Record<string, string>;
@@ -146,16 +200,15 @@ export interface BookingMetadata {
 // Form Data Types
 export interface OneTimeCleaningData extends PropertyDetails {
   serviceType: ServiceType;
-  frequency: CleaningFrequency.ONE_TIME;
+  frequency: CleaningFrequency.ONCE;
   specialInstructions?: string;
   preferredDate?: string;
-  preferredTime?: 'morning' | 'afternoon' | 'evening' | 'flexible';
 }
 
 export interface RegularCleaningData extends PropertyDetails {
   serviceType: ServiceType;
-  frequency: Exclude<CleaningFrequency, CleaningFrequency.ONE_TIME>;
-  packageType: RegularityPackage;
+  frequency: Exclude<CleaningFrequency, CleaningFrequency.ONCE>;
+  effortLevel: EffortLevel;
   startDate: string;
   endDate?: string;
   specialInstructions?: string;
@@ -164,7 +217,7 @@ export interface RegularCleaningData extends PropertyDetails {
 // API Response Types
 export interface BookingFlowResponse {
   success: boolean;
-  data?: any;
+  data?: unknown;
   error?: string;
   step?: BookingStep;
   redirectUrl?: string;
@@ -172,10 +225,10 @@ export interface BookingFlowResponse {
 
 // Component Props Types
 export interface BookingStepProps {
-  onNext: (data: any) => void;
+  onNext: (data: unknown) => void;
   onBack: () => void;
   onSkip?: () => void;
-  data?: any;
+  data?: unknown;
   errors?: Record<string, string>;
   isLoading?: boolean;
 }
@@ -200,7 +253,7 @@ export interface EstimateProps extends BookingStepProps {
 }
 
 export interface PackageSelectionProps extends BookingStepProps {
-  selectedPackage?: RegularityPackage;
+  selectedEffort?: EffortLevel;
   frequency: CleaningFrequency;
 }
 
@@ -223,14 +276,14 @@ export const PropertyDetailsSchema = {
   pets: 'boolean' as const,
   specialRequirements: 'array' as const,
   accessInstructions: 'string' as const,
-  preferredTime: 'string' as const,
 } as const;
 
 // Utility Types
 export type BookingFlowStep = keyof typeof BookingStep;
 export type ServiceTypeKey = keyof typeof ServiceType;
 export type CleaningFrequencyKey = keyof typeof CleaningFrequency;
-export type RegularityPackageKey = keyof typeof RegularityPackage;
+export type EffortLevelKey = keyof typeof EffortLevel;
+export type PropertySizeTierKey = keyof typeof PropertySizeTier;
 
 // Step condition type
 export type StepCondition = (state: BookingFlowState) => boolean;

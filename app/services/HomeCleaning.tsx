@@ -15,7 +15,7 @@ const services = [
   {
     id: 'home-cleaning',
     title: 'Home Cleaning',
-    description: 'Regular or one-time residential cleaning services',
+    description: 'Regular or once residential cleaning services',
     icon: Home,
     features: ['Deep cleaning', 'Regular maintenance', 'Move-in/out cleaning'],
     popular: true,

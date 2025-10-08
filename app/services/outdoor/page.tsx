@@ -130,7 +130,7 @@ export default function OutdoorServicesPage() {
         <section className='py-20'>
           <UnifiedContainer size='xl' padding='lg'>
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
-              {services.map((service, index) => {
+              {services.map((service, _index) => {
                 const IconComponent = service.icon;
                 return (
                   <Link key={service.id} href={`/book?service=${service.id}`}>
@@ -182,10 +182,10 @@ export default function OutdoorServicesPage() {
               </p>
             </div>
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'>
-              {features.map((feature, index) => {
+              {features.map((feature, _index) => {
                 const IconComponent = feature.icon;
                 return (
-                  <div key={index} className='text-center'>
+                  <div key={_index} className='text-center'>
                     <div className='w-16 h-16 bg-orange-peel/10 rounded-full flex items-center justify-center mx-auto mb-4'>
                       <IconComponent className='w-8 h-8 text-orange-peel' />
                     </div>

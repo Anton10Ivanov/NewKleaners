@@ -51,6 +51,51 @@ appear while gaining the benefits of a robust design system.
 /* Supporting Colors */
 --dark-spring-green: 0.45 0.12 140; /* #177245 */
 --blue-green: 0.55 0.15 200; /* #0d98ba */
+
+/* Additional Harmonious Colors - Color theory validated combinations */
+--teal: 0.7 0.2 180; /* Complementary to orange - vibrant contrast */
+--teal-foreground: 0.9 0 0; /* White text on teal */
+--teal-hover: 0.65 0.2 180; /* Darker teal on hover */
+
+--gold: 0.7 0.2 45; /* Warm luxury - analogous to orange */
+--gold-foreground: 0.2 0 0; /* Black text on gold */
+--gold-hover: 0.65 0.2 45; /* Darker gold on hover */
+
+--purple: 0.7 0.2 280; /* Triadic harmony - creative accent */
+--purple-foreground: 0.9 0 0; /* White text on purple */
+--purple-hover: 0.65 0.2 280; /* Darker purple on hover */
+
+--pink: 0.7 0.2 330; /* Warm accent - playful highlight */
+--pink-foreground: 0.9 0 0; /* White text on pink */
+--pink-hover: 0.65 0.2 330; /* Darker pink on hover */
+
+--emerald: 0.7 0.2 150; /* Natural trust - complementary to orange */
+--emerald-foreground: 0.9 0 0; /* White text on emerald */
+--emerald-hover: 0.65 0.2 150; /* Darker emerald on hover */
+
+--neutral-gray: 0.7 0.03 0; /* Text hierarchy - pure neutral */
+--neutral-gray-foreground: 0.9 0 0; /* White text on dark gray */
+--neutral-gray-hover: 0.65 0.03 0; /* Darker gray on hover */
+
+--warm-gray: 0.7 0.03 30; /* Warm neutral - subtle warmth */
+--warm-gray-foreground: 0.9 0 0; /* White text on warm gray */
+--warm-gray-hover: 0.65 0.03 30; /* Darker warm gray on hover */
+
+--cool-gray: 0.7 0.03 220; /* Cool neutral - subtle coolness */
+--cool-gray-foreground: 0.9 0 0; /* White text on cool gray */
+--cool-gray-hover: 0.65 0.03 220; /* Darker cool gray on hover */
+
+--amber: 0.7 0.2 40; /* Attention - warm warning */
+--amber-foreground: 0.2 0 0; /* Black text on amber */
+--amber-hover: 0.65 0.2 40; /* Darker amber on hover */
+
+--copper: 0.7 0.2 25; /* Warm accent - earthy luxury */
+--copper-foreground: 0.9 0 0; /* White text on copper */
+--copper-hover: 0.65 0.2 25; /* Darker copper on hover */
+
+--silver: 0.7 0.03 210; /* Cool accent - metallic elegance */
+--silver-foreground: 0.2 0 0; /* Black text on silver */
+--silver-hover: 0.65 0.03 210; /* Darker silver on hover */
 ```
 
 ### Semantic Tokens
@@ -175,7 +220,109 @@ const services = [
     bgColor: 'bg-success/10', // Light green background
     borderColor: 'border-success/20', // Light green border
   },
+  {
+    color: 'text-teal', // Teal - complementary to orange
+    bgColor: 'bg-teal/10', // Light teal background
+    borderColor: 'border-teal/20', // Light teal border
+  },
+  {
+    color: 'text-gold', // Gold - warm luxury
+    bgColor: 'bg-gold/10', // Light gold background
+    borderColor: 'border-gold/20', // Light gold border
+  },
+  {
+    color: 'text-purple', // Purple - creative accent
+    bgColor: 'bg-purple/10', // Light purple background
+    borderColor: 'border-purple/20', // Light purple border
+  },
 ];
+```
+
+## 🌈 New Harmonious Colors
+
+### Color Theory Principles
+
+The additional colors follow established color theory principles for harmonious
+combinations with your Orange Peel and Oxford Blue:
+
+- **Teal (180°)**: Complementary to Orange Peel - creates vibrant contrast
+- **Gold (45°)**: Analogous to Orange Peel - warm luxury feel
+- **Purple (280°)**: Triadic harmony - creative and distinctive
+- **Pink (330°)**: Warm accent - playful and engaging
+- **Emerald (150°)**: Complementary to Orange Peel - natural trust
+- **Neutral Grays**: Text hierarchy and balance
+
+### Usage Examples
+
+#### Service Categories with Distinct Colors
+
+```tsx
+// Premium Services
+<ServiceCard
+  className="bg-gold/10 border-gold/20 text-gold"
+  title="Premium Cleaning"
+/>
+
+// Eco-Friendly Services
+<ServiceCard
+  className="bg-emerald/10 border-emerald/20 text-emerald"
+  title="Eco-Friendly Cleaning"
+/>
+
+// Specialized Services
+<ServiceCard
+  className="bg-purple/10 border-purple/20 text-purple"
+  title="Specialized Cleaning"
+/>
+
+// Information Services
+<ServiceCard
+  className="bg-teal/10 border-teal/20 text-teal"
+  title="Window Cleaning"
+/>
+```
+
+#### Status Indicators
+
+```tsx
+// Success Messages
+<Alert className="bg-emerald/10 border-emerald text-emerald">
+  Cleaning completed successfully!
+</Alert>
+
+// Warning Messages
+<Alert className="bg-amber/10 border-amber text-amber">
+  Please schedule your cleaning
+</Alert>
+
+// Error Messages
+<Alert className="bg-error/10 border-error text-error">
+  Something went wrong
+</Alert>
+
+// Info Messages
+<Alert className="bg-teal/10 border-teal text-teal">
+  New cleaning tips available
+</Alert>
+```
+
+#### Text Hierarchy
+
+```tsx
+// Main headings
+<h1 className="text-foreground">Page Title</h1>
+
+// Secondary headings
+<h2 className="text-neutral-gray">Section Title</h2>
+
+// Body text
+<p className="text-foreground">Main content</p>
+
+// Muted text
+<p className="text-warm-gray">Supporting information</p>
+
+// Accent text
+<span className="text-gold">Premium feature</span>
 ```
 
 ## 🌙 Dark Mode Support

@@ -22,6 +22,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
+import { getEffortLevelInfo, getSizeTierInfo } from '@/lib/pricing-calculator';
 import type { BookingFlowState } from '@/types/bookingFlow';
 
 interface PaymentStepProps {
@@ -88,11 +89,41 @@ export const PaymentStep: React.FC<PaymentStepProps> = ({
 
     setIsProcessing(true);
 
-    // Simulate payment processing
-    setTimeout(() => {
+    try {
+      // Prepare payment data for Stripe
+      const paymentData = {
+        amount: bookingData.estimate?.breakdown.total || 0,
+        currency: 'eur',
+        metadata: {
+          serviceType: bookingData.serviceType,
+          effortLevel: bookingData.selectedEffort,
+          sizeTier: bookingData.sizeTier,
+          propertyType:
+            bookingData.propertyDetails && 'propertyType' in bookingData.propertyDetails
+              ? bookingData.propertyDetails.propertyType
+              : 'apartment',
+          frequency: bookingData.cleaningFrequency,
+          isEstimate: bookingData.estimate?.isEstimate || false,
+          sessionId: bookingData.metadata?.sessionId,
+        },
+        // Allow price adjustments for estimates
+        adjustableAmount: bookingData.estimate?.isEstimate || false,
+      };
+
+      // Simulate payment processing with Stripe
+      // In real implementation, this would call your backend API
+      // which would create a PaymentIntent with the above metadata
+      console.log('Processing payment with data:', paymentData);
+
+      setTimeout(() => {
+        setIsProcessing(false);
+        onNext(`booking-${Date.now()}`);
+      }, 2000);
+    } catch (error) {
+      console.error('Payment processing error:', error);
       setIsProcessing(false);
-      onNext(`booking-${Date.now()}`);
-    }, 2000);
+      // Handle error - show user-friendly message
+    }
   };
 
   const getServiceIcon = () => {
@@ -110,8 +141,8 @@ export const PaymentStep: React.FC<PaymentStepProps> = ({
 
   const getFrequencyText = () => {
     switch (bookingData.cleaningFrequency) {
-      case 'one_time':
-        return 'One-time cleaning';
+      case 'once':
+        return 'Once cleaning';
       case 'weekly':
         return 'Weekly cleaning';
       case 'bi_weekly':
@@ -228,8 +259,8 @@ export const PaymentStep: React.FC<PaymentStepProps> = ({
             </CardHeader>
             <CardContent>
               <div className='grid grid-cols-2 md:grid-cols-3 gap-3'>
-                {securityFeatures.map((feature, index) => (
-                  <div key={index} className='flex items-center text-sm text-green-800'>
+                {securityFeatures.map(feature => (
+                  <div key={feature} className='flex items-center text-sm text-green-800'>
                     <CheckCircle className='w-4 h-4 text-green-600 mr-2' />
                     {feature}
                   </div>
@@ -249,13 +280,25 @@ export const PaymentStep: React.FC<PaymentStepProps> = ({
                 />
                 <Label htmlFor='terms' className='text-sm text-gray-700'>
                   I agree to the{' '}
-                  <a href='#' className='text-primary hover:underline'>
+                  <button
+                    type='button'
+                    className='text-primary hover:underline'
+                    onClick={() => {
+                      /* Handle terms click */
+                    }}
+                  >
                     Terms of Service
-                  </a>{' '}
+                  </button>{' '}
                   and{' '}
-                  <a href='#' className='text-primary hover:underline'>
+                  <button
+                    type='button'
+                    className='text-primary hover:underline'
+                    onClick={() => {
+                      /* Handle privacy click */
+                    }}
+                  >
                     Privacy Policy
-                  </a>
+                  </button>
                   . I understand that this booking is subject to our cancellation policy.
                 </Label>
               </div>
@@ -323,9 +366,46 @@ export const PaymentStep: React.FC<PaymentStepProps> = ({
               {/* Pricing Breakdown */}
               {bookingData.estimate && (
                 <div className='space-y-2'>
+                  {/* Note: For estimates, final price may be adjusted on-site */}
+                  {bookingData.estimate.isEstimate && (
+                    <div className='text-xs text-blue-600 bg-blue-50 p-2 rounded border border-blue-200'>
+                      💡 Final price may be adjusted based on on-site assessment
+                    </div>
+                  )}
+                  {/* Size and Effort Information */}
+                  {bookingData.sizeTier && bookingData.selectedEffort && (
+                    <div className='bg-blue-50 border border-blue-200 rounded-lg p-3 mb-3'>
+                      <div className='text-sm space-y-1'>
+                        <div className='flex justify-between'>
+                          <span className='text-blue-700'>Size:</span>
+                          <span className='font-medium text-blue-800'>
+                            {getSizeTierInfo(bookingData.sizeTier).name}
+                          </span>
+                        </div>
+                        <div className='flex justify-between'>
+                          <span className='text-blue-700'>Effort:</span>
+                          <span className='font-medium text-blue-800'>
+                            {getEffortLevelInfo(bookingData.selectedEffort).name}
+                          </span>
+                        </div>
+                        {bookingData.propertyDetails &&
+                          'propertyType' in bookingData.propertyDetails && (
+                            <div className='flex justify-between'>
+                              <span className='text-blue-700'>Type:</span>
+                              <span className='font-medium text-blue-800'>
+                                {bookingData.propertyDetails.propertyType === 'house'
+                                  ? 'House (+10%)'
+                                  : 'Apartment'}
+                              </span>
+                            </div>
+                          )}
+                      </div>
+                    </div>
+                  )}
+
                   <div className='flex justify-between text-sm'>
                     <span className='text-gray-600'>Base Service</span>
-                    <span>${bookingData.estimate?.breakdown.baseService}</span>
+                    <span>€{bookingData.estimate?.breakdown.baseService}</span>
                   </div>
 
                   {bookingData.estimate?.addOns && bookingData.estimate.addOns.length > 0 && (
@@ -337,7 +417,7 @@ export const PaymentStep: React.FC<PaymentStepProps> = ({
                           className='flex justify-between text-sm text-gray-600 ml-2'
                         >
                           <span>{addOn.name}</span>
-                          <span>+${addOn.price}</span>
+                          <span>+€{addOn.price}</span>
                         </div>
                       ))}
                     </div>
@@ -353,13 +433,13 @@ export const PaymentStep: React.FC<PaymentStepProps> = ({
                         >
                           <span>{discount.name}</span>
                           <span>
-                            -$
+                            -€
                             {discount.type === 'percentage'
                               ? Math.round(
-                                ((bookingData.estimate?.breakdown.baseService || 0) *
+                                  ((bookingData.estimate?.breakdown.baseService || 0) *
                                     discount.value) /
                                     100,
-                              )
+                                )
                               : discount.value}
                           </span>
                         </div>
@@ -369,14 +449,14 @@ export const PaymentStep: React.FC<PaymentStepProps> = ({
 
                   <div className='flex justify-between text-sm'>
                     <span className='text-gray-600'>Tax (8%)</span>
-                    <span>${bookingData.estimate?.breakdown.taxes}</span>
+                    <span>€{bookingData.estimate?.breakdown.taxes}</span>
                   </div>
 
                   <Separator />
 
                   <div className='flex justify-between text-lg font-bold'>
-                    <span>Total</span>
-                    <span className='text-primary'>${bookingData.estimate?.breakdown.total}</span>
+                    <span>Estimated Total</span>
+                    <span className='text-primary'>€{bookingData.estimate?.breakdown.total}</span>
                   </div>
                 </div>
               )}
@@ -411,7 +491,7 @@ export const PaymentStep: React.FC<PaymentStepProps> = ({
                   Processing Payment...
                 </div>
               ) : (
-                `Pay $${bookingData.estimate?.breakdown.total || 0}`
+                `Pay €${bookingData.estimate?.breakdown.total || 0}`
               )}
             </Button>
 

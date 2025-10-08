@@ -72,8 +72,8 @@ export function ServiceCategoryCard(props: ServiceCategoryCardProps): JSX.Elemen
         <div className='px-5 py-6 bg-card flex flex-col justify-between min-h-[200px]'>
           {/* Group 1: Heading and Description */}
           <div className='space-y-0'>
-            <h3 className='text-2xl font-bold text-black tracking-tight'>{title}</h3>
-            <p className='text-sm text-gray-500 leading-relaxed'>
+            <h3 className='heading-3 text-black tracking-tight'>{title}</h3>
+            <p className='body-small text-gray-500 leading-relaxed'>
               {description || 'Professional cleaning services tailored to your specific needs'}
             </p>
           </div>
@@ -98,7 +98,7 @@ export function ServiceCategoryCard(props: ServiceCategoryCardProps): JSX.Elemen
                       />
                     </svg>
                   </div>
-                  <span className='text-sm text-oxford-blue-700 font-normal'>{signal}</span>
+                  <span className='body-small text-oxford-blue-700 font-normal'>{signal}</span>
                 </div>
               ))}
             </div>
@@ -107,9 +107,7 @@ export function ServiceCategoryCard(props: ServiceCategoryCardProps): JSX.Elemen
           {/* Group 3: Examples and Tags */}
           {labels.length > 0 && (
             <div className='mt-6'>
-              <p className='text-xs font-semibold text-oxford-blue-500 uppercase tracking-wide mb-2'>
-                Examples
-              </p>
+              <p className='overline text-oxford-blue-500 mb-2'>Examples</p>
               <div className='flex flex-wrap gap-1 max-h-[56px] overflow-hidden'>
                 {labels.map(label => (
                   <span

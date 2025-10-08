@@ -2,10 +2,8 @@
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { useRouter } from 'next/navigation';
-
 import { AnimatePresence, motion } from 'framer-motion';
-import { AlertCircle, ArrowLeft, CheckCircle, Loader2 } from 'lucide-react';
+import { AlertCircle, ArrowLeft, Loader2 } from 'lucide-react';
 
 import { useAuth } from '@/components/providers/AuthProvider';
 import { Alert, AlertDescription } from '@/components/ui/alert';
@@ -14,18 +12,19 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import {
   BookingStep,
   CleaningFrequency,
+  EffortLevel,
+  PropertySizeTier,
+  ServiceType,
   type BookingFlowState,
   type BookingSchedule,
   type Estimate,
   type OfficeDetails,
   type PropertyDetails,
-  type RegularityPackage,
-  type ServiceType,
 } from '@/types/bookingFlow';
 
+import { EffortSelectionStep } from './components/booking/steps/EffortSelectionStep';
 import { EstimateStep } from './components/booking/steps/EstimateStep';
 import { FrequencySelectionStep } from './components/booking/steps/FrequencySelectionStep';
-import { PackageSelectionStep } from './components/booking/steps/PackageSelectionStep';
 import { PaymentStep } from './components/booking/steps/PaymentStep';
 import { PropertyDetailsStep } from './components/booking/steps/PropertyDetailsStep';
 import { SchedulingStep } from './components/booking/steps/SchedulingStep';
@@ -42,19 +41,16 @@ export const MainBookingFlow: React.FC<MainBookingFlowProps> = ({
   onComplete,
   onCancel,
 }) => {
-  const { user, loading: authLoading } = useAuth();
-  const router = useRouter();
+  const { loading: authLoading } = useAuth();
 
-  // Initialize booking state with proper typing
   const [bookingState, setBookingState] = useState<BookingFlowState>({
-    currentStep: preselectedService
-      ? BookingStep.FREQUENCY_SELECTION
-      : BookingStep.SERVICE_SELECTION,
+    currentStep: preselectedService ? BookingStep.PROPERTY_DETAILS : BookingStep.SERVICE_SELECTION,
     serviceType: preselectedService || null,
     cleaningFrequency: null,
     propertyDetails: null,
     estimate: null,
-    selectedPackage: null,
+    selectedEffort: null,
+    sizeTier: null,
     schedule: null,
     isSubmitting: false,
     errors: {},
@@ -66,7 +62,6 @@ export const MainBookingFlow: React.FC<MainBookingFlowProps> = ({
     },
   });
 
-  // Define steps with proper typing and metadata
   const steps = useMemo(
     () => [
       {
@@ -91,25 +86,23 @@ export const MainBookingFlow: React.FC<MainBookingFlowProps> = ({
         canSkip: false,
       },
       {
-        id: BookingStep.ESTIMATE,
-        title: 'Estimate',
-        description: 'Get your cleaning estimate',
+        id: BookingStep.EFFORT_SELECTION,
+        title: 'Effort Level',
+        description: 'Choose your cleaning level',
         isRequired: true,
         canSkip: false,
-      },
-      {
-        id: BookingStep.PACKAGE_SELECTION,
-        title: 'Package',
-        description: 'Select your package (if regular)',
-        isRequired: false,
-        canSkip: true,
-        condition: (state: BookingFlowState) =>
-          state.cleaningFrequency !== CleaningFrequency.ONE_TIME,
       },
       {
         id: BookingStep.SCHEDULING,
         title: 'Schedule',
         description: 'Choose date and time',
+        isRequired: true,
+        canSkip: false,
+      },
+      {
+        id: BookingStep.ESTIMATE,
+        title: 'Estimate',
+        description: 'Review your booking',
         isRequired: true,
         canSkip: false,
       },
@@ -124,25 +117,16 @@ export const MainBookingFlow: React.FC<MainBookingFlowProps> = ({
     [],
   );
 
-  // Enhanced state update function with validation and error handling
   const updateBookingState = useCallback((updates: Partial<BookingFlowState>) => {
     setBookingState(prev => {
-      const newState = {
-        ...prev,
-        ...updates,
-        lastUpdatedAt: new Date().toISOString(),
-      };
-
-      // Clear errors when updating state
+      const newState = { ...prev, ...updates, lastUpdatedAt: new Date().toISOString() };
       if (updates.errors === undefined) {
         newState.errors = {};
       }
-
       return newState;
     });
   }, []);
 
-  // Clear error function
   const clearError = useCallback(
     (field: string) => {
       const newErrors = { ...bookingState.errors };
@@ -152,22 +136,50 @@ export const MainBookingFlow: React.FC<MainBookingFlowProps> = ({
     [bookingState.errors, updateBookingState],
   );
 
-  // Handle preselected service from URL
   useEffect(() => {
     if (preselectedService && bookingState.serviceType === null) {
+      // Services that default to "Once" and skip frequency selection
+      const skipFrequencyServices = [
+        ServiceType.MOVE_IN_OUT,
+        ServiceType.POST_CONSTRUCTION,
+        ServiceType.WINDOW_CLEANING,
+        ServiceType.DEEP_CLEANING,
+      ];
+
+      const nextStep = skipFrequencyServices.includes(preselectedService)
+        ? BookingStep.PROPERTY_DETAILS
+        : BookingStep.FREQUENCY_SELECTION;
+
       updateBookingState({
         serviceType: preselectedService,
-        currentStep: BookingStep.FREQUENCY_SELECTION,
+        cleaningFrequency: skipFrequencyServices.includes(preselectedService)
+          ? CleaningFrequency.ONCE
+          : null,
+        currentStep: nextStep,
       });
     }
   }, [preselectedService, updateBookingState, bookingState.serviceType]);
 
-  // Step navigation handlers with proper validation
   const handleServiceSelect = useCallback(
     (selectedServiceType: ServiceType) => {
+      // Services that default to "Once" and skip frequency selection
+      const skipFrequencyServices = [
+        ServiceType.MOVE_IN_OUT,
+        ServiceType.POST_CONSTRUCTION,
+        ServiceType.WINDOW_CLEANING,
+        ServiceType.DEEP_CLEANING,
+      ];
+
+      const nextStep = skipFrequencyServices.includes(selectedServiceType)
+        ? BookingStep.PROPERTY_DETAILS
+        : BookingStep.FREQUENCY_SELECTION;
+
       updateBookingState({
         serviceType: selectedServiceType,
-        currentStep: BookingStep.FREQUENCY_SELECTION,
+        cleaningFrequency: skipFrequencyServices.includes(selectedServiceType)
+          ? CleaningFrequency.ONCE
+          : null,
+        currentStep: nextStep,
       });
       clearError('serviceType');
     },
@@ -187,80 +199,148 @@ export const MainBookingFlow: React.FC<MainBookingFlowProps> = ({
 
   const handlePropertyDetailsNext = useCallback(
     (data: PropertyDetails | OfficeDetails) => {
+      // For services that skip frequency selection, go directly to effort selection
+      const skipFrequencyServices = [
+        ServiceType.MOVE_IN_OUT,
+        ServiceType.POST_CONSTRUCTION,
+        ServiceType.WINDOW_CLEANING,
+        ServiceType.DEEP_CLEANING,
+      ];
+
+      const nextStep =
+        bookingState.serviceType && skipFrequencyServices.includes(bookingState.serviceType)
+          ? BookingStep.EFFORT_SELECTION
+          : BookingStep.EFFORT_SELECTION; // For regular services, go to effort selection
+
       updateBookingState({
         propertyDetails: data,
-        currentStep: BookingStep.ESTIMATE,
+        sizeTier: data.sizeTier || null,
+        currentStep: nextStep,
       });
       clearError('propertyDetails');
     },
+    [updateBookingState, clearError, bookingState.serviceType],
+  );
+
+  const handleEffortSelect = useCallback(
+    (effort: EffortLevel) => {
+      updateBookingState({
+        selectedEffort: effort,
+        currentStep: BookingStep.SCHEDULING,
+      });
+      clearError('selectedEffort');
+    },
     [updateBookingState, clearError],
+  );
+
+  const handleScheduleNext = useCallback(
+    (
+      scheduleData: BookingSchedule & {
+        addOns: Record<string, number>;
+        accessInstructions?: string;
+      },
+    ) => {
+      // Create a temporary estimate with the add-ons for the estimate step
+      const addOnsTotal = Object.entries(scheduleData.addOns).reduce(
+        (total, [_addOnId, quantity]) => {
+          // This would need to be calculated based on the add-on prices
+          // For now, we'll pass the add-ons data to the estimate step
+          return total + quantity * 25; // Placeholder calculation
+        },
+        0,
+      );
+
+      const tempEstimate: Estimate = {
+        id: `temp-estimate-${Date.now()}`,
+        basePrice: 100, // This should come from the effort level calculation
+        duration: 120,
+        frequency: bookingState.cleaningFrequency || CleaningFrequency.ONCE,
+        effortLevel: bookingState.selectedEffort || EffortLevel.STANDARD,
+        sizeTier: bookingState.sizeTier || PropertySizeTier.TIER_2,
+        isEstimate: true,
+        addOns: [], // Will be populated in the estimate step
+        discounts: [],
+        totalPrice: Math.round((100 + addOnsTotal) * 1.08),
+        currency: 'EUR',
+        validUntil: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+        breakdown: {
+          baseService: 100,
+          addOns: addOnsTotal,
+          frequencyMultiplier: 1.0,
+          discounts: 0,
+          taxes: Math.round((100 + addOnsTotal) * 0.08),
+          total: Math.round((100 + addOnsTotal) * 1.08),
+        },
+        accessInstructions: scheduleData.accessInstructions || '',
+      };
+
+      updateBookingState({
+        schedule: scheduleData,
+        estimate: tempEstimate,
+        currentStep: BookingStep.ESTIMATE,
+      });
+      clearError('schedule');
+    },
+    [
+      updateBookingState,
+      clearError,
+      bookingState.cleaningFrequency,
+      bookingState.selectedEffort,
+      bookingState.sizeTier,
+    ],
   );
 
   const handleEstimateNext = useCallback(
     (estimateData: Estimate) => {
-      const nextStep =
-        bookingState.cleaningFrequency === CleaningFrequency.ONE_TIME
-          ? BookingStep.SCHEDULING
-          : BookingStep.PACKAGE_SELECTION;
-
-      updateBookingState({
-        estimate: estimateData,
-        currentStep: nextStep,
-      });
+      updateBookingState({ estimate: estimateData, currentStep: BookingStep.PAYMENT });
       clearError('estimate');
-    },
-    [bookingState.cleaningFrequency, updateBookingState, clearError],
-  );
-
-  const handlePackageSelect = useCallback(
-    (packageType: RegularityPackage) => {
-      updateBookingState({
-        selectedPackage: packageType,
-        currentStep: BookingStep.SCHEDULING,
-      });
-      clearError('selectedPackage');
     },
     [updateBookingState, clearError],
   );
 
-  const handleScheduleSelect = useCallback(
-    (schedule: BookingSchedule) => {
-      // Check authentication before proceeding to payment
-      if (!user) {
-        const returnUrl = encodeURIComponent(window.location.pathname + window.location.search);
-        router.push(`/auth/signin?returnUrl=${returnUrl}`);
-        return;
-      }
-
-      updateBookingState({
-        schedule,
-        currentStep: BookingStep.PAYMENT,
-      });
-      clearError('schedule');
-    },
-    [user, router, updateBookingState, clearError],
-  );
-
-  // Navigation functions
   const goToNextStep = useCallback(() => {
     const currentStepIndex = steps.findIndex(step => step.id === bookingState.currentStep);
     const nextStep = steps[currentStepIndex + 1];
-
-    if (nextStep && (!nextStep.condition || nextStep.condition(bookingState))) {
+    if (nextStep) {
       updateBookingState({ currentStep: nextStep.id });
     }
   }, [steps, bookingState, updateBookingState]);
 
   const goToPreviousStep = useCallback(() => {
     const currentStepIndex = steps.findIndex(step => step.id === bookingState.currentStep);
-    const prevStep = steps[currentStepIndex - 1];
 
-    if (prevStep) {
-      updateBookingState({ currentStep: prevStep.id });
+    // Special handling for frequency selection step
+    if (bookingState.currentStep === BookingStep.FREQUENCY_SELECTION) {
+      // Check if the service type has multiple frequency options
+      const skipFrequencyServices = [
+        ServiceType.MOVE_IN_OUT,
+        ServiceType.POST_CONSTRUCTION,
+        ServiceType.WINDOW_CLEANING,
+      ];
+
+      const hasMultipleFrequencies = bookingState.serviceType
+        ? !skipFrequencyServices.includes(bookingState.serviceType)
+        : false;
+
+      if (hasMultipleFrequencies) {
+        // Go to previous step (service selection)
+        const prevStep = steps[currentStepIndex - 1];
+        if (prevStep) {
+          updateBookingState({ currentStep: prevStep.id });
+        }
+      } else {
+        // Skip frequency step and go directly to service selection
+        updateBookingState({ currentStep: BookingStep.SERVICE_SELECTION });
+      }
+    } else {
+      // Normal step navigation
+      const prevStep = steps[currentStepIndex - 1];
+      if (prevStep) {
+        updateBookingState({ currentStep: prevStep.id });
+      }
     }
-  }, [steps, bookingState, updateBookingState]);
+  }, [steps, bookingState.currentStep, bookingState.serviceType, updateBookingState]);
 
-  // Skip step function
   const skipStep = useCallback(() => {
     const currentStep = steps.find(step => step.id === bookingState.currentStep);
     if (currentStep?.canSkip) {
@@ -268,12 +348,8 @@ export const MainBookingFlow: React.FC<MainBookingFlowProps> = ({
     }
   }, [steps, bookingState.currentStep, goToNextStep]);
 
-  // Render current step component with proper error handling
   const renderCurrentStep = () => {
     const commonProps = {
-      onNext: () => {
-        // Step-specific next logic will be handled by individual step components
-      },
       onBack: goToPreviousStep,
       onSkip: skipStep,
       errors: bookingState.errors,
@@ -289,19 +365,6 @@ export const MainBookingFlow: React.FC<MainBookingFlowProps> = ({
             preselectedService={preselectedService || null}
           />
         );
-
-      case BookingStep.FREQUENCY_SELECTION:
-        if (!bookingState.serviceType) {
-          return <div>Service type not selected</div>;
-        }
-        return (
-          <FrequencySelectionStep
-            {...commonProps}
-            onNext={handleFrequencySelect}
-            serviceType={bookingState.serviceType}
-          />
-        );
-
       case BookingStep.PROPERTY_DETAILS:
         if (!bookingState.serviceType) {
           return <div>Service type not selected</div>;
@@ -311,15 +374,29 @@ export const MainBookingFlow: React.FC<MainBookingFlowProps> = ({
             {...commonProps}
             onNext={handlePropertyDetailsNext}
             serviceType={bookingState.serviceType}
-            isRegularCleaning={bookingState.cleaningFrequency !== CleaningFrequency.ONE_TIME}
+            isRegularCleaning={bookingState.cleaningFrequency !== CleaningFrequency.ONCE}
             data={bookingState.propertyDetails}
           />
         );
-
+      case BookingStep.EFFORT_SELECTION:
+        if (!bookingState.propertyDetails || !bookingState.serviceType) {
+          return <div>Required data not available</div>;
+        }
+        return (
+          <EffortSelectionStep
+            {...commonProps}
+            onNext={handleEffortSelect}
+            propertyData={bookingState.propertyDetails}
+            serviceType={bookingState.serviceType}
+            selectedEffort={bookingState.selectedEffort}
+            sizeTier={bookingState.sizeTier}
+          />
+        );
       case BookingStep.ESTIMATE:
         if (
           !bookingState.propertyDetails ||
           !bookingState.serviceType ||
+          !bookingState.selectedEffort ||
           !bookingState.cleaningFrequency
         ) {
           return <div>Required data not available</div>;
@@ -330,43 +407,37 @@ export const MainBookingFlow: React.FC<MainBookingFlowProps> = ({
             onNext={handleEstimateNext}
             propertyData={bookingState.propertyDetails}
             serviceType={bookingState.serviceType}
-            frequency={bookingState.cleaningFrequency}
+            frequency={bookingState.cleaningFrequency || CleaningFrequency.ONCE}
+            effortLevel={bookingState.selectedEffort}
+            sizeTier={bookingState.sizeTier}
             data={bookingState.estimate}
+            addOns={bookingState.schedule?.addOns || {}}
           />
         );
-
-      case BookingStep.PACKAGE_SELECTION:
-        if (!bookingState.cleaningFrequency) {
-          return <div>Cleaning frequency not selected</div>;
+      case BookingStep.FREQUENCY_SELECTION:
+        if (!bookingState.serviceType) {
+          return <div>Required data not available</div>;
         }
         return (
-          <PackageSelectionStep
+          <FrequencySelectionStep
             {...commonProps}
-            onNext={handlePackageSelect}
-            frequency={bookingState.cleaningFrequency}
-            selectedPackage={bookingState.selectedPackage}
+            onNext={handleFrequencySelect}
+            serviceType={bookingState.serviceType}
           />
         );
-
       case BookingStep.SCHEDULING:
-        if (
-          !bookingState.estimate ||
-          !bookingState.serviceType ||
-          !bookingState.cleaningFrequency
-        ) {
+        if (!bookingState.serviceType || !bookingState.cleaningFrequency) {
           return <div>Required data not available</div>;
         }
         return (
           <SchedulingStep
             {...commonProps}
-            onNext={handleScheduleSelect}
-            estimate={bookingState.estimate}
+            onNext={handleScheduleNext}
             serviceType={bookingState.serviceType}
             frequency={bookingState.cleaningFrequency}
             data={bookingState.schedule}
           />
         );
-
       case BookingStep.PAYMENT:
         return (
           <PaymentStep
@@ -376,7 +447,6 @@ export const MainBookingFlow: React.FC<MainBookingFlowProps> = ({
             bookingData={bookingState}
           />
         );
-
       default:
         return (
           <Card className='w-full max-w-md mx-auto'>
@@ -397,14 +467,19 @@ export const MainBookingFlow: React.FC<MainBookingFlowProps> = ({
     }
   };
 
-  // Get visible steps for display
-  const visibleSteps = useMemo(
-    () =>
-      steps.filter(step => (preselectedService ? step.id !== BookingStep.SERVICE_SELECTION : true)),
-    [steps, preselectedService],
+  const breadcrumbDefs = useMemo(
+    () => [
+      { id: BookingStep.SERVICE_SELECTION, title: 'Service Selection' },
+      { id: BookingStep.FREQUENCY_SELECTION, title: 'Frequency Selection' },
+      { id: BookingStep.PROPERTY_DETAILS, title: 'Property Details' },
+      { id: BookingStep.EFFORT_SELECTION, title: 'Effort Level' },
+      { id: BookingStep.SCHEDULING, title: 'Schedule' },
+      { id: BookingStep.ESTIMATE, title: 'Estimate' },
+      { id: BookingStep.PAYMENT, title: 'Payment' },
+    ],
+    [],
   );
 
-  // Show loading state while checking authentication
   if (authLoading) {
     return (
       <div className='min-h-screen bg-gradient-to-br from-[#f7f7f7] via-white to-[#f7f7f7] flex items-center justify-center p-4'>
@@ -415,7 +490,7 @@ export const MainBookingFlow: React.FC<MainBookingFlowProps> = ({
           transition={{ duration: 0.3 }}
         >
           <div className='relative mb-6'>
-            <Loader2 className='h-12 w-12 sm:h-16 sm:w-16 animate-spin text-[#ffa000] mx-auto' />
+            <Loader2 className='h-12 w-12 sm:h-16 sm:w-16 animate-spin text[#ffa000] mx-auto' />
             <div className='absolute inset-0 animate-ping rounded-full h-12 w-12 sm:h-16 sm:w-16 border-4 border-[#ffa000]/30 mx-auto' />
           </div>
           <h3 className='text-lg sm:text-xl font-semibold text-[#001b2e] mb-2'>
@@ -432,118 +507,50 @@ export const MainBookingFlow: React.FC<MainBookingFlowProps> = ({
   return (
     <div className='min-h-screen bg-gradient-to-br from-[#f7f7f7] via-white to-[#f7f7f7] py-4 sm:py-6 lg:py-8'>
       <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
-        {/* Header with Progress */}
         <motion.div
           className='mb-6 sm:mb-8'
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
         >
-          <div className='text-center mb-6 sm:mb-8'>
-            <h1 className='text-2xl sm:text-3xl lg:text-4xl font-bold text-[#001b2e] mb-2 sm:mb-3'>
-              Book Your Cleaning Service
-            </h1>
-            <p className='text-sm sm:text-base lg:text-lg text-[#001b2e]/70 max-w-2xl mx-auto'>
-              Complete your booking in just a few simple steps
-            </p>
-          </div>
+          {/* Service Selection Header - Only show on service selection step */}
+          {bookingState.currentStep === BookingStep.SERVICE_SELECTION && (
+            <div className='text-center mb-4 sm:mb-6'>
+              <h1 className='text-2xl sm:text-3xl lg:text-4xl font-bold text-[#001b2e] mb-2 sm:mb-3'>
+                Choose Your Cleaning Service
+              </h1>
+              <p className='text-sm sm:text-base lg:text-lg text-[#001b2e]/70 max-w-2xl mx-auto'>
+                Select the type that best fits your needs. We offer comprehensive solutions for both
+                residential and commercial properties.
+              </p>
+            </div>
+          )}
 
-          {/* Step Indicators */}
-          <div className='flex items-center justify-center overflow-x-auto pb-2'>
-            <div className='flex items-center bg-white/90 backdrop-blur-sm rounded-full p-2 sm:p-3 shadow-lg border border-[#001b2e]/10 min-w-fit'>
-              {visibleSteps.map((step, index) => (
-                <div key={step.id} className='flex items-center'>
-                  <motion.div
-                    className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300 ${
-                      bookingState.currentStep >= step.id
-                        ? 'bg-gradient-to-r from-[#ffa000] to-[#ffa000]/90 text-white shadow-lg'
-                        : 'bg-[#001b2e]/10 text-[#001b2e]/60'
-                    }`}
-                    animate={{
-                      scale: bookingState.currentStep === step.id ? 1.05 : 1,
-                      boxShadow:
-                        bookingState.currentStep === step.id
-                          ? '0 0 20px rgba(255, 160, 0, 0.3)'
-                          : 'none',
-                    }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    {bookingState.currentStep > step.id ? (
-                      <CheckCircle className='w-4 h-4 sm:w-5 sm:h-5' />
-                    ) : (
-                      index + 1
+          {/* Breadcrumbs: show only after service selection */}
+          {bookingState.currentStep !== BookingStep.SERVICE_SELECTION && (
+            <nav aria-label='Breadcrumb' className='flex justify-center'>
+              <ol className='flex items-center text-xs sm:text-sm text-[#001b2e]/70'>
+                {breadcrumbDefs.map((bc, index) => (
+                  <li key={bc.id} className='flex items-center'>
+                    <span
+                      className={
+                        bookingState.currentStep === bc.id
+                          ? 'font-semibold text-[#ffa000]'
+                          : 'text-[#001b2e]/70'
+                      }
+                    >
+                      {bc.title}
+                    </span>
+                    {index < breadcrumbDefs.length - 1 && (
+                      <span className='mx-2 text-[#001b2e]/40'>/</span>
                     )}
-                  </motion.div>
-                  {index < visibleSteps.length - 1 && (
-                    <motion.div
-                      className={`w-8 sm:w-12 h-0.5 mx-2 rounded-full transition-all duration-500 ${
-                        bookingState.currentStep > step.id
-                          ? 'bg-gradient-to-r from-[#ffa000] to-[#ffa000]/80'
-                          : 'bg-[#001b2e]/20'
-                      }`}
-                      initial={{ width: 0 }}
-                      animate={{
-                        width: window.innerWidth < 640 ? '32px' : '48px',
-                        opacity: bookingState.currentStep > step.id ? 1 : 0.3,
-                      }}
-                      transition={{ duration: 0.5, delay: 0.2 }}
-                    />
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Step Labels */}
-          <div className='flex justify-center mt-4 sm:mt-6'>
-            <div className='hidden sm:flex items-center space-x-8 lg:space-x-20'>
-              {visibleSteps.map((step, index) => (
-                <motion.div
-                  key={step.id}
-                  className='text-center max-w-20 lg:max-w-24'
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                >
-                  <div
-                    className={`text-xs lg:text-sm font-medium transition-colors duration-300 ${
-                      bookingState.currentStep >= step.id ? 'text-[#ffa000]' : 'text-[#001b2e]/60'
-                    }`}
-                  >
-                    {step.title}
-                  </div>
-                  <div
-                    className={`text-xs text-[#001b2e]/50 mt-1 transition-colors duration-300 ${
-                      bookingState.currentStep >= step.id
-                        ? 'text-[#ffa000]/70'
-                        : 'text-[#001b2e]/40'
-                    }`}
-                  >
-                    {step.description}
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-            {/* Mobile step label - show current step only */}
-            <div className='sm:hidden text-center'>
-              <motion.div
-                key={bookingState.currentStep}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-              >
-                <div className='text-sm font-medium text-[#ffa000]'>
-                  {visibleSteps.find(step => step.id === bookingState.currentStep)?.title}
-                </div>
-                <div className='text-xs text-[#001b2e]/60 mt-1'>
-                  {visibleSteps.find(step => step.id === bookingState.currentStep)?.description}
-                </div>
-              </motion.div>
-            </div>
-          </div>
+                  </li>
+                ))}
+              </ol>
+            </nav>
+          )}
         </motion.div>
 
-        {/* Error Display */}
         {Object.keys(bookingState.errors).length > 0 && (
           <motion.div
             initial={{ opacity: 0, y: -10 }}
@@ -569,7 +576,6 @@ export const MainBookingFlow: React.FC<MainBookingFlowProps> = ({
           </motion.div>
         )}
 
-        {/* Current Step Content */}
         <AnimatePresence mode='wait'>
           <motion.div
             key={bookingState.currentStep}

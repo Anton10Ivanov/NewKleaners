@@ -10,7 +10,12 @@ const supabaseAnonKey = process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY'];
 let supabase: ReturnType<typeof createClient<Database>> | null = null;
 let supabaseAdmin: ReturnType<typeof createClient<Database>> | null = null;
 
-if (supabaseUrl && supabaseAnonKey && supabaseUrl !== 'your_supabase_url' && supabaseAnonKey !== 'your_supabase_anon_key') {
+if (
+  supabaseUrl &&
+  supabaseAnonKey &&
+  supabaseUrl !== 'your_supabase_url' &&
+  supabaseAnonKey !== 'your_supabase_anon_key'
+) {
   supabase = createClient<Database>(supabaseUrl, supabaseAnonKey, {
     auth: {
       autoRefreshToken: true,
@@ -30,7 +35,9 @@ if (supabaseUrl && supabaseAnonKey && supabaseUrl !== 'your_supabase_url' && sup
     });
   }
 } else {
-  console.warn('⚠️ Supabase not configured. Please set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY environment variables.');
+  console.warn(
+    '⚠️ Supabase not configured. Please set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY environment variables.',
+  );
 }
 
 export { supabase, supabaseAdmin };

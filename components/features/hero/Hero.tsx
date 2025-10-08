@@ -25,10 +25,7 @@ export function Hero() {
         <div className='text-left space-y-8 max-w-4xl'>
           {/* Main Headline */}
           <div className='space-y-6'>
-            <h1
-              id='hero-heading'
-              className='text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-white drop-shadow-lg'
-            >
+            <h1 id='hero-heading' className='heading-responsive text-white drop-shadow-lg'>
               Professional Cleaning Services in Frankfurt
               <span
                 className='block text-orange-400 mt-2'
@@ -37,7 +34,7 @@ export function Hero() {
                 Transparent pricing
               </span>
             </h1>
-            <p className='text-lg md:text-xl text-white/90 max-w-2xl leading-relaxed'>
+            <p className='body-large text-white/90 max-w-2xl leading-relaxed'>
               Experience premium cleaning services with guaranteed satisfaction. Our certified
               professionals deliver exceptional results every time.
             </p>
@@ -72,9 +69,7 @@ export function Hero() {
           {/* Trust Section */}
           <div className='mt-12'>
             <div className='text-center mb-8'>
-              <p className='text-sm text-white/90 font-medium tracking-wide uppercase mb-3'>
-                Trusted & Certified
-              </p>
+              <p className='overline text-white/90 mb-3'>Trusted & Certified</p>
               <div className='w-20 h-0.5 bg-gradient-to-r from-transparent via-orange-400 to-transparent mx-auto' />
             </div>
 

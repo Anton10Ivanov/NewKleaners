@@ -80,8 +80,10 @@ export function isValidPhone(phone: string): boolean {
 }
 
 export function truncateText(text: string, maxLength: number): string {
-  if (text.length <= maxLength) { return text; }
-  return `${text.slice(0, maxLength)  }...`;
+  if (text.length <= maxLength) {
+    return text;
+  }
+  return `${text.slice(0, maxLength)}...`;
 }
 
 export function getInitials(name: string): string {

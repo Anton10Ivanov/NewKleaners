@@ -15,7 +15,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
           queries: {
             staleTime: 60 * 1000, // 1 minute
             retry: (failureCount, error: any) => {
-              if (error?.status === 404) { return false; }
+              if (error?.status === 404) {
+                return false;
+              }
               return failureCount < 3;
             },
           },

@@ -15,11 +15,11 @@ const containerVariants = cva('mx-auto w-full', {
     },
     padding: {
       none: '',
-      sm: 'px-4 sm:px-6', // 16px → 24px
-      md: 'px-4 sm:px-6 lg:px-8', // 16px → 24px → 32px
-      lg: 'px-4 sm:px-6 lg:px-8 xl:px-10', // 16px → 24px → 32px → 40px
-      xl: 'px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12', // 16px → 24px → 32px → 40px → 48px
-      '2xl': 'px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 3xl:px-16', // 16px → 24px → 32px → 40px → 48px → 64px
+      sm: 'px-2 sm:px-4 lg:px-6', // 8px → 16px → 24px
+      md: 'px-2 sm:px-4 lg:px-6 xl:px-8', // 8px → 16px → 24px → 32px
+      lg: 'px-2 sm:px-4 lg:px-6 xl:px-8 2xl:px-10', // 8px → 16px → 24px → 32px → 40px
+      xl: 'px-2 sm:px-4 lg:px-6 xl:px-8 2xl:px-10 3xl:px-12', // Full scale
+      '2xl': 'px-2 sm:px-4 lg:px-6 xl:px-8 2xl:px-10 3xl:px-12 4xl:px-16', // Full scale
     },
     center: {
       true: 'flex flex-col items-center',

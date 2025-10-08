@@ -136,10 +136,8 @@ export default function ResidentialServicesPage() {
         <section className='bg-gradient-to-br from-seasalt via-seasalt-50 to-orange-peel-50 py-20'>
           <UnifiedContainer size='xl' padding='lg'>
             <div className='text-center space-y-6'>
-              <h1 className='text-4xl md:text-5xl font-bold text-oxford-blue'>
-                Residential Cleaning Services
-              </h1>
-              <p className='text-xl text-oxford-blue-600 max-w-3xl mx-auto'>
+              <h1 className='heading-responsive text-oxford-blue'>Residential Cleaning Services</h1>
+              <p className='body-large text-oxford-blue-600 max-w-3xl mx-auto'>
                 Professional cleaning services designed specifically for your home and family needs
               </p>
             </div>
@@ -150,7 +148,7 @@ export default function ResidentialServicesPage() {
         <section className='py-20'>
           <UnifiedContainer size='xl' padding='lg'>
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
-              {services.map((service, index) => {
+              {services.map((service, _index) => {
                 const IconComponent = service.icon;
                 return (
                   <Link key={service.id} href={`/book?service=${service.id}`}>
@@ -166,15 +164,17 @@ export default function ResidentialServicesPage() {
                         >
                           <IconComponent className='w-8 h-8 text-white' />
                         </div>
-                        <CardTitle className='text-2xl'>{service.title}</CardTitle>
-                        <CardDescription className='text-lg'>{service.description}</CardDescription>
+                        <CardTitle className='heading-3'>{service.title}</CardTitle>
+                        <CardDescription className='body-large'>
+                          {service.description}
+                        </CardDescription>
                       </CardHeader>
                       <CardContent>
                         <ul className='space-y-2'>
                           {service.features.map((feature, featureIndex) => (
                             <li
                               key={featureIndex}
-                              className='flex items-center text-sm text-gray-600'
+                              className='flex items-center body-small text-gray-600'
                             >
                               <CheckCircle className='w-4 h-4 text-green-500 mr-2 flex-shrink-0' />
                               {feature}
@@ -194,22 +194,20 @@ export default function ResidentialServicesPage() {
         <section className='bg-seasalt-100 py-20'>
           <UnifiedContainer size='xl' padding='lg'>
             <div className='text-center mb-16'>
-              <h2 className='text-3xl md:text-4xl font-bold text-oxford-blue mb-4'>
-                Why Choose Kleaners?
-              </h2>
-              <p className='text-xl text-oxford-blue-600 max-w-2xl mx-auto'>
+              <h2 className='heading-2 text-oxford-blue mb-4'>Why Choose Kleaners?</h2>
+              <p className='body-large text-oxford-blue-600 max-w-2xl mx-auto'>
                 We're committed to providing the highest quality residential cleaning services
               </p>
             </div>
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'>
-              {features.map((feature, index) => {
+              {features.map((feature, _index) => {
                 const IconComponent = feature.icon;
                 return (
-                  <div key={index} className='text-center'>
+                  <div key={_index} className='text-center'>
                     <div className='w-16 h-16 bg-orange-peel/10 rounded-full flex items-center justify-center mx-auto mb-4'>
                       <IconComponent className='w-8 h-8 text-orange-peel' />
                     </div>
-                    <h3 className='text-xl font-semibold text-oxford-blue mb-2'>{feature.title}</h3>
+                    <h3 className='heading-4 text-oxford-blue mb-2'>{feature.title}</h3>
                     <p className='text-gray-600'>{feature.description}</p>
                   </div>
                 );
@@ -222,17 +220,15 @@ export default function ResidentialServicesPage() {
         <section className='py-20'>
           <UnifiedContainer size='xl' padding='lg'>
             <div className='text-center space-y-8'>
-              <h2 className='text-3xl md:text-4xl font-bold text-oxford-blue'>
-                Ready to Get Started?
-              </h2>
-              <p className='text-xl text-oxford-blue-600 max-w-2xl mx-auto'>
+              <h2 className='heading-2 text-oxford-blue'>Ready to Get Started?</h2>
+              <p className='body-large text-oxford-blue-600 max-w-2xl mx-auto'>
                 Book your residential cleaning service today and experience the difference
               </p>
               <div className='flex flex-col sm:flex-row gap-4 justify-center'>
                 <Link href='/book'>
                   <Button
                     size='lg'
-                    className='bg-orange-peel hover:bg-orange-peel-600 text-black px-8 py-4 text-lg'
+                    className='bg-orange-peel hover:bg-orange-peel-600 text-black px-8 py-4 body-large'
                   >
                     Book Now
                     <ArrowRight className='w-5 h-5 ml-2' />
@@ -242,7 +238,7 @@ export default function ResidentialServicesPage() {
                   <Button
                     variant='outline'
                     size='lg'
-                    className='border-oxford-blue text-oxford-blue hover:bg-oxford-blue hover:text-seasalt px-8 py-4 text-lg'
+                    className='border-oxford-blue text-oxford-blue hover:bg-oxford-blue hover:text-seasalt px-8 py-4 body-large'
                   >
                     Contact Us
                   </Button>
