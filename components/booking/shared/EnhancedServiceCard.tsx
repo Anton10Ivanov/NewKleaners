@@ -49,22 +49,31 @@ export const EnhancedServiceCard: React.FC<EnhancedServiceCardProps> = ({
   const getCardColors = () => {
     if (serviceType === 'HOME_CLEANING') {
       return {
-        background: 'bg-orange-peel',
-        textColor: 'text-black',
-        iconColor: 'text-black',
+        background: isMainVariant ? 'bg-seasalt' : 'bg-white',
+        textColor: 'text-orange-peel',
+        iconColor: 'text-orange-peel',
+        descriptionColor: 'text-orange-peel/70',
+        featureColor: 'text-orange-peel/80',
+        trustSignalColor: 'text-orange-peel/60',
       };
     }
     if (serviceType === 'OFFICE_CLEANING') {
       return {
-        background: 'bg-oxford-blue',
-        textColor: 'text-white',
-        iconColor: 'text-white',
+        background: isMainVariant ? 'bg-seasalt' : 'bg-white',
+        textColor: 'text-oxford-blue',
+        iconColor: 'text-oxford-blue',
+        descriptionColor: 'text-oxford-blue/70',
+        featureColor: 'text-oxford-blue/80',
+        trustSignalColor: 'text-oxford-blue/60',
       };
     }
     return {
       background: isMainVariant ? 'bg-seasalt' : 'bg-white',
       textColor: 'text-oxford-blue',
       iconColor: 'text-oxford-blue',
+      descriptionColor: 'text-gray-600',
+      featureColor: 'text-gray-700',
+      trustSignalColor: 'text-gray-500',
     };
   };
 
@@ -112,16 +121,7 @@ export const EnhancedServiceCard: React.FC<EnhancedServiceCardProps> = ({
             >
               {shortTitle}
             </h3>
-            <p
-              className={cn(
-                isMainVariant ? 'text-sm' : 'text-xs',
-                serviceType === 'HOME_CLEANING'
-                  ? 'text-black/70'
-                  : serviceType === 'OFFICE_CLEANING'
-                    ? 'text-white/80'
-                    : 'text-gray-600',
-              )}
-            >
+            <p className={cn(isMainVariant ? 'text-sm' : 'text-xs', cardColors.descriptionColor)}>
               {description}
             </p>
           </div>
@@ -135,20 +135,16 @@ export const EnhancedServiceCard: React.FC<EnhancedServiceCardProps> = ({
               className={cn(
                 'flex items-center',
                 isMainVariant ? 'text-sm' : 'text-xs',
-                serviceType === 'HOME_CLEANING'
-                  ? 'text-black/80'
-                  : serviceType === 'OFFICE_CLEANING'
-                    ? 'text-white/90'
-                    : 'text-gray-700',
+                cardColors.featureColor,
               )}
             >
               <div
                 className={cn(
                   'w-1 h-1 rounded-full mr-3 flex-shrink-0',
                   serviceType === 'HOME_CLEANING'
-                    ? 'bg-black/60'
+                    ? 'bg-orange-peel/60'
                     : serviceType === 'OFFICE_CLEANING'
-                      ? 'bg-white/70'
+                      ? 'bg-oxford-blue/60'
                       : 'bg-gray-400',
                 )}
               />
@@ -158,53 +154,17 @@ export const EnhancedServiceCard: React.FC<EnhancedServiceCardProps> = ({
         </ul>
 
         {/* Trust Signals */}
-        <div
-          className={cn(
-            'flex items-center gap-4 text-xs',
-            serviceType === 'HOME_CLEANING'
-              ? 'text-black/60'
-              : serviceType === 'OFFICE_CLEANING'
-                ? 'text-white/70'
-                : 'text-gray-500',
-          )}
-        >
+        <div className={cn('flex items-center gap-4 text-xs', cardColors.trustSignalColor)}>
           <div className='flex items-center'>
-            <Shield
-              className={cn(
-                'w-3 h-3 mr-1',
-                serviceType === 'HOME_CLEANING'
-                  ? 'text-black/60'
-                  : serviceType === 'OFFICE_CLEANING'
-                    ? 'text-white/70'
-                    : 'text-gray-500',
-              )}
-            />
+            <Shield className={cn('w-3 h-3 mr-1', cardColors.trustSignalColor)} />
             <span className='hidden sm:inline'>Insured</span>
           </div>
           <div className='flex items-center'>
-            <Leaf
-              className={cn(
-                'w-3 h-3 mr-1',
-                serviceType === 'HOME_CLEANING'
-                  ? 'text-black/60'
-                  : serviceType === 'OFFICE_CLEANING'
-                    ? 'text-white/70'
-                    : 'text-gray-500',
-              )}
-            />
+            <Leaf className={cn('w-3 h-3 mr-1', cardColors.trustSignalColor)} />
             <span className='hidden sm:inline'>Eco-friendly</span>
           </div>
           <div className='flex items-center'>
-            <CreditCard
-              className={cn(
-                'w-3 h-3 mr-1',
-                serviceType === 'HOME_CLEANING'
-                  ? 'text-black/60'
-                  : serviceType === 'OFFICE_CLEANING'
-                    ? 'text-white/70'
-                    : 'text-gray-500',
-              )}
-            />
+            <CreditCard className={cn('w-3 h-3 mr-1', cardColors.trustSignalColor)} />
             <span className='hidden sm:inline'>Secure</span>
           </div>
         </div>
