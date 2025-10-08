@@ -137,6 +137,7 @@ export const ServiceSelectionStep: React.FC<ServiceSelectionStepProps> = ({
                   popular={service.popular}
                   variant='main'
                   isSelected={isSelected}
+                  serviceType={service.type}
                   onClick={() => handleServiceSelect(service.type)}
                   onKeyDown={e => {
                     if (e.key === 'Enter' || e.key === ' ') {
@@ -178,6 +179,7 @@ export const ServiceSelectionStep: React.FC<ServiceSelectionStepProps> = ({
                   popular={service.popular}
                   variant='specialized'
                   isSelected={isSelected}
+                  serviceType={service.type}
                   onClick={() => handleServiceSelect(service.type)}
                   onKeyDown={e => {
                     if (e.key === 'Enter' || e.key === ' ') {

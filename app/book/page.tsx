@@ -17,12 +17,6 @@ function BookingContent() {
     router.push(`/booking/confirmation?bookingId=${bookingId}`);
   };
 
-  const handleBookingCancel = () => {
-    console.log('Booking cancelled');
-    // Redirect back to home page
-    router.push('/');
-  };
-
   return (
     <div className='min-h-screen bg-background'>
       <div className='container mx-auto px-4 py-8'>

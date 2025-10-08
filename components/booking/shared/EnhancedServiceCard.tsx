@@ -23,6 +23,7 @@ interface EnhancedServiceCardProps {
   'aria-label'?: string;
   tabIndex?: number;
   role?: string;
+  serviceType?: string;
 }
 
 export const EnhancedServiceCard: React.FC<EnhancedServiceCardProps> = ({
@@ -40,8 +41,20 @@ export const EnhancedServiceCard: React.FC<EnhancedServiceCardProps> = ({
   'aria-label': ariaLabel,
   tabIndex = 0,
   role = 'button',
+  serviceType,
 }) => {
   const isMainVariant = variant === 'main';
+
+  // Determine title color based on service type
+  const getTitleColor = () => {
+    if (serviceType === 'HOME_CLEANING') {
+      return 'text-orange-peel';
+    }
+    if (serviceType === 'OFFICE_CLEANING') {
+      return 'text-oxford-blue';
+    }
+    return 'text-oxford-blue'; // default
+  };
 
   return (
     <Card
@@ -78,7 +91,8 @@ export const EnhancedServiceCard: React.FC<EnhancedServiceCardProps> = ({
           <div className='flex-1'>
             <h3
               className={cn(
-                'font-semibold text-oxford-blue',
+                'font-semibold',
+                getTitleColor(),
                 isMainVariant ? 'text-xl' : 'text-lg',
               )}
             >
@@ -92,9 +106,9 @@ export const EnhancedServiceCard: React.FC<EnhancedServiceCardProps> = ({
 
         {/* Features List */}
         <ul className={cn('space-y-2 mb-4', isMainVariant ? 'space-y-2' : 'space-y-1')}>
-          {features.map((feature, index) => (
+          {features.map(feature => (
             <li
-              key={`${title}-feature-${index}`}
+              key={`${title}-feature-${feature}`}
               className={cn(
                 'flex items-center text-sm text-gray-700',
                 isMainVariant ? 'text-sm' : 'text-xs',

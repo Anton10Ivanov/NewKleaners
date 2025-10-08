@@ -12,12 +12,6 @@ export const BookingFlowExample: React.FC = () => {
     // e.g., redirect to confirmation page, show success message, etc.
   };
 
-  const handleBookingCancel = () => {
-    console.log('Booking cancelled');
-    // Handle booking cancellation
-    // e.g., redirect to home page, show cancellation message, etc.
-  };
-
   return (
     <div className='min-h-screen'>
       <MainBookingFlow
