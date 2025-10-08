@@ -32,13 +32,11 @@ import { ServiceSelectionStep } from './components/booking/steps/ServiceSelectio
 interface MainBookingFlowProps {
   preselectedService?: ServiceType | null;
   onComplete?: (bookingId: string) => void;
-  onCancel?: () => void;
 }
 
 export const MainBookingFlow: React.FC<MainBookingFlowProps> = ({
   preselectedService,
   onComplete,
-  onCancel,
 }) => {
   const { loading: authLoading } = useAuth();
 
@@ -282,14 +280,6 @@ export const MainBookingFlow: React.FC<MainBookingFlowProps> = ({
     ],
   );
 
-  const goToNextStep = useCallback(() => {
-    const currentStepIndex = steps.findIndex(step => step.id === bookingState.currentStep);
-    const nextStep = steps[currentStepIndex + 1];
-    if (nextStep) {
-      updateBookingState({ currentStep: nextStep.id });
-    }
-  }, [steps, bookingState, updateBookingState]);
-
   const goToPreviousStep = useCallback(() => {
     const currentStepIndex = steps.findIndex(step => step.id === bookingState.currentStep);
 
@@ -325,17 +315,23 @@ export const MainBookingFlow: React.FC<MainBookingFlowProps> = ({
     }
   }, [steps, bookingState.currentStep, bookingState.serviceType, updateBookingState]);
 
-  const skipStep = useCallback(() => {
-    const currentStep = steps.find(step => step.id === bookingState.currentStep);
-    if (currentStep?.canSkip) {
-      goToNextStep();
-    }
-  }, [steps, bookingState.currentStep, goToNextStep]);
+  const handleBreadcrumbClick = useCallback(
+    (stepId: BookingStep) => {
+      // Only allow navigation to previous steps or current step
+      const currentStepIndex = steps.findIndex(step => step.id === bookingState.currentStep);
+      const targetStepIndex = steps.findIndex(step => step.id === stepId);
+
+      // Allow navigation to previous steps or current step
+      if (targetStepIndex <= currentStepIndex) {
+        updateBookingState({ currentStep: stepId });
+      }
+    },
+    [steps, bookingState.currentStep, updateBookingState],
+  );
 
   const renderCurrentStep = () => {
     const commonProps = {
       onBack: goToPreviousStep,
-      onSkip: skipStep,
       errors: bookingState.errors,
       isLoading: bookingState.isSubmitting,
     };
@@ -405,7 +401,6 @@ export const MainBookingFlow: React.FC<MainBookingFlowProps> = ({
           <PaymentStep
             {...commonProps}
             onNext={onComplete || (() => undefined)}
-            onCancel={onCancel || (() => undefined)}
             bookingData={bookingState}
           />
         );
@@ -491,22 +486,42 @@ export const MainBookingFlow: React.FC<MainBookingFlowProps> = ({
           {bookingState.currentStep !== BookingStep.SERVICE_SELECTION && (
             <nav aria-label='Breadcrumb' className='flex justify-center'>
               <ol className='flex items-center text-xs sm:text-sm text-[#001b2e]/70'>
-                {breadcrumbDefs.map((bc, index) => (
-                  <li key={bc.id} className='flex items-center'>
-                    <span
-                      className={
-                        bookingState.currentStep === bc.id
-                          ? 'font-semibold text-[#ffa000]'
-                          : 'text-[#001b2e]/70'
-                      }
-                    >
-                      {bc.title}
-                    </span>
-                    {index < breadcrumbDefs.length - 1 && (
-                      <span className='mx-2 text-[#001b2e]/40'>/</span>
-                    )}
-                  </li>
-                ))}
+                {breadcrumbDefs.map((bc, index) => {
+                  const currentStepIndex = steps.findIndex(
+                    step => step.id === bookingState.currentStep,
+                  );
+                  const targetStepIndex = steps.findIndex(step => step.id === bc.id);
+                  const isClickable = targetStepIndex <= currentStepIndex;
+                  const isCurrentStep = bookingState.currentStep === bc.id;
+
+                  return (
+                    <li key={bc.id} className='flex items-center'>
+                      <span
+                        className={
+                          isCurrentStep
+                            ? 'font-semibold text-[#ffa000]'
+                            : isClickable
+                              ? 'text-[#001b2e]/70 hover:text-[#ffa000] cursor-pointer transition-colors'
+                              : 'text-[#001b2e]/40 cursor-not-allowed'
+                        }
+                        onClick={() => isClickable && handleBreadcrumbClick(bc.id)}
+                        role={isClickable ? 'button' : undefined}
+                        tabIndex={isClickable ? 0 : undefined}
+                        onKeyDown={e => {
+                          if (isClickable && (e.key === 'Enter' || e.key === ' ')) {
+                            e.preventDefault();
+                            handleBreadcrumbClick(bc.id);
+                          }
+                        }}
+                      >
+                        {bc.title}
+                      </span>
+                      {index < breadcrumbDefs.length - 1 && (
+                        <span className='mx-2 text-[#001b2e]/40'>/</span>
+                      )}
+                    </li>
+                  );
+                })}
               </ol>
             </nav>
           )}

@@ -5,7 +5,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import {
   AlertCircle,
-  ArrowLeft,
   Calendar,
   CheckCircle,
   Clock,
@@ -14,7 +13,6 @@ import {
   MapPin,
   Shield,
   Star,
-  X,
 } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
@@ -52,8 +50,6 @@ const ADD_ONS_PRICING = {
 
 interface PaymentStepProps {
   onNext: (bookingId: string) => void;
-  onBack: () => void;
-  onCancel?: () => void;
   bookingData: BookingFlowState;
   errors?: Record<string, string>;
   isLoading?: boolean;
@@ -84,8 +80,6 @@ const paymentMethods = [
 
 export const PaymentStep: React.FC<PaymentStepProps> = ({
   onNext,
-  onBack,
-  onCancel,
   bookingData,
   errors,
   isLoading = false,
@@ -243,9 +237,6 @@ export const PaymentStep: React.FC<PaymentStepProps> = ({
     sizeTier,
     bookingData.schedule?.addOns,
     bookingData.schedule?.accessInstructions,
-    isFirstTimeCustomer,
-    promoCodeApplied,
-    promoCode,
     calculateBasePrice,
     getFrequencyMultiplier,
     calculateAddOnsTotal,
@@ -411,12 +402,6 @@ export const PaymentStep: React.FC<PaymentStepProps> = ({
               {/* Pricing Breakdown */}
               {estimate && (
                 <div className='space-y-2'>
-                  {/* Note: For estimates, final price may be adjusted on-site */}
-                  {estimate.isEstimate && (
-                    <div className='text-xs text-blue-600 bg-blue-50 p-2 rounded border border-blue-200'>
-                      💡 Final price may be adjusted based on on-site assessment
-                    </div>
-                  )}
                   {/* Size and Effort Information */}
                   {bookingData.sizeTier && bookingData.selectedEffort && (
                     <div className='bg-blue-50 border border-blue-200 rounded-lg p-3 mb-3'>
@@ -434,16 +419,18 @@ export const PaymentStep: React.FC<PaymentStepProps> = ({
                           </span>
                         </div>
                         {bookingData.propertyDetails &&
-                          'propertyType' in bookingData.propertyDetails && (
-                            <div className='flex justify-between'>
-                              <span className='text-blue-700'>Type:</span>
-                              <span className='font-medium text-blue-800'>
-                                {bookingData.propertyDetails.propertyType === 'house'
-                                  ? 'House (+10%)'
-                                  : 'Apartment'}
-                              </span>
-                            </div>
-                          )}
+                        typeof bookingData.propertyDetails === 'object' &&
+                        'propertyType' in bookingData.propertyDetails &&
+                        bookingData.propertyDetails.propertyType ? (
+                          <div className='flex justify-between'>
+                            <span className='text-blue-700'>Type:</span>
+                            <span className='font-medium text-blue-800'>
+                              {bookingData.propertyDetails.propertyType === 'house'
+                                ? 'House (+10%)'
+                                : 'Apartment'}
+                            </span>
+                          </div>
+                        ) : null}
                       </div>
                     </div>
                   )}
@@ -717,30 +704,6 @@ export const PaymentStep: React.FC<PaymentStepProps> = ({
                 </div>
               )}
             </Button>
-
-            <div className='grid grid-cols-2 gap-3'>
-              <Button
-                variant='outline'
-                onClick={onBack}
-                disabled={isProcessing}
-                className='border-gray-300 hover:border-gray-400 text-gray-700 hover:text-gray-900 py-3 rounded-xl transition-all duration-200'
-              >
-                <ArrowLeft className='w-4 h-4 mr-2' />
-                Back to Schedule
-              </Button>
-
-              {onCancel && (
-                <Button
-                  variant='outline'
-                  onClick={onCancel}
-                  disabled={isProcessing}
-                  className='border-red-300 hover:border-red-400 text-red-700 hover:text-red-900 py-3 rounded-xl transition-all duration-200'
-                >
-                  <X className='w-4 h-4 mr-2' />
-                  Cancel
-                </Button>
-              )}
-            </div>
           </div>
 
           {/* Trust Indicators */}

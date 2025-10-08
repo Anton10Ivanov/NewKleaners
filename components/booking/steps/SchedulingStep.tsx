@@ -678,7 +678,7 @@ export const SchedulingStep: React.FC<SchedulingStepProps> = ({
           className='flex-1'
           size='lg'
         >
-          {isLoading ? 'Processing...' : 'Continue to Estimate'}
+          {isLoading ? 'Processing...' : 'Continue to Payment'}
         </Button>
 
         <Button variant='outline' onClick={onBack} className='flex-1 sm:flex-none'>

@@ -29,7 +29,6 @@ function BookingContent() {
         <MainBookingFlow
           preselectedService={preselectedService as any}
           onComplete={handleBookingComplete}
-          onCancel={handleBookingCancel}
         />
       </div>
     </div>

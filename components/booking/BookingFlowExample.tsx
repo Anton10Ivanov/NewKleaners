@@ -23,7 +23,6 @@ export const BookingFlowExample: React.FC = () => {
       <MainBookingFlow
         preselectedService={ServiceType.HOME_CLEANING} // Optional: pre-select a service
         onComplete={handleBookingComplete}
-        onCancel={handleBookingCancel}
       />
     </div>
   );
@@ -38,9 +37,6 @@ export const OfficeBookingFlowExample: React.FC = () => {
         onComplete={bookingId => {
           console.log('Office booking completed:', bookingId);
         }}
-        onCancel={() => {
-          console.log('Office booking cancelled');
-        }}
       />
     </div>
   );
@@ -53,9 +49,6 @@ export const FullBookingFlowExample: React.FC = () => {
       <MainBookingFlow
         onComplete={bookingId => {
           console.log('Booking completed:', bookingId);
-        }}
-        onCancel={() => {
-          console.log('Booking cancelled');
         }}
       />
     </div>

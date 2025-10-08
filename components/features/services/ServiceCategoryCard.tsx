@@ -36,15 +36,13 @@ export function ServiceCategoryCard(props: ServiceCategoryCardProps): JSX.Elemen
   return (
     <Link href={href} className='block group'>
       <Card
+        padding='compact'
         className={cn(
-          'overflow-hidden rounded-2xl border-2 transition-all duration-300 hover:shadow-xl',
-          accentColorClass
-            ? `border-${accentColorClass} hover:border-${accentColorClass.replace('500', '600')}`
-            : 'border-gray-200 hover:border-gray-300',
+          'overflow-hidden rounded-2xl transition-all duration-300 hover:shadow-xl p-0 w-full',
         )}
       >
         {/* Media section - Golden ratio: smaller section (38.2% of total height) */}
-        <div className='relative h-48 md:h-52 lg:h-56 w-full overflow-hidden'>
+        <div className='relative h-48 md:h-52 lg:h-56 w-full overflow-hidden rounded-t-2xl flex-shrink-0 max-w-full'>
           {imageSrc ? (
             <Image
               src={imageSrc}
@@ -53,6 +51,18 @@ export function ServiceCategoryCard(props: ServiceCategoryCardProps): JSX.Elemen
               className='object-cover transition-transform duration-500 group-hover:scale-110'
               sizes='(min-width: 1024px) 25vw, (min-width: 768px) 50vw, 100vw'
               priority={false}
+              style={{
+                margin: 0,
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                objectPosition: 'center',
+                minWidth: '100%',
+                minHeight: '100%',
+                maxWidth: '100%',
+                left: 0,
+                right: 0,
+              }}
             />
           ) : (
             <div
@@ -81,8 +91,8 @@ export function ServiceCategoryCard(props: ServiceCategoryCardProps): JSX.Elemen
           {/* Group 2: Trust Signals */}
           {trustSignals && trustSignals.length > 0 && (
             <div className='mt-2 space-y-0'>
-              {trustSignals.map((signal, index) => (
-                <div key={index} className='flex items-center gap-2'>
+              {trustSignals.map(signal => (
+                <div key={signal} className='flex items-center gap-2'>
                   <div className='w-4 h-4 rounded-sm bg-green-500 flex items-center justify-center'>
                     <svg
                       className='w-3 h-3 text-white'
@@ -114,8 +124,7 @@ export function ServiceCategoryCard(props: ServiceCategoryCardProps): JSX.Elemen
                     key={label}
                     className={cn(
                       'inline-flex items-center rounded-md px-3 py-1 text-[11px] font-medium',
-                      'bg-seasalt-100 text-oxford-blue-700 border',
-                      accentColorClass ? `border-${accentColorClass}` : 'border-gray-300',
+                      'bg-seasalt-100 text-oxford-blue-700 border border-gray-300',
                     )}
                   >
                     {label}

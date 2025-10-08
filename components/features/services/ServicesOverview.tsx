@@ -2,133 +2,86 @@
 
 import Link from 'next/link';
 
-import { ArrowRight, Building2, Home, Shield, Sparkles, TreePine } from 'lucide-react';
+import { ArrowRight, Building2, Home, Sparkles, Star } from 'lucide-react';
 
+import { ServiceCategoryCard } from '@/components/features/services/ServiceCategoryCard';
 import { UnifiedContainer } from '@/components/layout/UnifiedContainer';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
-const services = [
+const serviceCategories = [
   {
-    id: 'residential',
-    name: 'Residential Cleaning',
-    description: 'Regular house cleaning, deep cleaning, and move-in/out services for your home.',
-    icon: Home,
-    color: 'text-info',
-    bgColor: 'bg-info/10',
-    borderColor: 'border-info/20',
-    features: ['Regular cleaning', 'Deep cleaning', 'Move-in/out', 'Post-construction'],
-  },
-  {
-    id: 'commercial',
-    name: 'Commercial Cleaning',
-    description: 'Office, retail, and commercial space cleaning services for businesses.',
+    title: 'Commercial',
+    href: '/services/commercial',
     icon: Building2,
-    color: 'text-primary',
-    bgColor: 'bg-primary/10',
-    borderColor: 'border-primary/20',
-    features: ['Office cleaning', 'Retail spaces', 'Warehouses', 'Medical facilities'],
+    labels: ['Industrial', 'Medical', 'Kindergarten', 'Garage', 'Stairwell'],
+    imageSrc: '/images/pixabay-commercial.webp',
+    imageAlt: 'Commercial cleaning services',
+    description: 'For businesses, institutions, and commercial facilities',
+    trustSignals: ['Certified professionals', 'Flexible scheduling', 'Eco-friendly products'],
   },
   {
-    id: 'windows',
-    name: 'Window Cleaning',
-    description: 'Professional window cleaning for residential and commercial properties.',
+    title: 'Residential',
+    href: '/services/residential',
+    icon: Home,
+    labels: ['Window', 'Carpet', 'Upholstery', 'Holiday Apt'],
+    imageSrc: '/images/pixabay-residential.webp',
+    imageAlt: 'Residential cleaning services',
+    description: 'For homes, apartments, and residential properties',
+    trustSignals: ['Insured & bonded', 'Pet-safe products', 'Same-day service'],
+  },
+  {
+    title: 'Specialized',
+    href: '/services/specialized',
     icon: Sparkles,
-    color: 'text-success',
-    bgColor: 'bg-success/10',
-    borderColor: 'border-success/20',
-    features: [
-      'Residential windows',
-      'Commercial windows',
-      'High-rise cleaning',
-      'Gutter cleaning',
-    ],
+    labels: ['Construction', 'Disinfection', 'Facade', 'Graffiti', 'Ventilation'],
+    imageSrc: '/images/pixabay-industrial.webp',
+    imageAlt: 'Specialized and industrial cleaning services',
+    description: 'Advanced cleaning solutions for unique challenges',
+    trustSignals: ['Specialized equipment', 'Safety certified', '24/7 emergency'],
   },
   {
-    id: 'garden',
-    name: 'Garden Cleaning',
-    description: 'Outdoor cleaning services including patios, decks, and garden maintenance.',
-    icon: TreePine,
-    color: 'text-success',
-    bgColor: 'bg-success/10',
-    borderColor: 'border-success/20',
-    features: ['Patio cleaning', 'Deck maintenance', 'Garden cleanup', 'Pressure washing'],
-  },
-  {
-    id: 'health-safety',
-    name: 'Health & Safety',
-    description: 'Specialized cleaning for health facilities and safety-critical environments.',
-    icon: Shield,
-    color: 'text-destructive',
-    bgColor: 'bg-destructive/10',
-    borderColor: 'border-destructive/20',
-    features: ['Medical facilities', 'Laboratories', 'Food service', 'Disinfection'],
+    title: 'Outdoor',
+    href: '/services/outdoor',
+    icon: Star,
+    labels: ['Gardening', 'Pool', 'Roof', 'Sidewalk', 'Vehicle'],
+    imageSrc: '/images/pixabay-outdoor.webp',
+    imageAlt: 'Outdoor cleaning services',
+    description: 'Exterior cleaning and maintenance services',
+    trustSignals: ['Weather-resistant', 'Seasonal packages', 'Equipment included'],
   },
 ];
 
 export function ServicesOverview() {
   return (
-    <section className='py-20 bg-background'>
+    <section className='py-20 bg-seasalt-100'>
       <UnifiedContainer size='xl' padding='lg'>
-        <div className='text-center space-y-4 mb-16'>
-          <h2 className='heading-2'>Our Cleaning Services</h2>
-          <p className='body-large text-muted-foreground max-w-2xl mx-auto'>
-            Choose your cleaning service and receive your personalized quote immediately.
+        <div className='text-center mb-16'>
+          <h2 className='heading-2 text-oxford-blue mb-4'>Our Cleaning Services</h2>
+          <p className='body-large text-oxford-blue-600 max-w-2xl mx-auto'>
+            Find the right cleaning service for your space
           </p>
         </div>
-
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
-          {services.map(service => {
-            const Icon = service.icon;
-            return (
-              <Card
-                key={service.id}
-                className={`group hover:shadow-xl transition-all duration-300 border-2 ${service.borderColor} hover:scale-105`}
-              >
-                <CardHeader className='text-center pb-4'>
-                  <div
-                    className={`w-16 h-16 ${service.bgColor} rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300`}
-                  >
-                    <Icon className={`w-8 h-8 ${service.color}`} />
-                  </div>
-                  <CardTitle className='text-xl text-foreground'>{service.name}</CardTitle>
-                  <p className='text-muted-foreground text-sm leading-relaxed'>
-                    {service.description}
-                  </p>
-                </CardHeader>
-
-                <CardContent className='space-y-6'>
-                  <ul className='space-y-2'>
-                    {service.features.map((feature, index) => (
-                      <li key={index} className='flex items-center text-sm text-foreground'>
-                        <div
-                          className={`w-2 h-2 ${service.color.replace('text-', 'bg-')} rounded-full mr-3 flex-shrink-0`}
-                        />
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-
-                  <Link href={`/services/${service.id}`}>
-                    <Button
-                      variant='outline'
-                      className={`w-full group-hover:bg-primary group-hover:text-primary-foreground group-hover:border-primary transition-colors duration-300 ${service.borderColor}`}
-                    >
-                      Learn More
-                      <ArrowRight className='w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300' />
-                    </Button>
-                  </Link>
-                </CardContent>
-              </Card>
-            );
-          })}
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'>
+          {serviceCategories.map(category => (
+            <ServiceCategoryCard
+              key={category.title}
+              title={category.title}
+              href={category.href}
+              icon={category.icon}
+              labels={category.labels}
+              imageSrc={category.imageSrc}
+              imageAlt={category.imageAlt}
+              description={category.description}
+              trustSignals={category.trustSignals}
+            />
+          ))}
         </div>
 
         <div className='text-center mt-12'>
           <Link href='/services'>
             <Button
               size='lg'
-              className='bg-primary hover:bg-primary-hover text-primary-foreground px-8 py-4'
+              className='bg-orange-peel hover:bg-orange-peel-600 text-black px-8 py-4 body-large'
             >
               View All Services
               <ArrowRight className='w-5 h-5 ml-2' />
