@@ -33,7 +33,7 @@ const dustLevels = [
 export const PostConstructionFields: React.FC<PostConstructionFieldsProps> = ({
   data,
   onChange,
-  errors,
+  errors: _errors,
 }) => {
   const handleSliderChange = (field: keyof PostConstructionDetails, value: number[]) => {
     const level = value[0];

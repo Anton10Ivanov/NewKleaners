@@ -201,7 +201,7 @@ export default function SpecializedServicesPage() {
                         <CardTitle className='text-2xl'>{service.title}</CardTitle>
                         <CardDescription className='text-lg'>{service.description}</CardDescription>
                       </CardHeader>
-                      <CardContent>
+                      <CardContent className='p-0'>
                         <ul className='space-y-2'>
                           {service.features.map(feature => (
                             <li key={feature} className='flex items-center text-sm text-gray-600'>

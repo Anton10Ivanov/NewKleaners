@@ -5,8 +5,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Check, Loader2 } from 'lucide-react';
 
-import type { ButtonProps } from '@/components/ui/button';
-import { Button } from '@/components/ui/button';
+import { Button, type ButtonProps } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 interface EnhancedButtonProps extends ButtonProps {

@@ -23,7 +23,6 @@ import {
 } from '@/types/bookingFlow';
 
 import { EffortSelectionStep } from './components/booking/steps/EffortSelectionStep';
-import { EstimateStep } from './components/booking/steps/EstimateStep';
 import { FrequencySelectionStep } from './components/booking/steps/FrequencySelectionStep';
 import { PaymentStep } from './components/booking/steps/PaymentStep';
 import { PropertyDetailsStep } from './components/booking/steps/PropertyDetailsStep';
@@ -100,16 +99,9 @@ export const MainBookingFlow: React.FC<MainBookingFlowProps> = ({
         canSkip: false,
       },
       {
-        id: BookingStep.ESTIMATE,
-        title: 'Estimate',
-        description: 'Review your booking',
-        isRequired: true,
-        canSkip: false,
-      },
-      {
         id: BookingStep.PAYMENT,
         title: 'Payment',
-        description: 'Complete your booking',
+        description: 'Review estimate and complete booking',
         isRequired: true,
         canSkip: false,
       },
@@ -277,7 +269,7 @@ export const MainBookingFlow: React.FC<MainBookingFlowProps> = ({
       updateBookingState({
         schedule: scheduleData,
         estimate: tempEstimate,
-        currentStep: BookingStep.ESTIMATE,
+        currentStep: BookingStep.PAYMENT,
       });
       clearError('schedule');
     },
@@ -288,14 +280,6 @@ export const MainBookingFlow: React.FC<MainBookingFlowProps> = ({
       bookingState.selectedEffort,
       bookingState.sizeTier,
     ],
-  );
-
-  const handleEstimateNext = useCallback(
-    (estimateData: Estimate) => {
-      updateBookingState({ estimate: estimateData, currentStep: BookingStep.PAYMENT });
-      clearError('estimate');
-    },
-    [updateBookingState, clearError],
   );
 
   const goToNextStep = useCallback(() => {
@@ -392,28 +376,6 @@ export const MainBookingFlow: React.FC<MainBookingFlowProps> = ({
             sizeTier={bookingState.sizeTier}
           />
         );
-      case BookingStep.ESTIMATE:
-        if (
-          !bookingState.propertyDetails ||
-          !bookingState.serviceType ||
-          !bookingState.selectedEffort ||
-          !bookingState.cleaningFrequency
-        ) {
-          return <div>Required data not available</div>;
-        }
-        return (
-          <EstimateStep
-            {...commonProps}
-            onNext={handleEstimateNext}
-            propertyData={bookingState.propertyDetails}
-            serviceType={bookingState.serviceType}
-            frequency={bookingState.cleaningFrequency || CleaningFrequency.ONCE}
-            effortLevel={bookingState.selectedEffort}
-            sizeTier={bookingState.sizeTier}
-            data={bookingState.estimate}
-            addOns={bookingState.schedule?.addOns || {}}
-          />
-        );
       case BookingStep.FREQUENCY_SELECTION:
         if (!bookingState.serviceType) {
           return <div>Required data not available</div>;
@@ -474,7 +436,6 @@ export const MainBookingFlow: React.FC<MainBookingFlowProps> = ({
       { id: BookingStep.PROPERTY_DETAILS, title: 'Property Details' },
       { id: BookingStep.EFFORT_SELECTION, title: 'Effort Level' },
       { id: BookingStep.SCHEDULING, title: 'Schedule' },
-      { id: BookingStep.ESTIMATE, title: 'Estimate' },
       { id: BookingStep.PAYMENT, title: 'Payment' },
     ],
     [],

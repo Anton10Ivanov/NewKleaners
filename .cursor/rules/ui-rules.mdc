@@ -2,73 +2,48 @@
 alwaysApply: true
 ---
 
-## Design System Rules
+## Core Design Principles (Priority 1)
+
+### **Design System Foundation**
 
 - Use shadcn/ui components as foundation - prefer composition over custom styling
-- Use CSS variables for theming: `bg-primary text-primary-foreground`
-- Never hardcode colors - use design tokens from brand palette
-- Use `UnifiedContainer` for all layouts with appropriate sizing
-- Follow 8px grid system for spacing consistency
+- Follow 8px grid system for spacing consistency: 4px, 8px, 16px, 24px, 32px, 48px, 64px, 96px
+- Mobile-first approach with breakpoints: sm (640px), md (768px), lg (1024px), xl (1280px)
 
-## Brand Color Rules
+### **Brand Color System**
 
 - **Orange Peel (#ffa000)**: CTA buttons, primary interactive elements, focus states
 - **Oxford Blue (#001b2e)**: Navigation, footer, primary text, headers
 - **Seasalt (#f7f7f7)**: Main background, card backgrounds
 - **Dark Spring Green (#177245)**: Success messages, positive feedback
 - **Blue Green (#0d98ba)**: Information messages, help text
-- Use CSS variables: `hsl(var(--primary))` instead of hardcoded colors
+- Prefer CSS variables: `hsl(var(--primary))` for reusable components
+- Hardcoded colors acceptable for prototypes and one-off designs
 
-## Typography Rules
+### **Typography Standards**
 
 - Use Inter font family as primary
 - Follow semantic hierarchy: heading-1 through heading-6
 - Use responsive typography with clamp() for fluid scaling
 - Maintain proper line heights and letter spacing
 
-## Component Architecture Rules
+## Component Development (Priority 2)
 
-- Use CVA (Class Variance Authority) for component variants
+### **Flexible Component Architecture**
+
+- Use CVA (Class Variance Authority) for components with multiple variants
 - Use `React.forwardRef` for components that accept refs
-- Include displayName for all components
-- Keep components under 50 lines when possible
+- Include displayName for complex components (optional for simple ones)
+- Aim for readable components (50+ lines acceptable if well-structured)
 - Use proper TypeScript interfaces with VariantProps
 
-## Layout & Spacing Rules
+### **Layout & Spacing**
 
-- Mobile-first approach with breakpoints: sm (640px), md (768px), lg (1024px), xl (1280px)
 - Touch targets minimum 44px × 44px
 - Use responsive classes: `p-4 md:p-6 lg:p-8`
-- Follow 8px grid system: 4px, 8px, 16px, 24px, 32px, 48px, 64px, 96px
+- Prefer `UnifiedContainer` for consistent layouts (optional for custom designs)
 
-## Animation Rules
-
-- Use 60fps animations with transform and opacity only
-- Respect `prefers-reduced-motion` setting
-- Standard durations: fast (150ms), normal (300ms), slow (500ms)
-- Entrance: fade in with slight upward movement
-- Hover: subtle scale (1.02) with smooth transition
-- Use Framer Motion for complex animations
-
-## Performance Rules
-
-- Use Next.js Image component for all images with proper sizing
-- Use lazy loading for heavy components with Suspense
-- Use React.memo for components with stable props
-- Import only what you need from libraries
-- Optimize bundle size with tree shaking
-
-## Accessibility Rules
-
-- WCAG 2.1 AA compliance is mandatory
-- Use semantic HTML elements
-- Include proper ARIA labels and roles
-- Ensure keyboard navigation works
-- Color contrast: 4.5:1 for normal text, 3:1 for large text
-- Provide descriptive alt text for images
-- Associate form labels with inputs
-
-## shadcn/ui Component Rules
+### **shadcn/ui Component Usage**
 
 - Import from `@/components/ui/` directory
 - Use proper component composition patterns
@@ -76,30 +51,117 @@ alwaysApply: true
 - Use appropriate sizes: sm, default, lg, icon
 - Compose components properly with Card, CardHeader, CardContent, etc.
 
-## Container System Rules
+## Performance & Optimization (Priority 3)
 
-- Use `UnifiedContainer` for all layouts
-- Size options: sm (672px), md (896px), lg (1152px), xl (1280px), 2xl (1400px), full
-- Padding options: sm, md, lg, xl, or boolean for responsive
-- Use `breakout` prop for hero sections
-- Use `center` prop for centered content
+### **Performance Guidelines**
 
-## Icon System Rules
+- Use Next.js Image component for all images with proper sizing
+- Use lazy loading for heavy components with Suspense
+- Consider React.memo for components with stable props (not mandatory)
+- Import only what you need from libraries
+- Optimize bundle size with tree shaking
+
+### **Animation Standards**
+
+- Use 60fps animations with transform and opacity only
+- Respect `prefers-reduced-motion` setting
+- Standard durations: fast (150ms), normal (300ms), slow (500ms)
+- Entrance: fade in with slight upward movement
+- Hover: subtle scale (1.02) with smooth transition
+- Use CSS transitions for simple animations, Framer Motion for complex ones
+
+## Accessibility Standards (Priority 4)
+
+### **Progressive Accessibility**
+
+- **Phase 1**: Use semantic HTML elements, ensure keyboard navigation works
+- **Phase 2**: Include proper ARIA labels and roles for complex components
+- **Phase 3**: Achieve WCAG 2.1 AA compliance for production
+- Color contrast: 4.5:1 for normal text, 3:1 for large text
+- Provide descriptive alt text for images
+- Associate form labels with inputs
+
+## Icon System
 
 - Use Lucide React as the primary icon library
 - Import specific icons: `import { Home, CheckCircle } from 'lucide-react'`
-- Never use emoji icons or string-based icons
+- Avoid emoji icons or string-based icons
 - Apply consistent sizing: `w-4 h-4` (default), `w-6 h-6` (large)
 - Use semantic colors: `text-primary`, `text-muted-foreground`
-- Include accessibility labels: `aria-label` and `role="img"`
+- Include accessibility labels for interactive icons
 - Group related icon imports together
 - Use tree-shaking optimized imports only
 
-## Code Quality Rules
+## Code Quality Standards
 
 - Single responsibility principle for components
 - Proper error handling with try-catch
 - Loading states for async operations
 - No console.log in production code
-- Use proper TypeScript types - never `any`
-- Follow established import organization patterns
+- Use proper TypeScript types - avoid `any`
+- Organize imports logically (flexible during development)
+
+## Advanced UI Patterns (Priority 5)
+
+### **Unified Container Design**
+
+- Combine related functionality into single containers with logical sections
+- Use internal spacing and borders to create visual hierarchy
+- Reduce visual fragmentation by grouping related UI elements
+
+### **Contextual Theming**
+
+- Apply dynamic styling that responds to user state and context
+- Use semantic color coding that reinforces user understanding
+- Create visual feedback through color, borders, and backgrounds
+
+### **Visual Flow Principles**
+
+- Create seamless user experience by minimizing unnecessary visual breaks
+- Use subtle gradients, borders, and background variations to guide attention
+- Maintain logical progression and reduce cognitive load
+
+### **Smart Component Composition**
+
+- Compose shadcn/ui components into integrated layouts
+- Leverage responsive grid systems for efficient space utilization
+- Combine multiple UI concerns within well-structured components
+
+### **State-Aware Interactions**
+
+- Make UI elements respond intelligently to user state
+- Use conditional rendering and dynamic styling based on interactions
+- Provide immediate visual feedback that reinforces user actions
+
+### **Implementation Patterns**
+
+**Unified Layout Pattern:**
+
+```tsx
+<Container className='overflow-hidden'>
+  <Header className='gradient-background border-b'>{/* Unified header */}</Header>
+  <Content className='p-0'>
+    <Section className='p-6 border-b'>{/* Primary content */}</Section>
+    <Section className='p-6 bg-subtle'>{/* Secondary content */}</Section>
+  </Content>
+</Container>
+```
+
+**Dynamic Styling Pattern:**
+
+```tsx
+const themeConfig = {
+  primary: { color: 'bg-blue-500', bg: 'bg-blue-50', border: 'border-blue-200' },
+  success: { color: 'bg-green-500', bg: 'bg-green-50', border: 'border-green-200' }
+};
+
+className={`${themeConfig[context].color} ${themeConfig[context].bg}`}
+```
+
+**Context-Aware Content:**
+
+```tsx
+{
+  userState === 'active' ? 'Active Content' : 'Inactive Content';
+}
+```

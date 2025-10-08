@@ -33,7 +33,11 @@ const propertyConditions = [
   { value: 'poor', label: 'Poor', description: 'Heavy cleaning and restoration needed' },
 ];
 
-export const MoveInOutFields: React.FC<MoveInOutFieldsProps> = ({ data, onChange, errors }) => {
+export const MoveInOutFields: React.FC<MoveInOutFieldsProps> = ({
+  data,
+  onChange,
+  errors: _errors,
+}) => {
   return (
     <div className='space-y-6'>
       {/* Move Type */}

@@ -98,7 +98,7 @@ export default function HowItWorksPage() {
         <section className='py-20'>
           <UnifiedContainer size='xl' padding='lg'>
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'>
-              {steps.map((step, index) => {
+              {steps.map((step, _index) => {
                 const IconComponent = step.icon;
                 return (
                   <Card key={step.number} className='relative'>

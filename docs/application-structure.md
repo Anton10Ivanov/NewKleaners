@@ -51,7 +51,6 @@ NewKleaners/
 │   ├── booking/
 │   │   ├── BookingFlowExample.tsx
 │   │   └── steps/
-│   │       ├── EstimateStep.tsx
 │   │       ├── FrequencySelectionStep.tsx
 │   │       ├── PackageSelectionStep.tsx
 │   │       ├── PaymentStep.tsx
