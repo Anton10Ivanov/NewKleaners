@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
+  getBusinessPricingBreakdown,
   getEffortLevelInfo,
   getPriceForAllEfforts,
   getSizeTier,
@@ -18,6 +19,7 @@ import {
 import { cn } from '@/lib/utils';
 import {
   EffortLevel,
+  type BusinessDetails,
   type OfficeDetails,
   type PropertyDetails,
   type PropertySizeTier,
@@ -26,9 +28,9 @@ import {
 import { EnhancedButton } from '../shared/EnhancedButton';
 
 interface EffortSelectionStepProps {
-  onNext: (effortLevel: EffortLevel) => void;
+  onNext: (effortLevel: EffortLevel, contractType?: string) => void;
   onBack: () => void;
-  propertyData: PropertyDetails | OfficeDetails;
+  propertyData: PropertyDetails | OfficeDetails | BusinessDetails;
   serviceType: string;
   selectedEffort?: EffortLevel | null;
   sizeTier?: PropertySizeTier | null;
@@ -47,21 +49,59 @@ export const EffortSelectionStep: React.FC<EffortSelectionStepProps> = ({
   const [selectedEffortLevel, setSelectedEffortLevel] = useState<EffortLevel | null>(
     selectedEffort || null,
   );
+  const [selectedContractType, setSelectedContractType] = useState<string>('6-month');
 
-  // Check if this is a home cleaning service
+  // Check if this is a business cleaning service
+  const isBusinessCleaning = 'businessType' in propertyData;
   const isHomeCleaning = 'bedrooms' in propertyData;
 
   // Use passed size tier or calculate it if not provided
   const sizeTier =
     passedSizeTier || (isHomeCleaning ? getSizeTier(propertyData.squareFootage) : null);
-  const tierInfo = sizeTier ? getSizeTierInfo(sizeTier) : null;
   const needsCustomQuote = isHomeCleaning ? requiresCustomQuote(propertyData.squareFootage) : false;
 
+  // Get tier info for display
+  const tierInfo = sizeTier ? getSizeTierInfo(sizeTier) : null;
+
+  // Get business tier info for business cleaning
+  const businessTierInfo = isBusinessCleaning
+    ? (() => {
+        const squareFootage = propertyData.squareFootage;
+        if (squareFootage <= 150) {
+          return { name: 'Small Business', range: '50-150sqm' };
+        }
+        if (squareFootage <= 300) {
+          return { name: 'Medium Business', range: '150-300sqm' };
+        }
+        if (squareFootage <= 500) {
+          return { name: 'Large Business', range: '300-500sqm' };
+        }
+        return { name: 'Enterprise', range: '500+sqm' };
+      })()
+    : null;
+
   // Calculate prices for all effort levels
-  const prices =
-    isHomeCleaning && sizeTier
-      ? getPriceForAllEfforts(sizeTier)
-      : { basic: 0, standard: 0, kleaners: 0 };
+  const prices = (() => {
+    if (isHomeCleaning && sizeTier) {
+      return getPriceForAllEfforts(sizeTier);
+    }
+
+    if (isBusinessCleaning && 'businessType' in propertyData) {
+      // Calculate business pricing for each effort level
+      const businessData = propertyData as BusinessDetails;
+      const basicPrice = getBusinessPricingBreakdown(businessData, EffortLevel.BASIC);
+      const standardPrice = getBusinessPricingBreakdown(businessData, EffortLevel.STANDARD);
+      const kleanersPrice = getBusinessPricingBreakdown(businessData, EffortLevel.KLEANERS);
+
+      return {
+        basic: basicPrice.finalPrice,
+        standard: standardPrice.finalPrice,
+        kleaners: kleanersPrice.finalPrice,
+      };
+    }
+
+    return { basic: 0, standard: 0, kleaners: 0 };
+  })();
 
   const handleEffortSelect = (effortLevel: EffortLevel) => {
     setSelectedEffortLevel(effortLevel);
@@ -69,7 +109,7 @@ export const EffortSelectionStep: React.FC<EffortSelectionStepProps> = ({
 
   const handleContinue = () => {
     if (selectedEffortLevel) {
-      onNext(selectedEffortLevel);
+      onNext(selectedEffortLevel, isBusinessCleaning ? selectedContractType : undefined);
     }
   };
 
@@ -192,107 +232,227 @@ export const EffortSelectionStep: React.FC<EffortSelectionStepProps> = ({
         className='text-center mb-8'
       >
         <h2 className='heading-2 text-gray-900 mb-4'>Choose Your Cleaning Level</h2>
-        <p className='text-gray-600'>
-          Select the intensity of cleaning service that best fits your needs
-        </p>
 
-        {tierInfo && (
+        {(tierInfo || businessTierInfo) && (
           <div className='mt-4 inline-block bg-orange-50 text-orange-800 px-4 py-2 rounded-lg'>
-            <span className='font-medium'>Your property:</span> {tierInfo.name} (
+            <span className='font-medium'>
+              {isBusinessCleaning ? 'Your business:' : 'Your property:'}
+            </span>{' '}
+            {isBusinessCleaning ? businessTierInfo?.name : tierInfo?.name} (
             {propertyData.squareFootage}sqm)
           </div>
         )}
       </motion.div>
 
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-6 md:mb-8'>
-        {effortLevels.map((effort, index) => {
-          const getIcon = () => {
-            switch (effort.level) {
-              case EffortLevel.BASIC:
-                return <Shield className='w-6 h-6' />;
-              case EffortLevel.STANDARD:
-                return <Star className='w-6 h-6' />;
-              case EffortLevel.KLEANERS:
-                return <Crown className='w-6 h-6' />;
-              default:
-                return <Shield className='w-6 h-6' />;
-            }
-          };
+      {/* Contract Selection for Business Cleaning */}
+      {isBusinessCleaning && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className='mb-8'
+        >
+          <div className='text-center mb-4'>
+            <h3 className='text-lg sm:text-xl font-semibold text-gray-900 mb-1 sm:mb-2'>
+              Contract Length
+            </h3>
+          </div>
 
-          return (
-            <motion.div
-              key={effort.level}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-            >
-              <Card
-                className={cn('cursor-pointer transition-all duration-300 group hover:shadow-xl', {
-                  'ring-2 ring-orange-500 border-orange-500 shadow-lg':
-                    selectedEffortLevel === effort.level,
-                  'hover:ring-1 hover:ring-orange-500/30': selectedEffortLevel !== effort.level,
-                })}
-                onClick={() => handleEffortSelect(effort.level)}
-                role='button'
-                tabIndex={0}
-                onKeyDown={e => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    handleEffortSelect(effort.level);
-                  }
-                }}
-                aria-pressed={selectedEffortLevel === effort.level}
-                aria-label={`Select ${effort.info.name} cleaning level`}
+          <div className='grid grid-cols-3 gap-2 sm:gap-4 max-w-4xl mx-auto'>
+            {[
+              {
+                value: 'one-time',
+                label: 'One-time',
+                description: 'Pay per cleaning',
+                badge: null,
+                borderColor: 'border-gray-200',
+                bgColor: 'bg-white',
+                color: 'text-gray-700',
+              },
+              {
+                value: '6-month',
+                label: '6-month',
+                description: '10% discount',
+                badge: null,
+                borderColor: 'border-orange-500',
+                bgColor: 'bg-orange-50',
+                color: 'text-orange-700',
+              },
+              {
+                value: '12-month',
+                label: '12-month',
+                description: '20% discount',
+                badge: null,
+                borderColor: 'border-orange-500',
+                bgColor: 'bg-orange-50',
+                color: 'text-orange-700',
+              },
+            ].map((contract, index) => (
+              <motion.div
+                key={contract.value}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
               >
-                <CardHeader className='text-center relative p-4 md:p-6'>
-                  {effort.popular && (
-                    <Badge
-                      className='absolute -top-2 -left-2 z-10 bg-orange-500 text-white caption font-semibold shadow'
-                      variant='default'
-                    >
-                      Popular
-                    </Badge>
+                <Card
+                  className={`cursor-pointer transition-all duration-300 relative ${
+                    selectedContractType === contract.value
+                      ? 'ring-2 ring-orange-500 border-orange-500 shadow-lg'
+                      : 'hover:ring-1 hover:ring-orange-500/30'
+                  }`}
+                  onClick={() => setSelectedContractType(contract.value)}
+                  role='button'
+                  tabIndex={0}
+                  onKeyDown={e => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      setSelectedContractType(contract.value);
+                    }
+                  }}
+                >
+                  {contract.badge && (
+                    <div className='absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full'>
+                      {contract.badge}
+                    </div>
                   )}
-                  <div
+                  <CardContent className='p-2 sm:p-4 text-center'>
+                    <div className='font-semibold text-xs sm:text-base mb-1 sm:mb-2'>
+                      {contract.label}
+                    </div>
+                    <div className='text-xs sm:text-sm text-gray-600'>{contract.description}</div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+      )}
+
+      {/* Primary Effort Level Selection - Horizontal Scroll */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+        className='mb-8'
+      >
+        <div className='text-center mb-6'>
+          <p className='text-gray-600'>Swipe to explore options</p>
+        </div>
+
+        {/* Horizontal Scroll Container */}
+        <div className='relative'>
+          <div className='horizontal-scroll-container flex overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-4 px-6 space-x-4'>
+            {effortLevels.map((effort, index) => {
+              const getIcon = () => {
+                switch (effort.level) {
+                  case EffortLevel.BASIC:
+                    return <Shield className='w-6 h-6' />;
+                  case EffortLevel.STANDARD:
+                    return <Star className='w-6 h-6' />;
+                  case EffortLevel.KLEANERS:
+                    return <Crown className='w-6 h-6' />;
+                  default:
+                    return <Shield className='w-6 h-6' />;
+                }
+              };
+
+              return (
+                <motion.div
+                  key={`scroll-${effort.level}`}
+                  initial={{ opacity: 0, x: 50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
+                  className='flex-shrink-0 w-72 sm:w-72 md:w-80 lg:w-96 snap-center'
+                >
+                  <Card
                     className={cn(
-                      'w-12 h-12 md:w-16 md:h-16 mx-auto mb-3 md:mb-4 rounded-full flex items-center justify-center',
+                      'cursor-pointer transition-all duration-300 group hover:shadow-xl h-full border-2 border-orange-200',
                       {
-                        'bg-orange-500 text-white': selectedEffortLevel === effort.level,
-                        'bg-gray-100 text-gray-600 group-hover:bg-orange-100 group-hover:text-orange-600':
+                        'ring-2 ring-orange-500 border-orange-500 shadow-lg':
+                          selectedEffortLevel === effort.level,
+                        'hover:ring-1 hover:ring-orange-500/30 hover:border-orange-300':
                           selectedEffortLevel !== effort.level,
                       },
                     )}
+                    onClick={() => handleEffortSelect(effort.level)}
+                    role='button'
+                    tabIndex={0}
+                    onKeyDown={e => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        handleEffortSelect(effort.level);
+                      }
+                    }}
+                    aria-pressed={selectedEffortLevel === effort.level}
+                    aria-label={`Select ${effort.info.name} cleaning level`}
                   >
-                    {getIcon()}
-                  </div>
-                  <CardTitle className='heading-5 text-gray-900 mb-2'>{effort.info.name}</CardTitle>
-                  <CardDescription className='body-medium text-gray-600 mb-2'>
-                    {effort.info.description}
-                  </CardDescription>
-                  <div className='text-2xl font-bold text-orange-600 mb-1'>€{effort.price}</div>
-                  <div className='text-sm text-gray-500'>{effort.info.duration}</div>
-                </CardHeader>
-                <CardContent className='pt-0 p-4 md:p-6'>
-                  <ul className='space-y-2'>
-                    {effort.features.map((feature, featureIndex) => (
-                      <li
-                        key={`${effort.level}-feature-${featureIndex}`}
+                    <CardHeader className='text-center relative p-4 sm:p-6'>
+                      {effort.popular && (
+                        <Badge
+                          className='absolute -top-2 -left-2 z-10 bg-orange-500 text-white text-xs font-semibold shadow'
+                          variant='default'
+                        >
+                          Popular
+                        </Badge>
+                      )}
+
+                      <div
                         className={cn(
-                          'flex items-center text-sm',
-                          featureIndex === 0 ? 'font-semibold text-gray-900' : 'text-gray-600',
+                          'w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-3 sm:mb-4 rounded-full flex items-center justify-center',
+                          {
+                            'bg-orange-500 text-white': selectedEffortLevel === effort.level,
+                            'bg-gray-100 text-gray-600 group-hover:bg-orange-100 group-hover:text-orange-600':
+                              selectedEffortLevel !== effort.level,
+                          },
                         )}
                       >
-                        <div className='w-1.5 h-1.5 rounded-full bg-orange-500 mr-3 flex-shrink-0' />
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
-            </motion.div>
-          );
-        })}
-      </div>
+                        {getIcon()}
+                      </div>
+
+                      <CardTitle className='text-lg sm:text-xl font-semibold text-gray-900 mb-2'>
+                        {effort.info.name}
+                      </CardTitle>
+
+                      <div className='text-2xl sm:text-3xl font-bold text-orange-600 mb-2'>
+                        €{effort.price}
+                      </div>
+
+                      <div className='text-xs sm:text-sm text-gray-500 mb-3 sm:mb-4'>
+                        {effort.info.duration}
+                      </div>
+
+                      <CardDescription className='text-sm sm:text-base text-gray-600 mb-3 sm:mb-4'>
+                        {effort.info.description}
+                      </CardDescription>
+                    </CardHeader>
+
+                    <CardContent className='pt-0 p-4 sm:p-6'>
+                      <ul className='space-y-2 sm:space-y-3'>
+                        {effort.features.map((feature, featureIndex) => (
+                          <li
+                            key={`scroll-${effort.level}-feature-${feature}`}
+                            className={cn(
+                              'flex items-center text-xs sm:text-sm',
+                              featureIndex === 0 ? 'font-semibold text-gray-900' : 'text-gray-600',
+                            )}
+                          >
+                            <div className='w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-orange-500 mr-2 sm:mr-3 flex-shrink-0' />
+                            {feature}
+                          </li>
+                        ))}
+                      </ul>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              );
+            })}
+          </div>
+
+          {/* Gradient Fade Edges */}
+          <div className='absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-white via-white/80 to-transparent pointer-events-none z-10' />
+          <div className='absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-white via-white/80 to-transparent pointer-events-none z-10' />
+        </div>
+      </motion.div>
 
       {/* Action Buttons */}
       <div className='flex flex-col sm:flex-row gap-3 mt-8'>
