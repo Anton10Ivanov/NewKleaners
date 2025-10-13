@@ -435,6 +435,59 @@ export const PaymentStep: React.FC<PaymentStepProps> = ({
                     </div>
                   )}
 
+                  {/* Business Details Information */}
+                  {bookingData.propertyDetails &&
+                  typeof bookingData.propertyDetails === 'object' &&
+                  'businessType' in bookingData.propertyDetails && (
+                    <div className='bg-orange-50 border border-orange-200 rounded-lg p-3 mb-3'>
+                      <div className='text-sm space-y-1'>
+                        <div className='flex justify-between'>
+                          <span className='text-orange-700'>Business Type:</span>
+                          <span className='font-medium text-orange-800'>
+                            {bookingData.propertyDetails.businessType.charAt(0).toUpperCase() + 
+                             bookingData.propertyDetails.businessType.slice(1)}
+                          </span>
+                        </div>
+                        <div className='flex justify-between'>
+                          <span className='text-orange-700'>Size:</span>
+                          <span className='font-medium text-orange-800'>
+                            {bookingData.propertyDetails.squareFootage}sqm
+                          </span>
+                        </div>
+                        <div className='flex justify-between'>
+                          <span className='text-orange-700'>Cleaning:</span>
+                          <span className='font-medium text-orange-800'>
+                            {bookingData.propertyDetails.cleaningCount} × {bookingData.propertyDetails.cleaningFrequency}
+                          </span>
+                        </div>
+                        <div className='flex justify-between'>
+                          <span className='text-orange-700'>Floor Type:</span>
+                          <span className='font-medium text-orange-800'>
+                            {bookingData.propertyDetails.floorType.charAt(0).toUpperCase() + 
+                             bookingData.propertyDetails.floorType.slice(1)}
+                          </span>
+                        </div>
+                        <div className='flex justify-between'>
+                          <span className='text-orange-700'>Priority:</span>
+                          <span className='font-medium text-orange-800'>
+                            {bookingData.propertyDetails.priority.charAt(0).toUpperCase() + 
+                             bookingData.propertyDetails.priority.slice(1)}
+                          </span>
+                        </div>
+                        {bookingData.propertyDetails.contractType && (
+                          <div className='flex justify-between'>
+                            <span className='text-orange-700'>Contract:</span>
+                            <span className='font-medium text-orange-800'>
+                              {bookingData.propertyDetails.contractType === 'one-time' 
+                                ? 'One-time' 
+                                : `${bookingData.propertyDetails.contractType} contract`}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+
                   <div className='flex justify-between text-sm'>
                     <span className='text-gray-600'>Base Service</span>
                     <span>€{estimate.breakdown.baseService}</span>

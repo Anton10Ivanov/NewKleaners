@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { motion } from 'framer-motion';
 import { Crown, Shield, Star } from 'lucide-react';
@@ -50,6 +50,7 @@ export const EffortSelectionStep: React.FC<EffortSelectionStepProps> = ({
     selectedEffort || null,
   );
   const [selectedContractType, setSelectedContractType] = useState<string>('6-month');
+  const [prices, setPrices] = useState({ basic: 0, standard: 0, kleaners: 0 });
 
   // Check if this is a business cleaning service
   const isBusinessCleaning = 'businessType' in propertyData;
@@ -80,28 +81,30 @@ export const EffortSelectionStep: React.FC<EffortSelectionStepProps> = ({
       })()
     : null;
 
-  // Calculate prices for all effort levels
-  const prices = (() => {
+  // Calculate prices for all effort levels reactively
+  useEffect(() => {
     if (isHomeCleaning && sizeTier) {
-      return getPriceForAllEfforts(sizeTier);
-    }
-
-    if (isBusinessCleaning && 'businessType' in propertyData) {
-      // Calculate business pricing for each effort level
+      const homePrices = getPriceForAllEfforts(sizeTier);
+      setPrices(homePrices);
+    } else if (isBusinessCleaning && 'businessType' in propertyData) {
+      // Calculate business pricing for each effort level with selected contract
       const businessData = propertyData as BusinessDetails;
-      const basicPrice = getBusinessPricingBreakdown(businessData, EffortLevel.BASIC);
-      const standardPrice = getBusinessPricingBreakdown(businessData, EffortLevel.STANDARD);
-      const kleanersPrice = getBusinessPricingBreakdown(businessData, EffortLevel.KLEANERS);
+      const businessDataWithContract = {
+        ...businessData,
+        contractType: selectedContractType as 'one-time' | '6-month' | '12-month',
+      };
+      
+      const basicPrice = getBusinessPricingBreakdown(businessDataWithContract, EffortLevel.BASIC);
+      const standardPrice = getBusinessPricingBreakdown(businessDataWithContract, EffortLevel.STANDARD);
+      const kleanersPrice = getBusinessPricingBreakdown(businessDataWithContract, EffortLevel.KLEANERS);
 
-      return {
+      setPrices({
         basic: basicPrice.finalPrice,
         standard: standardPrice.finalPrice,
         kleaners: kleanersPrice.finalPrice,
-      };
+      });
     }
-
-    return { basic: 0, standard: 0, kleaners: 0 };
-  })();
+  }, [isHomeCleaning, isBusinessCleaning, sizeTier, propertyData, selectedContractType]);
 
   const handleEffortSelect = (effortLevel: EffortLevel) => {
     setSelectedEffortLevel(effortLevel);
